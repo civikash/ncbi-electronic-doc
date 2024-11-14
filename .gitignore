@@ -1,0 +1,6 @@
+venv
+*.pyc
+db.sqlite3
+
+api/migrations/0*.py
+core/migrations/!__init__.py
