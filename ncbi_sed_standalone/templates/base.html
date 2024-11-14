@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    
+    {% block scripts %}
+    {{ block.super }}
+    <script src="{% static '/js/htmx.min.js' %}" defer></script>
+    {% endblock scripts %}
+    <title>{% block title %}СЭД | Университет им С.Ю. Витте{% endblock %}</title>
 </head>
 <body>
+    {% block sidebar %}
+        {% include "sidebar.html" %}
+    {% endblock sidebar %}
+
+    {% block content %}
     
+    {% endblock content %}
+
+
 </body>
 </html>

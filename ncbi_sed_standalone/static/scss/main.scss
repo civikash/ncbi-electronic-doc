@@ -1,3 +1,7 @@
+@import './base/vars';
 @import './base/base';
 @import './base/reset';
-@import './base/vars';
+@import './base/modal';
+@import './base/mixins';
+
+@import './components/sidebar';
