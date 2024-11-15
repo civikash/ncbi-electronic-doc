@@ -13,14 +13,20 @@
     <title>{% block title %}СЭД | Университет им С.Ю. Витте{% endblock %}</title>
 </head>
 <body>
-    {% block sidebar %}
-        {% include "sidebar.html" %}
-    {% endblock sidebar %}
+    <section class="app_container">
+        {% block sidebar %}
+            {% include "sidebar.html" %}
+        {% endblock sidebar %}
 
-    {% block content %}
-    
-    {% endblock content %}
-
+        <section class="app_container__content" hx-history-elt>
+            <section id="app-content-section" class="app_container__content__section">
+                <div class="app_container__content__section__header">
+                    {% block header_content %}{% endblock header_content %}
+                </div>
+                {% block content %}{% endblock content %}
+                </section>
+            </section>
+    </section>
 
 </body>
 </html>

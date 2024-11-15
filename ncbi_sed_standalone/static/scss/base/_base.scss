@@ -20,3 +20,34 @@ h1, h2, h3, h4 {
     font-weight: 400;  
     color: $color-dark;
 }
+
+.app_container {
+    height: 100vh;
+
+    &__content {
+        @include flex-column-start;
+        width: calc(100% - 15rem);
+        left: 15rem;
+        position: relative;
+        padding: 7rem 0rem 0rem 5rem;
+        height: 100vh;
+
+        &__section {
+            @include flex-column-start;
+            background-color: $bg-white;
+            border-radius: 1rem 0rem;
+            height: 100%;
+            padding: 1.5rem;
+            width: 100%;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
+
+            &__header {
+                width: 100%;
+
+                &__title {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+}

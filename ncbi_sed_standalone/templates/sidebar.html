@@ -1,3 +1,81 @@
+{% load static %}
 <nav class="sidebar_container">
-    
+    <ul class="sidebar_container__content">
+        <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+                <img src="{% static 'img/svg/sidebar/_space.svg' %}" alt="Пространство">                   
+                Пространство           
+               </a>  
+        </li>
+        <h4 class="sidebar_container__content__title">СЭД</h4>
+        <li class="sidebar_container__content__linked">
+           <a 
+           hx-get="{% url 'core:core-lk-documents' %}"
+           hx-target="#app-content-section"
+           hx-swap="innerHTML transition:true"
+           hx-push-url="true">
+            <img src="{% static 'img/svg/sidebar/_documents.svg' %}" alt="Документы">                                
+            Документы              
+           </a> 
+        </li> 
+        <li class="sidebar_container__content__linked">
+            <a 
+            hx-get="{% url 'core:core-lk-incoming' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+            <img src="{% static 'img/svg/sidebar/_docin.svg' %}" alt="Входящие">                                  
+            Входящие           
+           </a> 
+        </li>
+        <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk-signing' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+            <img src="{% static 'img/svg/sidebar/_signdoc.svg' %}" alt="Подписание">                  
+            Подписание          
+           </a>  
+        </li>
+        <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk-recipients' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+                <img src="{% static 'img/svg/sidebar/_recipients.svg' %}" alt="Адресаты">                         
+             Адресаты         
+            </a>  
+         </li>
+        <h4 class="sidebar_container__content__title">Организация</h4>
+        <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk-organisation-news' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+                <img src="{% static 'img/svg/sidebar/_news.svg' %}" alt="Новости">                                                  
+             Новости      
+            </a>  
+         </li>
+        <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk-organisation-employees' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+                <img src="{% static 'img/svg/sidebar/_employees.svg' %}" alt="Сотрудники">                                                                              
+             Сотрудники         
+            </a>  
+         </li>
+    </ul>
+    <ul class="sidebar_container__content logout">
+    <li class="sidebar_container__content__linked">
+        <a href="{% url 'core:core-lk-logout' %}"
+        hx-push-url="true">
+            <img src="{% static 'img/svg/sidebar/_logout.svg' %}" alt="Выйти из профиля">                                                                                                                     
+         Выход        
+        </a>  
+     </li>
+    </ul>
 </nav>

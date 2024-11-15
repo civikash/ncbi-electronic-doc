@@ -4,4 +4,50 @@
     width: 15rem;
     height: 100%;
     left: 0;
+
+    &__content {
+        height: 90%;
+        width: 100%;
+        padding: 2rem;
+        gap: 2rem;
+        justify-content: center;
+        @include flex-column-center;
+
+        &.logout {
+            align-items: flex-end;
+            height: fit-content;
+
+            li {
+                a {
+                    color: #F13A41;
+                }
+            }
+        }
+
+
+        &__title {
+            text-align: left;
+            font-size: 10px;
+            color: $text-gray;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            align-self: flex-start;
+        }
+
+        &__linked {
+            @include flex-row;
+            width: 100%;
+            align-items: center;
+
+            a {
+                cursor: pointer;
+                @include flex-row;
+                gap: .7rem;
+                padding: .5px;
+                align-items: center;
+                font-size: 13px;
+                color: $text-gray;
+            }
+        }
+    }
 }
