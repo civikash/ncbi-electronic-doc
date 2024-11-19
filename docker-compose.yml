@@ -1,24 +1,45 @@
-version: '3.8'
-
 services:
   web:
-    build: .
+    build:
+      context: ./ncbi_sed_standalone
+      dockerfile: Dockerfile.prod
     command: gunicorn ncbi_sed_standalone.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
     expose:
-      - "8000"
+      - 8000
+    env_file: .env
+    depends_on:
+      - redis
+    networks:
+      - ncbi-sed-network
+
+  crypto-api:
+    build:
+      context: ./cryptoapi
+      dockerfile: Dockerfile.cryptoapi
+    command: gunicorn cryptoapi.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
     env_file: .env
     networks:
       - ncbi-sed-network
-  crypto-api:
-    build: .
-    command: gunicorn cryptoapi.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
+
+  redis:
+    image: "redis:7"
+    container_name: redis
     expose:
-      - "8000"
+      - "6379:6379"
+    networks:
+      - ncbi-sed-network
+
+  celery:
+    build:
+      context: ./ncbi_sed_standalone
+      dockerfile: Dockerfile.prod
+    container_name: celery
+    command: celery -A ncbi_sed_standalone worker --loglevel=info
     env_file: .env
+    depends_on:
+      - redis
     networks:
       - ncbi-sed-network
 
