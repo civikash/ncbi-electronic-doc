@@ -1,0 +1,20 @@
+<nav class="breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb_container">
+        {% for crumb in crumbs %}
+            <li class="breadcrumb-item {% if forloop.last %}active{% endif %}" aria-current="page">
+                {% if not forloop.last %}
+                    <a href="{{ crumb.url }}" 
+                    {% if forloop.first %}
+                    hx-get="{{ crumb.url }}" 
+                    {% endif %}
+                    hx-push-url="true"
+                    hx-swap="innerHTML transition:true"
+                    hx-target="#mainContainer">{{ crumb.name }}</a>
+                <span>/</span>
+                {% else %}
+                    {{ crumb.name }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</nav>

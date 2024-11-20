@@ -1,0 +1,21 @@
+.breadcrumb {
+    @include flex-start; 
+    margin-block: 2rem;
+    align-self: flex-start;
+    &_container {
+        @include flex-start; 
+    }
+
+
+    &-item {
+        color: $color-gray;
+        &.active {
+            color: $color-dark;
+            font-size: 16px;
+        }
+
+        span {
+            padding-inline: 7px;
+        }
+    }
+}

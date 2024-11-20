@@ -37,7 +37,7 @@ h1, h2, h3, h4 {
             background-color: $bg-white;
             border-radius: 1rem 0rem;
             height: 100%;
-            padding: 1.5rem;
+            padding: 1.9rem;
             width: 100%;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
 
@@ -46,6 +46,29 @@ h1, h2, h3, h4 {
 
                 &__title {
                     font-size: 1.3rem;
+                }
+            }
+
+            &__body {
+                @include flex-column-start;
+                margin-block: 1.3rem;
+                height: 100%;
+                width: 100%;
+                will-change: transform; 
+
+                p {
+                    margin-top: 9px;
+                    font-size: .8rem;
+                    color: $text-gray;
+                }
+
+                &.row {
+                    gap: 1.3rem;
+                    @include flex-row;
+
+                    &.cards-panel {
+                        height: 13rem;
+                    }
                 }
             }
         }

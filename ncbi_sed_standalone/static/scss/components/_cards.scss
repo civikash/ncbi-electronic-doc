@@ -1,0 +1,50 @@
+.card_container {
+    padding: 1rem;
+    @include flex-column-start;
+    background-color: $bg-white;
+    cursor: pointer;
+    border: 1px solid $color-gray;
+    border-radius: .5rem;
+    gap: 1rem;
+    height: 100%;
+    flex: 1;
+    backface-visibility: hidden;
+    transition: .4s ease-in-out;
+    transform: translateZ(0); 
+    -webkit-font-smoothing: subpixel-antialiased;
+
+    &:hover {
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    }
+
+    &__header {
+        @include flex-column-start;
+        gap: 1rem;
+
+        h3 {
+            font-size: .9rem;
+        }
+
+    }
+
+    &__body {
+        p {
+            font-size: .8rem;
+            color: $text-gray;
+        }
+    }
+
+    &__footer {
+        span {
+            font-size: .8rem;
+            color: $color-blue;
+        }
+    }
+
+    &.flex-2 {
+        flex: 0 0 19.3333%;
+    }
+
+}
