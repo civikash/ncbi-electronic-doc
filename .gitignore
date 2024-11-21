@@ -1,6 +1,7 @@
 venv
 .env
 .env.prod
+.env.prod-db
 *.pyc
 __pycache
 db.sqlite3
