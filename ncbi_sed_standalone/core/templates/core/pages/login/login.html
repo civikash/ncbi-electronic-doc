@@ -1,34 +1,44 @@
 {% extends "base_auth.html" %}
+{% load static %}
+{% block scripts %}
+{{ block.super }}
+<script src="{% static '/js/response_validate.js' %}" defer></script>
+<script src="{% static '/js/login.js' %}" defer></script>
+{% endblock scripts %}
 
 {% block content %}
-<div class="auth_content">
+<div id="auth-container" class="auth_content">
     <div class="auth_content__container">
         <div class="auth_content__container__header">
             <h1 class="auth_content__container__header__title">Аутентификация в системе</h1>
             <p class="auth_content__container__header__description">Чтобы пользоваться СЭД, необходимо пройти аутентификацию в системе.<br> Пожалуйста, введите Ваши учетные данные или обратитетсь к администратору системы</p>
         </div>
+        <form 
+        hx-swap="none"
+        hx-on="htmx:responseError: handleError; htmx:afterRequest: handleSuccess"
+        hx-post="{% url "core:core-lk-login-auth" %}"
+        >
+            <div class="auth_content__container__body">
+                    <div id="response-error" class="response_container error"></div>
+                    <div class="form_container">
+                        <label for="auth-email">E-mail</label>
+                        <input required name="email" type="email" class="container_input inputing" id="auth-email">
+                    </div>
 
-        <div class="auth_content__container__body">
-            <form>
-                {% csrf_token %}
-                <div class="form_container">
-                    <label for="auth-email">E-mail</label>
-                    <input required name="email" type="email" class="container_input inputing" id="auth-email">
-                </div>
+                    <div class="form_container">
+                        <label for="auth-password">Пароль</label>
+                        <input required name="password" type="password" class="container_input inputing" id="auth-password">
+                    </div>
 
-                <div class="form_container">
-                    <label for="auth-password">Пароль</label>
-                    <input required name="password" type="password" class="container_input inputing" id="auth-password">
-                </div>
-            </form>
-        </div>
-        <div class="auth_content__container__footer">
-            <button class="button base" type="button">Войти</button>
-        </div>
+            </div>
+            <div class="auth_content__container__footer">
+                <button class="button base" type="submit">Войти</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<div class="auth_content cooolor">
+<div id="welcome-container" class="auth_content cooolor">
 
 </div>
 {% endblock content %}

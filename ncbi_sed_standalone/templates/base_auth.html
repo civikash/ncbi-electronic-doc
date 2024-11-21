@@ -9,10 +9,12 @@
     {% block scripts %}
     {{ block.super }}
     <script src="{% static '/js/htmx.min.js' %}" defer></script>
+    <script src="{% static '/js/hyperscript.min.js' %}" defer></script>
     {% endblock scripts %}
     <title>{% block title %}СЭД | Аутентификация{% endblock %}</title>
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    
     <section class="app_container__auth">
         <section class="app_container__auth__content" hx-history-elt>
             <section id="auth-content-section" class="app_container__auth__content__section">

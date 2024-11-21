@@ -11,7 +11,7 @@ class DomainRouterMiddleware:
     def __call__(self, request):
         host = request.get_host().split(':')[0]  # Извлекаем хост без порта
 
-        if host == 'crypto-api.ncbi.ru':
+        if host == 'cryptoapi.ncbi.ru':
             # Если запрос пришел на crypto-api, редиректим на соответствующий маршрут
             request.urlconf = 'crypto_api.urls'
         elif host.endswith('.ncbi.ru'):

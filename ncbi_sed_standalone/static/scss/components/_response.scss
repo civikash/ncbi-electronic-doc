@@ -1,0 +1,33 @@
+.response_container {
+    min-height: 2.5rem;
+    &__body {
+        @include flex-start;
+        border-radius: .7rem;
+        height: 2.5rem;
+        padding-inline: 1.2rem;
+        width: 100%;
+        background-color: #FCFCFD;
+        border: 1px solid $color-red;
+        color: $color-red;
+        gap: .6rem;
+        font-size: .9rem;
+        animation-name: fadeIn;
+        opacity: 0;
+        animation-duration: 0.6s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+
+        svg {
+            min-width: 17px;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+}

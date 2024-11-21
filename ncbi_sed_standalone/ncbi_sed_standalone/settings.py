@@ -86,6 +86,12 @@ DATABASES = {
 }
 
 
+LOGIN_URL = '/lk/login/'
+
+LOGIN_REDIRECT_URL = '/lk/login/'
+
+AUTH_USER_MODEL = 'core.User'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 

@@ -103,6 +103,7 @@ form {
   border-radius: 1rem;
   height: 100%;
   width: 100%;
+  justify-content: right;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
 }
 
@@ -252,6 +253,40 @@ legend {
   flex: 0 0 19.3333%;
 }
 
+.response_container {
+  min-height: 2.5rem;
+}
+.response_container__body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 0.7rem;
+  height: 2.5rem;
+  padding-inline: 1.2rem;
+  width: 100%;
+  background-color: #FCFCFD;
+  border: 1px solid #F13A41;
+  color: #F13A41;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  animation-name: fadeIn;
+  opacity: 0;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.response_container__body svg {
+  min-width: 17px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .form_container {
   display: flex;
   align-items: flex-start;
@@ -365,6 +400,16 @@ legend {
   color: #566882;
 }
 
+#auth-container {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+#welcome-container.full-flex {
+  flex: 1 !important;
+  transition: 1s ease-in;
+  border-radius: 1rem;
+}
+
 .auth_content {
   display: flex;
   align-items: flex-start;
@@ -376,14 +421,53 @@ legend {
   height: 100%;
   flex: 1;
 }
+.auth_content.remove {
+  animation: fadeOut 0.3s ease-in-out;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 .auth_content__container {
   width: 100%;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   padding: 3rem;
-  gap: 5rem;
+  gap: 3rem;
   max-width: 55rem;
+}
+.auth_content__container.welcome-usr {
+  max-width: 60rem;
+}
+.auth_content__container.welcome-usr h1 {
+  animation-name: fadeIn;
+  opacity: 0;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  font-size: 2rem !important;
+}
+.auth_content__container.welcome-usr h1 span {
+  animation-name: fadeIn;
+  opacity: 0;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-delay: 0.2s;
+  color: #5580FF;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .auth_content__container__header {
   display: flex;
@@ -408,9 +492,12 @@ legend {
   flex-direction: column;
 }
 .auth_content__container__footer {
+  margin-top: 2rem;
   width: 100%;
 }
 .auth_content.cooolor {
+  width: 100%;
+  flex: 0 0 50%;
   border-radius: 0rem 1rem 1rem 0rem;
   background-color: #F4F7FB;
 }/*# sourceMappingURL=main.css.map */
