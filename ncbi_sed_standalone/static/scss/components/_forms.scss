@@ -1,0 +1,38 @@
+.form_container {
+    @include flex-column-start;
+    gap: 8px;
+    width: 100%;
+    font-size: 1rem;
+
+    label {
+        color: #878787;
+    }
+
+    .container_input {
+        padding: 0 13px 0 15px;
+        height: 2.5rem;
+        line-height: 20px;
+        letter-spacing: 0.5px;
+        width: 100%;
+        color: $color-gray;
+        border-radius: 7px;
+
+        &.inputing {
+            border: 1px solid $color-gray;
+            border-radius: 8px;
+            color: $color-dark;
+            transition: .4s ease-in-out;
+
+            &:focus {
+                border: 1px solid #70A8FF;
+            }
+        }
+
+        &.input-email {
+            background-image: url(/static/img/search.svg);
+            background-size: 16px;
+            background-repeat: no-repeat;
+            background-position: 8px;
+        }
+    }
+}

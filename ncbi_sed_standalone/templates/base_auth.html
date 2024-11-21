@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    
+    {% block scripts %}
+    {{ block.super }}
+    <script src="{% static '/js/htmx.min.js' %}" defer></script>
+    {% endblock scripts %}
+    <title>{% block title %}СЭД | Аутентификация{% endblock %}</title>
+</head>
+<body>
+    <section class="app_container__auth">
+        <section class="app_container__auth__content" hx-history-elt>
+            <section id="auth-content-section" class="app_container__auth__content__section">
+                {% block content %}{% endblock content %}
+                </section>
+            </section>
+    </section>
+
+</body>
+</html>

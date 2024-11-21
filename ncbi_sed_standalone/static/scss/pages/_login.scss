@@ -1,0 +1,50 @@
+.auth_content {
+    @include flex-column-start;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+    &__container {
+        width: 100%;
+        @include flex-column-start;
+        padding: 3rem;
+        gap: 5rem;
+        max-width: 55rem;
+
+        &__header {
+            @include flex-column-start;
+            gap: 1rem;
+            max-width: 38rem;
+
+            &__title {
+                font-size: 1.5rem;
+            }
+
+            &__description {
+                font-size: 1rem;
+                color: $text-gray;
+        
+            }
+        }
+
+        &__body {
+            width: 100%;
+            max-width: 25rem;
+            gap: 1.5rem;
+            @include flex-column-start;
+        }
+
+        &__footer {
+            width: 100%;
+        }
+    }
+
+
+    &.cooolor {
+        border-radius: 0rem 1rem 1rem 0rem;
+        background-color: #F4F7FB;
+    }
+}

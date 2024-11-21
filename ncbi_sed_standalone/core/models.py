@@ -30,16 +30,6 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class AppModules(models.Model):
-    name = models.CharField(_("Наименование модуля"), max_length=30)
-    description = models.CharField(_("Описание"), max_length=110)
-    active = models.BooleanField(_("Активный"), default=False)
-
-
-    def __str__(self):
-        return self.name
-
-
 class User(AbstractBaseUser):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=100, unique=True)

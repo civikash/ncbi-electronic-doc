@@ -1,6 +1,8 @@
 venv
 .env
+.env.prod
 *.pyc
+__pycache
 db.sqlite3
 
 api/migrations/0*.py
