@@ -5,13 +5,129 @@
     height: 100%;
     left: 0;
 
+    .active_role {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .role__change {
+        @include flex-row;
+        padding: .5rem;
+        align-items: center;
+        z-index: 999;
+        border-radius: .4rem;
+        cursor: pointer;
+        border: 1px solid $color-gray;
+        gap: 1rem;
+        &__column {
+            width: 100%;
+            @include flex-column-start;
+            gap: .1rem;
+        }
+        h4 {
+            font-size: .8rem;
+            color: $color-dark;
+        }
+
+        span {
+            color: $text-gray;
+            font-size: .8rem;
+        }
+
+        .icon_logo {
+            min-width: 25px;
+        }
+
+        .icon_arrow {
+            min-width: 16px;
+        }
+
+        &.menu {
+            display: none;
+            width: 86%;
+            z-index: 998 !important;
+            position: absolute;
+
+            &.visibility {
+                @include flex-column-start;
+                animation-name: topTransition;
+                opacity: 0;
+                animation-duration: 0.6s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+
+                .role__change {
+                    border: none;
+                }
+
+                @keyframes topTransition {
+                    from {
+                      opacity: 0;
+                      transform: translateY(-22px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0px);
+                    }
+                  }
+            }
+
+        }
+    }
+
     &__content {
-        height: 90%;
+        height: 77%;
         width: 100%;
         padding: 2rem;
         gap: 2rem;
         justify-content: center;
         @include flex-column-center;
+
+        &.sidebar_hiden {
+            &__appcontrol {
+                opacity: 1;
+                animation-name: rightTransition;
+                opacity: 0;
+                animation-duration: 0.5s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+                @keyframes rightTransition {
+                    from {
+                      opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                        transform: translateX(-100px);
+                    }
+                  } 
+            }
+
+            &__webapp {
+                opacity: 1;
+                animation-name: bottomTransition;
+                opacity: 0;
+                animation-duration: 0.5s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+                @keyframes bottomTransition {
+                    from {
+                      opacity: 1;
+                      
+                    }
+                    to {
+                        opacity: 0;
+                        transform: translateX(-100px);
+                    }
+                  } 
+            }
+        }
+
+        &.role {
+            height: fit-content;
+
+        }
 
         &.logout {
             align-items: flex-end;

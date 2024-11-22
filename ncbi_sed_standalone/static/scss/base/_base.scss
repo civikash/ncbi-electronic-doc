@@ -61,9 +61,13 @@ form {
                 width: 100%;
                 will-change: transform; 
 
+                h2 {
+                    font-size: 1rem !important;
+                }
+
                 p {
                     margin-top: 9px;
-                    font-size: .8rem;
+                    font-size: .9rem;
                     color: $text-gray;
                 }
 
@@ -73,6 +77,7 @@ form {
 
                     &.cards-panel {
                         height: 13rem;
+                        width: fit-content;
                     }
                 }
             }

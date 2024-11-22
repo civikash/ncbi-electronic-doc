@@ -10,6 +10,12 @@ from django.contrib.auth import logout, authenticate, login
 class HtmxHttpRequest(HttpRequest):
     htmx: HtmxDetails
 
+def lk_core(request):
+    if request.htmx:
+        return render(request, './core/pages/lk/core_core.html')
+
+    return render(request, './core/pages/lk/core_core.html')
+
 def lk_overview(request):
     if request.htmx:
         return render(request, './core/pages/lk/partials/partial_core_lk.html')

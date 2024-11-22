@@ -2,26 +2,27 @@
 <nav class="sidebar_container">
         {% if request.user.is_superuser %}
         <button class="active_role"
-        hx-get="{% url 'appcontrol:appcontrol-main' %}"
+        hx-get="{% url 'core:core' %}"
         hx-target="#app-container"
         hx-swap="innerHTML transition:true"
         hx-trigger="click delay:0.5s"
         hx-push-url="true"
-        _="on click add .sidebar_hiden__webapp to #appcontrol-sidebar">
+        _="on click add .sidebar_hiden__appcontrol to #appcontrol-sidebar">
             <div class="role__change">
                 <svg class="icon_logo" width="21" height="21" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="27" height="27" rx="3" fill="url(#paint0_linear_0_1)"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9419 9.55703H20.8256C20.8256 9.55703 20.8969 9.4897 20.5005 8.69249C20.1041 7.89528 19.5809 7.22465 18.9308 6.68061C18.2807 6.13118 17.5248 5.71372 16.6633 5.42823C15.8018 5.14274 14.8584 5 13.833 5C12.3742 5 11.0529 5.32589 9.86892 5.97766C8.68499 6.62405 7.74419 7.58016 7.04651 8.84601C6.34884 10.1065 6 11.6578 6 13.5H10.5349C10.5349 12.5412 10.6644 11.7197 10.9234 11.0356C11.1876 10.3516 11.5735 9.82636 12.0809 9.46008C12.5936 9.09379 13.2199 8.91065 13.9598 8.91065C14.3827 8.91065 14.7606 8.97259 15.0936 9.09648C15.4265 9.21499 15.9419 9.55703 15.9419 9.55703ZM10.9313 16.0452H6.25791C6.42836 16.8155 6.6833 17.5157 7.02273 18.1459C7.70983 19.4118 8.64271 20.3706 9.82135 21.0223C11.0053 21.6741 12.3425 22 13.833 22C15.0222 22 16.0661 21.8142 16.9646 21.4425C17.8631 21.0708 18.6163 20.5806 19.2241 19.972C19.8372 19.3579 20.3103 18.69 20.6432 17.9682C20.819 17.5842 20.8939 17.4383 20.9332 17.283C20.9684 17.1441 20.9751 16.9978 21 16.6673H16.6395L16.4413 16.7562C16.2933 17.0363 16.1004 17.276 15.8626 17.4753C15.6247 17.6746 15.3446 17.8281 15.0222 17.9358C14.6998 18.0382 14.3351 18.0894 13.9281 18.0894C13.2146 18.0894 12.6041 17.9197 12.0967 17.5803C11.7582 17.3503 11.2399 16.6673 11.2399 16.6673C11.1239 16.4784 11.021 16.271 10.9313 16.0452Z" fill="white"/>
+                    <path d="M24 0H3C1.34315 0 0 1.34315 0 3V24C0 25.6569 1.34315 27 3 27H24C25.6569 27 27 25.6569 27 24V3C27 1.34315 25.6569 0 24 0Z" fill="url(#paint0_linear_0_1)"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.6163 10.0209H19.8489C19.8489 10.0209 19.9106 9.9615 19.5671 9.25808C19.2236 8.55466 18.7701 7.96293 18.2067 7.48289C17.6433 6.9981 16.9882 6.62975 16.2415 6.37785C15.4949 6.12595 14.6773 6 13.7886 6C12.5243 6 11.3792 6.28755 10.3531 6.86264C9.32699 7.43299 8.51163 8.27661 7.90698 9.39354C7.30233 10.5057 7 11.8745 7 13.5H10.9302C10.9302 12.654 11.0425 11.9291 11.2669 11.3255C11.4959 10.722 11.8304 10.2586 12.2701 9.93536C12.7145 9.61217 13.2572 9.45057 13.8985 9.45057C14.265 9.45057 14.5925 9.50523 14.8811 9.61454C15.1696 9.71911 15.6163 10.0209 15.6163 10.0209ZM11.2738 15.7458H7.22352C7.37125 16.4254 7.59219 17.0433 7.88637 17.5993C8.48185 18.7163 9.29035 19.5623 10.3118 20.1373C11.3379 20.7124 12.4968 21 13.7886 21C14.8192 21 15.724 20.8361 16.5027 20.5081C17.2814 20.1801 17.9341 19.7476 18.4609 19.2106C18.9922 18.6687 19.4023 18.0794 19.6908 17.4425C19.8431 17.1037 19.908 16.975 19.9421 16.8379C19.9726 16.7154 19.9784 16.5863 20 16.2947H16.2209L16.0491 16.3731C15.9209 16.6203 15.7537 16.8318 15.5476 17.0076C15.3414 17.1835 15.0987 17.3189 14.8192 17.4139C14.5398 17.5043 14.2238 17.5495 13.871 17.5495C13.2527 17.5495 12.7236 17.3997 12.2838 17.1003C11.9904 16.8973 11.5412 16.2947 11.5412 16.2947C11.4407 16.128 11.3515 15.945 11.2738 15.7458Z" fill="white"/>
                     <defs>
                     <linearGradient id="paint0_linear_0_1" x1="40.5" y1="13.5" x2="13.5" y2="-13.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#C3CFE2"/>
-                    <stop offset="1" stop-color="#A7C9FF"/>
+                    <stop stop-color="#F3AAAD"/>
+                    <stop offset="1" stop-color="#F13A41"/>
                     </linearGradient>
                     </defs>
-                    </svg>                    
+                    </svg>
+                                  
                 <div class="role__change__column">
-                    <h4>Приложение</h4>
-                    <span>СЭД</span>
+                    <h4>Ядро</h4>
+                    <span>Контроль CЭД</span>
                 </div>
                 <svg class="icon_arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.5002 14.99L15.4902 20.01" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -41,10 +42,10 @@
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
                 <img src="{% static 'img/svg/sidebar/_space.svg' %}" alt="Пространство">                   
-                Пространство           
+                Мониторинг           
                </a>  
         </li>
-        <h4 class="sidebar_container__content__title">СЭД</h4>
+        <h4 class="sidebar_container__content__title">Контроль СЭД</h4>
         <li class="sidebar_container__content__linked">
            <a 
            hx-get="{% url 'core:core-lk-documents' %}"
@@ -52,7 +53,7 @@
            hx-swap="innerHTML transition:true"
            hx-push-url="true">
             <img src="{% static 'img/svg/sidebar/_documents.svg' %}" alt="Документы">                                
-            Документы              
+            Пользователи         
            </a> 
         </li> 
         <li class="sidebar_container__content__linked">
@@ -62,7 +63,7 @@
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
             <img src="{% static 'img/svg/sidebar/_docin.svg' %}" alt="Входящие">                                  
-            Входящие           
+            СПП           
            </a> 
         </li>
         <li class="sidebar_container__content__linked">
@@ -71,37 +72,9 @@
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
             <img src="{% static 'img/svg/sidebar/_signdoc.svg' %}" alt="Подписание">                  
-            Подписание          
+            Настройки          
            </a>  
         </li>
-        <li class="sidebar_container__content__linked">
-            <a hx-get="{% url 'core:core-lk-recipients' %}"
-            hx-target="#app-content-section"
-            hx-swap="innerHTML transition:true"
-            hx-push-url="true">
-                <img src="{% static 'img/svg/sidebar/_recipients.svg' %}" alt="Адресаты">                         
-             Адресаты         
-            </a>  
-         </li>
-        <h4 class="sidebar_container__content__title">Организация</h4>
-        <li class="sidebar_container__content__linked">
-            <a hx-get="{% url 'core:core-lk-organisation-news' %}"
-            hx-target="#app-content-section"
-            hx-swap="innerHTML transition:true"
-            hx-push-url="true">
-                <img src="{% static 'img/svg/sidebar/_news.svg' %}" alt="Новости">                                                  
-             Новости      
-            </a>  
-         </li>
-        <li class="sidebar_container__content__linked">
-            <a hx-get="{% url 'core:core-lk-organisation-employees' %}"
-            hx-target="#app-content-section"
-            hx-swap="innerHTML transition:true"
-            hx-push-url="true">
-                <img src="{% static 'img/svg/sidebar/_employees.svg' %}" alt="Сотрудники">                                                                              
-             Сотрудники         
-            </a>  
-         </li>
     </ul>
     <ul class="sidebar_container__content logout">
     <li class="sidebar_container__content__linked">

@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, Permission
 from datetime import datetime, timedelta
+from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 import uuid
@@ -31,7 +32,7 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=100, unique=True)
@@ -44,22 +45,34 @@ class User(AbstractBaseUser):
     patronymic = models.CharField(_("Отчество"), max_length=100, blank=True, null=True)
     username = None
 
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name=_("Группы"),
+        blank=True,
+        related_name="user_groups",
+    )
+    
+    permissions = models.ManyToManyField(
+        Permission, 
+        verbose_name=_("Права пользователя"),
+        blank=True,
+        related_name="user_permissions",
+    )
+
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    def has_perm(self, perm, obj=None):
-        return self.is_superuser
-
-    def has_module_perms(self, app_label):
-        return self.is_superuser
 
     def get_full_name(self):
         """Возвращает полное имя (ФИО)"""
         parts = [self.last_name, self.first_name, self.patronymic]
         return " ".join(filter(None, parts))
 
+    class Meta:
+        verbose_name = _("Пользователь")
+        verbose_name_plural = _("Пользователи")
 
 class Organisation(models.Model):
     full_name = models.CharField(_("Полное наименование организации"), max_length=255)

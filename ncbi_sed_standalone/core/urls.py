@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views.core_lk import lk_overview, lk_logout, login_overview, authenticate_user
+from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, authenticate_user
 from .views.core_sed import documents_overview, create_document, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 app_name = 'core'
 
 urlpatterns = [
-    path('', login_required(lk_overview), name='core-lk'),
+    path('', login_required(lk_core), name='core'),
+    path('space/', login_required(lk_overview), name='core-lk'),
     path('login/', login_overview, name='core-lk-login'),
     path('login/auth/', authenticate_user, name='core-lk-login-auth'),
 

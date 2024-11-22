@@ -12,12 +12,12 @@
     <script src="{% static '/js/htmx.min.js' %}" defer></script>
     <script src="{% static '/js/hyperscript.min.js' %}" defer></script>
     {% endblock scripts %}
-    <title>{% block title %}СЭД | Университет им С.Ю. Витте{% endblock %}</title>
+    <title>{% block title %}СЭД | Контроль приложения{% endblock %}</title>
 </head>
 <body>
     <section id="app-container" class="app_container" hx-history-elt>
         {% block sidebar %}
-            {% include "sidebar.html" %}
+            {% include "appcontrol_sidebar.html" %}
         {% endblock sidebar %}
 
         <section class="app_container__content">
