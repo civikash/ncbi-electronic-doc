@@ -28,6 +28,18 @@
             }
         }
 
+        &.textarea {
+            padding: 5px 13px 0 15px;
+            font-size: 13px;
+            min-height: fit-content;
+            color: $color-dark;
+            transition: .4s ease-in-out;
+    
+            &:focus {
+                border: 1px solid #70A8FF;
+            }
+        }
+
         &.input-email {
             background-image: url(/static/img/search.svg);
             background-size: 16px;

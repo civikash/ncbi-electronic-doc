@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libffi-dev \
     python3-dev \
+    libboost-all-dev \
     wget \
+    unzip \
     libssl-dev \
     libmagic1 \
     libccid \
@@ -47,10 +49,14 @@ WORKDIR $APP_HOME
 COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY ./pycades.sh .
+RUN sed -i 's/\r$//g'  $APP_HOME/pycades.sh
+RUN chmod +x  $APP_HOME/pycades.sh
+
 COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
 
 USER app
 
-CMD ["bash"]
+ENTRYPOINT ["/home/app/web/pycades.sh"]

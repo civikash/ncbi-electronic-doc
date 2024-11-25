@@ -1,0 +1,36 @@
+.appcontrol_navigation {
+    width: fit-content;
+    margin-block: 1rem;
+    padding-top: 1rem;
+
+    &__container {
+        @include flex-row;
+        width: 100%;
+        align-items: center;
+        height: 2.7rem;
+        padding: 2px;
+        gap: 1.5rem;
+        background-color: #F4F4F5;
+        border-radius: .5rem;
+
+        &__link {
+            cursor: pointer;
+            font-size: .8rem;
+            color: $gray;
+            @include flex-column-center;
+            padding: 7px;
+            justify-content: center;
+            transition: .3s ease-in-out;
+            &.active {
+                border-radius: .5rem;
+                background-color: $bg-white;
+                width: fit-content;
+                font-weight: 500;
+                padding: 15px;
+                color: $color-dark;
+                transition: .3s ease-in-out;
+                height: 100%;
+            }
+        }
+    }
+}

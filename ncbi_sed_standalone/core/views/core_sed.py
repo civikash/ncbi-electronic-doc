@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.urls import reverse
 
 def breadcrumb():
     pass
@@ -14,7 +14,16 @@ def create_document(request):
 
     if request.htmx:
         if request.method == 'GET':
-            return render(request, template)
+            documents_url = reverse('core:core-lk-documents')
+            crumbs = [
+                {"name": "Документы", "url": documents_url},
+                {"name": "Регистрация нового документа", "url": f"{request.path}"},
+            ]
+
+            context = {
+                'crumbs': crumbs
+            }
+            return render(request, template, context)
 
 def incoming_overview(request):
     if request.htmx:

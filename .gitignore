@@ -9,3 +9,6 @@ db.sqlite3
 api/migrations/0*.py
 core/migrations/!__init__.py
 core/migrations/0*.py
+
+appcontrol/migrations/!__init__.py
+appcontrol/migrations/0*.py

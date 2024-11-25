@@ -22,7 +22,7 @@
                                   
                 <div class="role__change__column">
                     <h4>Ядро</h4>
-                    <span>Контроль CЭД</span>
+                    <span>Контроль ядра</span>
                 </div>
                 <svg class="icon_arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.5002 14.99L15.4902 20.01" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -37,7 +37,7 @@
         {% endif %}
     <ul id="appcontrol-sidebar" class="sidebar_container__content">
         <li class="sidebar_container__content__linked">
-            <a hx-get="{% url 'core:core-lk' %}"
+            <a hx-get="{% url 'appcontrol:appcontrol-main' %}"
             hx-target="#app-content-section"
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
@@ -47,31 +47,41 @@
         </li>
         <h4 class="sidebar_container__content__title">Контроль СЭД</h4>
         <li class="sidebar_container__content__linked">
+            <a 
+            hx-get="{% url 'appcontrol:appcontrol-app' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+             <img src="{% static 'img/svg/sidebar/_app.svg' %}" alt="Приложение">                                
+             Приложение     
+            </a> 
+         </li> 
+        <li class="sidebar_container__content__linked">
            <a 
-           hx-get="{% url 'core:core-lk-documents' %}"
+           hx-get="{% url 'appcontrol:appcontrol-users' %}"
            hx-target="#app-content-section"
            hx-swap="innerHTML transition:true"
            hx-push-url="true">
-            <img src="{% static 'img/svg/sidebar/_documents.svg' %}" alt="Документы">                                
+            <img src="{% static 'img/svg/sidebar/_users.svg' %}" alt="Пользователи">                                
             Пользователи         
            </a> 
         </li> 
         <li class="sidebar_container__content__linked">
             <a 
-            hx-get="{% url 'core:core-lk-incoming' %}"
+            hx-get="{% url 'appcontrol:appcontrol-modules' %}"
             hx-target="#app-content-section"
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
-            <img src="{% static 'img/svg/sidebar/_docin.svg' %}" alt="Входящие">                                  
-            СПП           
-           </a> 
-        </li>
+             <img src="{% static 'img/svg/sidebar/_modules.svg' %}" alt="Модули">                                
+             Модули       
+            </a> 
+         </li> 
         <li class="sidebar_container__content__linked">
-            <a hx-get="{% url 'core:core-lk-signing' %}"
+            <a hx-get="{% url 'appcontrol:appcontrol-settings' %}"
             hx-target="#app-content-section"
             hx-swap="innerHTML transition:true"
             hx-push-url="true">
-            <img src="{% static 'img/svg/sidebar/_signdoc.svg' %}" alt="Подписание">                  
+            <img src="{% static 'img/svg/sidebar/_settings.svg' %}" alt="Настройки">                  
             Настройки          
            </a>  
         </li>

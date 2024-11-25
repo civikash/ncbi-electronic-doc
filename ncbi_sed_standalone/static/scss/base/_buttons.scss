@@ -10,4 +10,16 @@
         background-color: #5580FF;
         color: $bg-white;    
     }
+
+    &.border {
+        border-radius: .4rem;
+        padding: 1rem;
+        gap: .5rem;
+        height: 2.6rem;
+        font-size: .8rem;
+        border: 1px solid $color-gray;
+        color: $color-dark;    
+        width: fit-content;
+        max-width: none !important;
+    }
 }

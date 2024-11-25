@@ -1,0 +1,40 @@
+<nav class="appcontrol_navigation">
+    <ul class="appcontrol_navigation__container"
+    hx-on:htmx-after-on-load="let currentTab = document.querySelector('[aria-selected=true]');
+                               currentTab.setAttribute('aria-selected', 'false')
+                               currentTab.classList.remove('active')
+                               let newTab = event.target
+                               newTab.setAttribute('aria-selected', 'true')
+                               newTab.classList.add('active')">
+        <li role="appnavigation-menu" aria-selected="true"
+        hx-target="#app-settings-container"
+        hx-swap="innerHTML transition:true"
+        hx-get="{% url 'appcontrol:appcontrol-app-documents' %}" 
+        hx-push-url="false"
+        class="appcontrol_navigation__container__link {% if request.resolver_match.url_name == 'appcontrol-app' %}active{% endif %}"
+        _="on click if @aria-selected is 'true' then halt else
+        trigger htmx:afterRequest">
+            Документы
+        </li>
+        <li role="appnavigation-menu" aria-selected="false"
+        hx-swap="innerHTML transition:true"
+        hx-target="#app-settings-container"
+        hx-get="{% url 'appcontrol:appcontrol-app-departments' %}" 
+        hx-push-url="false"
+        class="appcontrol_navigation__container__link"
+        _="on click if @aria-selected is 'true' then halt else
+        trigger htmx:afterRequest">
+            Подразделения
+        </li>
+        <li role="appnavigation-menu" aria-selected="false"
+        hx-swap="innerHTML transition:true"
+        hx-target="#app-settings-container"
+        hx-get="{% url 'appcontrol:appcontrol-app-posts' %}" 
+        hx-push-url="false"
+        class="appcontrol_navigation__container__link"
+        _="on click if @aria-selected is 'true' then halt else
+        trigger htmx:afterRequest">
+            Должности
+        </li>
+    </ul>
+</nav>
