@@ -7,7 +7,7 @@
 
 {% block content %}
     {% include "./components/app_navigation.html" %}
-    <div id="app-settings-container" class="margin-top-1">
+    <div id="app-settings-container" class="app_container__content__section__body margin-top-1">
         {% if request.resolver_match.url_name == 'appcontrol-app' %}
             {% include "./partials/partial_app_documents.html" %}
         {% endif %}

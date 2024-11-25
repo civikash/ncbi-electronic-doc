@@ -123,27 +123,22 @@ class Staff(models.Model):
         verbose_name_plural = _("Сотрудники")
 
 
-class DocumentClassifier(models.Model):
+
+class TypeDocument(models.Model):
+    TYPE_CHOICES = [
+        ('INCOMING_DOCUMENT', 'Входящий документ'),
+        ('OUTGOING_DOCUMENT', 'Исходящий документ'),
+        ('ORD', 'ОРД'),
+        ('INTERNAL_DOCUMENT', 'Внутренний документ'),
+        ('CONTRACTS', 'Договоры'),
+        ('DPO_DOCUMENTS', 'Документы ДПО'),
+    ]
     name = models.CharField(_("Наименование"), unique=True, max_length=80)
-
-    class Meta:
-        abstract = True
-        ordering = ['name']
-        verbose_name = "Классификатор"
-        verbose_name_plural = "Классификаторы"  
+    description = models.CharField(_("Описание раздела"), max_length=155)
+    type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 
     def __str__(self):
         return self.name
-
-
-class TypePartition(DocumentClassifier):
-    description = models.CharField(_("Описание раздела"), max_length=75)
-
-    def __str__(self):
-        return self.name
-
-class TypeDocument(DocumentClassifier):
-    partition = models.ForeignKey("TypePartition", verbose_name=_("Раздел"), on_delete=models.CASCADE)
 
 
 class Document(models.Model):

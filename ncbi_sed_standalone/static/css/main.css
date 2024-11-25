@@ -367,7 +367,7 @@ legend {
   align-items: center;
   height: 2.7rem;
   padding: 2px;
-  gap: 1.5rem;
+  gap: 1.8rem;
   background-color: #F4F4F5;
   border-radius: 0.5rem;
 }
@@ -502,7 +502,7 @@ legend {
   text-align: left;
   background-color: #F6F6F6;
   font-weight: 400;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #566882;
 }
 .table__content td {
@@ -511,11 +511,36 @@ legend {
   height: fit-content;
   min-height: 4rem;
   padding-bottom: 11px;
-  border-bottom: 1px solid #F6F6F6;
+  border-bottom: 1px solid #f0f0f0;
   color: #2b2b2b;
 }
 .table__content.documents {
   grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 0.7fr);
+}
+.table__content.settings {
+  grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr);
+}
+.table__content.settings th,
+.table__content.settings td {
+  padding: 5px;
+}
+.table__content.settings td {
+  padding-top: 1rem;
+}
+.table__content.settings th {
+  height: 2.3rem;
+  color: #5B5B63;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.table__content.settings .table-row td {
+  border-right: 1px solid #f0f0f0;
+}
+.table__content.settings .table-row td:first-child {
+  border-left: none;
+}
+.table__content.settings .table-row td:last-child {
+  border-right: none;
 }
 
 .sidebar_container {
