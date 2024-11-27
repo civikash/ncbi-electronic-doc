@@ -3,8 +3,52 @@
     <h1 class="app_container__content__section__header__title">Регистрация нового документа</h1>
 </div>
 
-<div class="app_container__content__section__body">
-    <div class="app_container__content__section__body">
 
+<form id="create-doc-select"
+hx-post="{% url 'core:core-lk-create-document' %}"
+hx-target="#app-content-section"
+hx-swap="innerHTML transition:true"
+hx-push-url="false">
+{% csrf_token %}
+<div class="app_container__content__section__body margin-top-3">
+    <div class="app_container__content__section__header">
+        <h2>Выберите тип документа</h2>
+        <p>Разделение документов по их назначению, характеру и содержанию, что упрощает поиск и управление ими</p>
     </div>
+    <nav class="appcontrol_navigation">
+        <ul class="appcontrol_navigation__container"
+        hx-on:htmx-after-on-load="let currentTab = document.querySelector('[aria-selected=true]');
+                                   currentTab.setAttribute('aria-selected', 'false')
+                                   currentTab.classList.remove('active')
+                                   let newTab = event.target
+                                   newTab.setAttribute('aria-selected', 'true')
+                                   newTab.classList.add('active')">
+            {% for type in document_types %}
+            <li role="appnavigation-menu" aria-selected="{% if forloop.first %}true{% endif %}"
+            hx-target="#document-types"
+            hx-swap="innerHTML transition:true"
+            hx-get="{% url 'core:core-lk-create-document' %}?type={{ type.0 }}" 
+            hx-push-url="false"
+            class="appcontrol_navigation__container__link {% if forloop.first %}active{% endif %}"
+            _="on click if @aria-selected is 'true' then halt else
+            trigger htmx:afterRequest">
+                {{ type.1 }}
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+        <div class="app_container__content__section__body">
+            <div id="document-types"
+                hx-trigger="load"
+                hx-push-url="false"
+                hx-swap="innerHTML transition:true"
+                hx-target="#document-types"
+                hx-get="{% url 'core:core-lk-create-document' %}?type=INCOMING_DOCUMENT"
+                class="app_container__content__section__body row cards-panel-full">
+            </div>
+            <div class="app_container__content__section__body row align-items-end">
+                <button class="button base" type="submit">Создать</button>
+            </div>
+        </div>
 </div>
+</form>

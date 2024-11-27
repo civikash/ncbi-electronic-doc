@@ -116,7 +116,11 @@ form {
 
                     &.cards-panel {
                         height: 13rem;
-                        width: fit-content;
+                        width: 100%;
+
+                        &-full {
+                            height: 100%;
+                        }
                     }
                 }
 

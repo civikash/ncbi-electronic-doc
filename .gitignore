@@ -8,8 +8,5 @@ db.sqlite3
 
 api/migrations/0*.py
 
-ncbi_sed_standalone/core/migrations/!__init__.py
 ncbi_sed_standalone/core/migrations/0*.py
-
-ncbi_sed_standalone/appcontrol/migrations/!__init__.py
 ncbi_sed_standalone/appcontrol/migrations/0*.py

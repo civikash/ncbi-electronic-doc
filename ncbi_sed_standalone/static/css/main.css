@@ -117,8 +117,10 @@ form {
 }
 .app_container__content__section__body.row.cards-panel {
   height: 13rem;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
+}
+.app_container__content__section__body.row.cards-panel-full {
+  height: 100%;
 }
 .app_container__content__section__body .create_document .form_container {
   font-size: 0.8rem;
@@ -262,6 +264,10 @@ legend {
   background-color: #5580FF;
   color: #ffffff;
 }
+.button.none-active {
+  background-color: #f1f1f1;
+  color: #dfdfdf;
+}
 .button.border {
   border-radius: 0.4rem;
   padding: 1rem;
@@ -276,7 +282,7 @@ legend {
 }
 
 .card_container {
-  padding: 1rem;
+  padding: 1.3rem;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -284,9 +290,10 @@ legend {
   cursor: pointer;
   border: 1px solid #e8e8e8;
   border-radius: 0.5rem;
+  height: -moz-fit-content;
+  height: fit-content;
   gap: 1rem;
-  height: 100%;
-  flex: 1;
+  justify-content: space-between;
   backface-visibility: hidden;
   transition: 0.4s ease-in-out;
   transform: translateZ(0);
@@ -306,16 +313,22 @@ legend {
 .card_container__header h3 {
   font-size: 0.9rem;
 }
+.card_container__body {
+  height: 100%;
+}
 .card_container__body p {
   font-size: 0.8rem;
   color: #566882;
+}
+.card_container__footer {
+  justify-self: flex-end;
 }
 .card_container__footer span {
   font-size: 0.8rem;
   color: #65a0ff;
 }
 .card_container.flex-2 {
-  flex: 0 0 33%;
+  flex: 0 0 19.3333%;
 }
 
 .response_container {
@@ -439,6 +452,18 @@ legend {
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: 8px;
+}
+
+.form_radio {
+  cursor: pointer;
+  display: flex;
+}
+.form_radio input[type=radio] {
+  display: none;
+}
+.form_radio input[type=radio]:checked ~ .card_container {
+  border-color: #c6d4ff;
+  box-shadow: 0 4px 12px rgba(172, 193, 255, 0.5);
 }
 
 .breadcrumb {
@@ -811,10 +836,22 @@ legend {
   border-radius: 0.7rem;
 }
 
+.align-items-end {
+  align-items: flex-end !important;
+}
+
 .margin-top-1 {
   margin-top: 1rem;
 }
 
+.margin-top-3 {
+  margin-top: 3rem;
+}
+
 .gap-column-1 {
   gap: 1rem;
+}
+
+.flex-4 {
+  flex: 0 0 22%;
 }/*# sourceMappingURL=main.css.map */

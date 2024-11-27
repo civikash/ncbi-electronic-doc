@@ -3,10 +3,22 @@
     border-radius: .7rem;
 }
 
+.align-items-end {
+    align-items: flex-end !important;
+}
+
 .margin-top-1 {
     margin-top: 1rem;
 }
 
+.margin-top-3 {
+    margin-top: 3rem;
+}
+
 .gap-column-1 {
     gap: 1rem;
+}
+
+.flex-4 {
+    flex: 0 0 22%;
 }

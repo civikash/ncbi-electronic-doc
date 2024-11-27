@@ -11,6 +11,11 @@
         color: $bg-white;    
     }
 
+    &.none-active {
+        background-color: #f1f1f1;
+        color: #dfdfdf;
+    }
+
     &.border {
         border-radius: .4rem;
         padding: 1rem;

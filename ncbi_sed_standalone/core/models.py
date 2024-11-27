@@ -106,9 +106,9 @@ class Department(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField("User", verbose_name=_("Учетная запись"), on_delete=models.CASCADE)
-    organisation = models.OneToOneField("Organisation", verbose_name=_("Организация"), on_delete=models.CASCADE)
-    department = models.ForeignKey("Department", verbose_name=_("Отдел"), on_delete=models.CASCADE)
-    post = models.ForeignKey("Post", verbose_name=_("Должность"), on_delete=models.CASCADE)
+    organisation = models.OneToOneField("Organisation", verbose_name=_("Организация"), on_delete=models.CASCADE, blank=True)
+    department = models.ForeignKey("Department", verbose_name=_("Отдел"), on_delete=models.CASCADE, blank=True)
+    post = models.ForeignKey("Post", verbose_name=_("Должность"), on_delete=models.CASCADE, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.organisation_id:
@@ -134,7 +134,7 @@ class TypeDocument(models.Model):
         ('DPO_DOCUMENTS', 'Документы ДПО'),
     ]
     name = models.CharField(_("Наименование"), unique=True, max_length=80)
-    description = models.CharField(_("Описание раздела"), max_length=155)
+    description = models.CharField(_("Описание раздела"), max_length=195)
     type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 
     def __str__(self):
@@ -142,10 +142,12 @@ class TypeDocument(models.Model):
 
 
 class Document(models.Model):
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     type = models.ForeignKey("TypeDocument", verbose_name=_("Тип документа"), on_delete=models.CASCADE)
-    brief = models.CharField(_("Краткое описание"), max_length=250)
-    signatory = models.ForeignKey("Staff", verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='document_signatory')
-    addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='document_addressee')
+    brief = models.CharField(_("Краткое описание"), max_length=250, null=True)
+    draft = models.BooleanField(_("Черновик"), default=False)
+    signatory = models.ForeignKey("Staff", verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='document_signatory', null=True)
+    addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='document_addressee', null=True)
     author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор РК"), on_delete=models.CASCADE)
     note = models.TextField(_("Примечание"))
     readers = models.ManyToManyField("Staff", verbose_name=_("Читатели"), related_name='document_readers')

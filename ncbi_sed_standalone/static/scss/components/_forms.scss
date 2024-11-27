@@ -48,3 +48,17 @@
         }
     }
 }
+
+.form_radio {
+    cursor: pointer;
+    display: flex;
+
+    input[type="radio"] {
+        display: none;
+    } 
+
+    input[type="radio"]:checked ~ .card_container {
+        border-color: #c6d4ff;
+        box-shadow: 0 4px 12px rgba(172, 193, 255, 0.5);
+    }
+}

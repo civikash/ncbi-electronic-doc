@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, authenticate_user
-from .views.core_sed import documents_overview, create_document, incoming_overview, signdocuments_overview, recipients_overview
+from .views.core_sed import documents_overview, document_detail, create_document, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
 from django.contrib.auth.decorators import login_required
 
@@ -15,6 +15,7 @@ urlpatterns = [
 
     #СЭД
     path('documents/', login_required(documents_overview), name='core-lk-documents'),
+    path('documents/<str:doc_uid>/', login_required(document_detail), name='core-lk-document-detail'),
     path('incoming/', login_required(incoming_overview), name='core-lk-incoming'),
     path('signing/', login_required(signdocuments_overview), name='core-lk-signing'),
     path('recipients/', login_required(recipients_overview), name='core-lk-recipients'),
