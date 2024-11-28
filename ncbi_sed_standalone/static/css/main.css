@@ -32,7 +32,7 @@ form {
   width: calc(100% - 15rem);
   left: 15rem;
   position: relative;
-  padding: 7rem 0rem 0rem 5rem;
+  padding: 5rem 0rem 0rem 5rem;
   height: 100vh;
 }
 .app_container__content__row {

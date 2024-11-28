@@ -23,7 +23,7 @@ def document_detail(request, *args, **kwargs):
     context = {'document': document}
 
     if request.htmx:
-        return render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html')
+        return render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
     return render(request, './core/pages/sed/sed_document_detail.html', context)
 
 def create_document(request):

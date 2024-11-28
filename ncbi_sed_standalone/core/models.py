@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+import re
 import uuid
 
 class UserManager(BaseUserManager):
@@ -134,6 +135,7 @@ class TypeDocument(models.Model):
         ('DPO_DOCUMENTS', 'Документы ДПО'),
     ]
     name = models.CharField(_("Наименование"), unique=True, max_length=80)
+    short_name = models.CharField(_("Сокращенное наименование"), max_length=20)
     description = models.CharField(_("Описание раздела"), max_length=195)
     type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 
@@ -151,6 +153,22 @@ class Document(models.Model):
     author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор РК"), on_delete=models.CASCADE)
     note = models.TextField(_("Примечание"))
     readers = models.ManyToManyField("Staff", verbose_name=_("Читатели"), related_name='document_readers')
+    registration_number = models.CharField(_("Регистрационный номер"), max_length=110)
+
+    def save(self, *args, **kwargs):
+        if not self.registration_number:
+            last_document = Document.objects.filter(type=self.type).order_by('registration_number').last()
+            
+            if last_document:
+                match = re.search(r'(\d+)$', last_document.registration_number)
+                if match:
+                    new_number = int(match.group(1)) + 1
+            else:
+                new_number = 1
+
+            self.registration_number = f"{self.type.short_name}-{new_number}"
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Документ"
