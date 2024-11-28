@@ -4,8 +4,10 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.conf import settings
 import re
 import uuid
+import os
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -147,13 +149,17 @@ class Document(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     type = models.ForeignKey("TypeDocument", verbose_name=_("Тип документа"), on_delete=models.CASCADE)
     brief = models.CharField(_("Краткое описание"), max_length=250, null=True)
-    draft = models.BooleanField(_("Черновик"), default=False)
+    draft = models.BooleanField(_("Черновик"), default=True)
+    document_sheets = models.IntegerField(_("Листов документа"))
+    application_sheets = models.IntegerField(_("Листов приложения"))
+    direction = models.ForeignKey("Staff", verbose_name=_("Направление"), on_delete=models.CASCADE, related_name='document_direction', null=True)
     signatory = models.ForeignKey("Staff", verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='document_signatory', null=True)
     addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='document_addressee', null=True)
     author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор РК"), on_delete=models.CASCADE)
-    note = models.TextField(_("Примечание"))
+    note = models.CharField(_("Примечание"), max_length=250, null=True)
     readers = models.ManyToManyField("Staff", verbose_name=_("Читатели"), related_name='document_readers')
     registration_number = models.CharField(_("Регистрационный номер"), max_length=110)
+    created_at = models.DateTimeField(_("Дата регистрации в системе"), auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.registration_number:
@@ -173,3 +179,18 @@ class Document(models.Model):
     class Meta:
         verbose_name = "Документ"
         verbose_name_plural = "Документы"  
+
+
+
+class DocumentFile(models.Model):
+    document = models.ForeignKey("Document", verbose_name=_("Документ в системе"), on_delete=models.CASCADE, related_name='files')
+    file_name = models.CharField(_("Имя файла"), max_length=190)
+    file_path = models.CharField(_("Путь к файлу"), max_length=355)
+    uploaded_at = models.DateTimeField("Дата загрузки", auto_now_add=True)
+
+    def save_file(self, file):
+        directory = os.path.join(settings.MEDIA_ROOT, f'documents/{self.type}/{self.uuid}')
+
+
+    def __str__(self):
+        return f"{self.file_name} for {self.document}"
