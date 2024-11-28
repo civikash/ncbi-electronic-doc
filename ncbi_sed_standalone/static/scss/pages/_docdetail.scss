@@ -1,0 +1,151 @@
+.detail_object {
+    width: 100%;
+
+    &.main {
+        @include flex-column-start;
+    }
+
+
+
+    &.container {
+        padding: 19px;
+        @include flex-column-start;
+
+
+    }
+
+    &.header {
+        @include flex-column-start;
+        gap: 8px;
+
+        .button {
+            margin-left: auto;
+        }
+
+        &__title {
+            font-size: 17px;
+            color: #455A76;
+        }
+
+        &__description {
+            @include flex-row;
+            align-items: flex-start;
+            gap: 11px;
+
+            &__element {
+                padding: 5px;
+                font-size: 14px;
+                width: fit-content;
+                border-radius: .6rem;
+                text-transform: uppercase;
+                color: #70A8FF;
+                border: 1px solid #70A8FF;
+                padding-inline: 9px;
+            }
+        }
+    }
+
+    &.body {
+        height: fit-content;
+
+        &.small {
+            max-width: 50%;
+        }
+
+        &__row {
+            @include flex-start;
+            border-left: 1px solid #eeeeee;
+        }
+        &.border {
+            &-top {
+                border-top: 1px solid #eeeeee;
+            }
+            &-bottom {
+                border-bottom: 1px solid #eeeeee;
+            }
+            &-right {
+                border-right: 1px solid #eeeeee;
+            }
+            &-left {
+                border-left: 1px solid #eeeeee;
+            }
+        }
+
+        &__information {
+            padding: 19px;
+            width: 100%;
+            @include flex-column-start;
+            gap: 11px;
+            &__title {
+                margin-block: 15px;
+                font-size: 15px;
+                color: #2b2b2b;
+            }
+
+            &__description {
+                width: 100%;
+                gap: 7px;
+                @include flex-column-start;
+
+                &__element {
+                    width: 25rem;
+                    align-items: flex-start;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    
+
+                    span {
+                        font-size: 12px;
+                        &:first-child {
+                            color: #455A76;
+                        }
+                    }
+                }
+            }
+            &__navigation_tab {
+                @include flex-row;
+                gap: 11px;
+                width: fit-content;
+                padding: 3px;
+                height: 100%;
+                max-height: 19rem;
+                border-radius: .4rem;
+                background-color: #E8EBEE;
+
+                &__element {
+                    padding: 9px;
+                    width: fit-content;
+                    color: #455A76;
+                    font-size: 13px;
+                    transition: .4s ease-in-out;
+                    &.visible-d {
+                        transition: .4s ease-in-out;
+                        border-radius: .4rem;
+                        background-color: #fff;
+                    }
+                }
+
+                &__content {
+                    display: none;
+                    &.visible-d {
+                        @include flex-column-start;
+                    }
+                }
+            }
+
+        }
+
+        &.block-middle {
+            @include flex-row;
+            min-height: 180px;
+        }
+    }
+}
+
+
+.detail_container {
+    position: relative;
+    top: 3rem;
+    height: 100vh;
+}

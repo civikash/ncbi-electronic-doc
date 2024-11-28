@@ -3,7 +3,7 @@ from django.urls import reverse
 from core.models import TypeDocument, Document, Staff
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-
+import mimetypes
 
 def get_staff(user):
     return Staff.objects.get(user=user)

@@ -15,10 +15,57 @@
     margin-top: 3rem;
 }
 
+.padding-bottom-1 {
+    padding-bottom: 1rem;
+}
+
 .gap-column-1 {
     gap: 1rem;
 }
 
 .flex-4 {
     flex: 0 0 22%;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.fixed {
+    position: fixed;
+    z-index: 9999;
+    transition: .4s ease-in-out;
+
+    &.shadow {
+        transition: .4s ease-in-out;
+        box-shadow: rgba(33, 35, 38, 0.17) 0px 10px 10px -10px;
+    }
+}
+
+.background-white {
+    background-color: $bg-white;
+}
+
+
+.overflow-y {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    &.no-scrl {
+        scrollbar-width: none;
+    }
+
+    &::-webkit-scrollbar {
+        background-color: #ebebeb;
+        width: 3px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #d9e7fa;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #e9f2ff;
+      }
+      &::-webkit-scrollbar-thumb:active {
+        background-color: #c8ddff;
+      }
 }

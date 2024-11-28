@@ -1,7 +1,108 @@
-<div class="app_container__content__section__header">
-    <h1 class="app_container__content__section__header__title">{{ document.type }} № {{ document.registration_number }}</h1>
+<div id="header-detail-document" class="app_container__content__section__header fixed background-white padding-bottom-1">
+    <div class="app_container__content__section__header__row {% if document.draft %}draft_status{% endif %}">
+        <svg width="15" height="15" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.4" d="M16.625 17.417H2.375C2.05042 17.417 1.78125 17.1478 1.78125 16.8232C1.78125 16.4987 2.05042 16.2295 2.375 16.2295H16.625C16.9496 16.2295 17.2188 16.4987 17.2188 16.8232C17.2188 17.1478 16.9496 17.417 16.625 17.417Z" fill="#5B5B63"/>
+            <path opacity="0.4" d="M15.0572 2.75466C13.5214 1.21882 12.0172 1.17924 10.4418 2.75466L9.48388 3.71257C9.40471 3.79174 9.37305 3.91841 9.40471 4.02924C10.0064 6.12716 11.6847 7.80549 13.7826 8.40715C13.8143 8.41506 13.846 8.42298 13.8776 8.42298C13.9647 8.42298 14.0439 8.39132 14.1072 8.32798L15.0572 7.37007C15.841 6.59424 16.221 5.84216 16.221 5.08216C16.2289 4.29841 15.8489 3.53841 15.0572 2.75466Z" fill="#5B5B63"/>
+            <path d="M12.3586 9.12833C12.129 9.0175 11.9073 8.90667 11.6936 8.78C11.5194 8.67708 11.3531 8.56625 11.1869 8.4475C11.0523 8.36042 10.894 8.23375 10.7436 8.10708C10.7277 8.09917 10.6723 8.05167 10.609 7.98833C10.3477 7.76671 10.0548 7.48171 9.79356 7.16504C9.76981 7.14921 9.73023 7.09379 9.67481 7.02254C9.59564 6.92754 9.46106 6.76921 9.34231 6.58712C9.24731 6.46837 9.13648 6.29421 9.03356 6.12004C8.90689 5.90629 8.79606 5.69254 8.68523 5.47087C8.57439 5.23337 8.48731 5.00379 8.40814 4.79004L3.43649 9.76167C3.33358 9.86458 3.23858 10.0625 3.21483 10.1971L2.78733 13.2292C2.70816 13.7675 2.85858 14.2742 3.19108 14.6146C3.47608 14.8917 3.87191 15.0421 4.29941 15.0421C4.39441 15.0421 4.48941 15.0342 4.58441 15.0183L7.62441 14.5908C7.76691 14.5671 7.96481 14.4721 8.05981 14.3692L13.0315 9.3975C12.8098 9.31833 12.5961 9.23125 12.3586 9.12833Z" fill="#5B5B63"/>
+            </svg>
+            
+    <h2 class="app_container__content__section__header__subtitle">
+        {% if document.draft %}
+            Черновик
+        {% endif %}
+    </h2>
+</div>
+    <div class="app_container__content__section__header__row headerline">
+        <h1 class="app_container__content__section__header__title">{{ document.type }}</h1>
+        <span class="app_container__content__section__header__element__headerline">
+        </span>
+    </div>
+    <div class="app_container__content__section__header__row elements">
+        <span class="app_container__content__section__header__element">№ {{ document.registration_number }}</span>
+        <span class="app_container__content__section__header__element">{{ document.created_at }}</span>
+    </div>
 </div>
 
-<div class="app_container__content__section__body">
-
+<div class="app_container__content__row">
+    <div class="app_container__content__section__body detail_container">
+        <div class="detail_object body border-left">
+            <div class="detail_object body small border-top border-bottom border-right">
+                <div class="detail_object body__information">
+                    <h4 class="detail_object body__information__title">
+                        Рабочая карточка документа
+                    </h4>
+                    <ul class="detail_object body__information__description">
+                        <li class="detail_object body__information__description__element">
+                            <span>Проект:</span>
+                            <span>{{ hsc.project }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Инвентарный номер:</span>
+                            <span>{{ hsc.inventory_number }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Серийный номер:</span>
+                            <span>{{ hsc.serial_number }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Заводской номер:</span>
+                            <span>{{ hsc.factory_number }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>МОЛ:</span>
+                            <span>{{ hsc.accountable_employee }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Местоположение:</span>
+                            <span>{{ hsc.building.name }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Дата постановки на учет:</span>
+                            <span>{{ hsc.accounting_date }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>КФО:</span>
+                            <span>{{ hsc.get_kfo_display }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="detail_object body small border-bottom border-right">
+                <div class="detail_object body__information">
+                    <h4 class="detail_object body__information__title">
+                        Реквизиты документа в организации-кореспонденте
+                    </h4>
+                    <ul class="detail_object body__information__description">
+                        <li class="detail_object body__information__description__element">
+                            <span>Проект:</span>
+                            <span>{{ hsc.project }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Инвентарный номер:</span>
+                            <span>{{ hsc.inventory_number }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>МОЛ:</span>
+                            <span>{{ hsc.accountable_employee }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Местоположение:</span>
+                            <span>{{ hsc.building.name }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Дата постановки на учет:</span>
+                            <span>{{ hsc.accounting_date }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>КФО:</span>
+                            <span>{{ hsc.get_kfo_display }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        
+    </div>
 </div>
