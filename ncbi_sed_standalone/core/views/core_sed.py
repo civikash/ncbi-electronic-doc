@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from core.models import TypeDocument, Document, Staff
 from django.http import HttpResponse
@@ -16,10 +16,15 @@ def documents_overview(request):
         return render(request, './core/pages/sed/partials/partial_sed_documents.html')
     return render(request, './core/pages/sed/sed_documents.html')
 
-def document_detail(request):
+def document_detail(request, *args, **kwargs):
+    document_uuid = kwargs.get('doc_uid')
+    document = get_object_or_404(Document, uuid=document_uuid)
+
+    context = {'document': document}
+
     if request.htmx:
         return render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html')
-    return render(request, './core/pages/sed/sed_document_detail.html')
+    return render(request, './core/pages/sed/sed_document_detail.html', context)
 
 def create_document(request):
     template = './core/pages/sed/partials/partial_sed_create_document.html'
@@ -52,7 +57,7 @@ def create_document(request):
                 document = Document.objects.create(type=doc_type, author_work_card=get_staff(request.user))
                 document.save()
                 template = render_to_string('./core/pages/sed/partials/documents/partial_sed_document_detail.html')
-                
+
                 return HttpResponse(template, headers={
                     'HX-Push': reverse('core:core-lk-document-detail', args=[document.uuid])
             })
