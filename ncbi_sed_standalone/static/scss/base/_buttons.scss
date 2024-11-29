@@ -26,5 +26,20 @@
         color: $color-dark;    
         width: fit-content;
         max-width: none !important;
+
+        &.blue {
+            border-color: #70A8FF;
+        }
+
+        &.gray {
+            color: $text-gray;
+        }
+
+        &.create {
+            background-color: #70A8FF;
+            color: $bg-white;
+            font-weight: 500;
+            border: none;
+        }
     }
 }

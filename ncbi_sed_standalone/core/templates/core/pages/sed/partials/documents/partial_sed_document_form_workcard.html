@@ -1,23 +1,32 @@
+{% load static %}
 <form>
     {% csrf_token %}
-    <div class="form_container">
-        <label for="auth-email">E-mail</label>
-        <input required name="email" type="email" class="container_input inputing" id="auth-email">
+    <h3 class="detail_object body__draft_select__title">Визы</h3>
+    <div class="detail_object body__draft_select">
+        <img src="{% static 'img/svg/app/_visas.svg' %}" alt="">
+        <h3 class="detail_object body__draft_select__header">Назначить визирующих лиц</h3>
+        <p>Выберите лиц, для осуществления визирования документа перед отправкой на подписание</p>
+        <button class="button border gray" type="button">Выбрать визирующих</button>
     </div>
-    <div class="form_container">
-        <label for="auth-email">E-mail</label>
-        <input required name="email" type="email" class="container_input inputing" id="auth-email">
+    <h3 class="detail_object body__draft_select__title">Подписант</h3>
+    <div class="detail_object body__draft_select">
+        <img src="{% static 'img/svg/app/_signer.svg' %}" alt="">
+        <h3 class="detail_object body__draft_select__header">Выберите подписанта документа</h3>
+        <p>Укажите лицо, которое подпишет документ</p>
+        <button class="button border gray" type="button">Выбрать подписанта</button>
     </div>
-    <div class="form_container">
-        <label for="auth-email">E-mail</label>
-        <input required name="email" type="email" class="container_input inputing" id="auth-email">
+    <h3 class="detail_object body__draft_select__title">Адресат</h3>
+    <div class="detail_object body__draft_select">
+        <img src="{% static 'img/svg/app/_addressee.svg' %}" alt="">
+        <h3 class="detail_object body__draft_select__header">Выберите адресата</h3>
+        <p>Укажите получателя документа</p>
+        <button class="button border gray" type="button">Выбрать адресата</button>
     </div>
-    <div class="form_container">
-        <label for="auth-email">E-mail</label>
-        <input required name="email" type="email" class="container_input inputing" id="auth-email">
-    </div>
-    <div class="form_container">
-        <label for="auth-email">E-mail</label>
-        <input required name="email" type="email" class="container_input inputing" id="auth-email">
+    <h3 class="detail_object body__draft_select__title">Направление</h3>
+    <div class="detail_object body__draft_select">
+        <img src="{% static 'img/svg/app/_direction.svg' %}" alt="">
+        <h3 class="detail_object body__draft_select__header">Выберите направление</h3>
+        <p>Укажите, какому подразделению адресован документ</p>
+        <button class="button border gray" type="button">Выбрать адресата</button>
     </div>
 </form>

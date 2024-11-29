@@ -20,19 +20,25 @@
             {% include "sidebar.html" %}
         {% endblock sidebar %}
 
-        <section class="app_container__content overflow-hidden">
+        <section class="app_container__content">
             <section id="app-content-section" class="app_container__content__section overflow-y"
-            _="on scroll 
-             if my scrollTop > 0 
-               then 
-                 if #header-detail-document exists 
-                   then add .shadow to #header-detail-document
-                 end 
-               else 
-                 if #header-detail-document exists 
-                   then remove .shadow from #header-detail-document
-                 end">
-                <div class="app_container__content__section__header">
+            _="
+            on scroll
+              if my.scrollTop > 0
+                then
+                  if #header-detail-document exists
+                    then add .shadow to #header-detail-document
+                  end
+                else
+                  if #header-detail-document exists
+                    then remove .shadow from #header-detail-document
+                  end
+              end
+              then
+                if #moving-container exists
+                  set #moving-container's style.transform 
+                    to 'translateY(' + (my.scrollTop * 0.8) + 'px)'
+                end">
                     {% block header_content %}{% endblock header_content %}
                 </div>
                 {% block content %}{% endblock content %}

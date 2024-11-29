@@ -1,0 +1,5 @@
+{% for staff in staffs %}
+    <li>{{ staff.user.email }}</li>
+{% empty %}
+<p>Ничего не найдено</p>
+{% endfor %}

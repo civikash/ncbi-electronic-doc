@@ -1,4 +1,6 @@
 <div id="header-detail-document" class="app_container__content__section__header fixed background-white padding-bottom-1">
+    <div class="app_container__content__section__header__row">
+        <div class="app_container__content__section__column">
     <div class="app_container__content__section__header__row {% if document.draft %}draft_status{% endif %}">
         <svg width="15" height="15" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.4" d="M16.625 17.417H2.375C2.05042 17.417 1.78125 17.1478 1.78125 16.8232C1.78125 16.4987 2.05042 16.2295 2.375 16.2295H16.625C16.9496 16.2295 17.2188 16.4987 17.2188 16.8232C17.2188 17.1478 16.9496 17.417 16.625 17.417Z" fill="#5B5B63"/>
@@ -22,16 +24,28 @@
         <span class="app_container__content__section__header__element">{{ document.created_at }}</span>
     </div>
 </div>
+    <div class="app_container__content__section__header__buttons_panel">
+        <button class="button border">Удалить</button>
+        <button class="button border create">Зарегистрировать</button>
+    </div>
+</div>
+</div>
 
-<div class="app_container__content__row">
-    <div class="app_container__content__section__body detail_container">
+<div class="app_container__content__row detail_container">
+    <div class="app_container__content__section__body margin-0 flex">
         <div class="detail_object body border-left">
-            <div class="detail_object body small border-top border-bottom border-right">
+            <div class="detail_object body border-top border-bottom border-right">
                 <div class="detail_object body__information">
-                    <h4 class="detail_object body__information__title">
+                    <div class="detail_object body__information__header">
+                    <h4 class="detail_object body__information__header__title">
                         Рабочая карточка документа
                     </h4>
+                    <p>Укажите информацию о документе и зарегистрируйте его в системе</p>
+                </div>
                     <ul class="detail_object body__information__description">
+                        {% if document.draft %}
+                            {% include './partial_sed_document_form_workcard.html' %}
+                        {% else %}
                         <li class="detail_object body__information__description__element">
                             <span>Проект:</span>
                             <span>{{ hsc.project }}</span>
@@ -64,15 +78,19 @@
                             <span>КФО:</span>
                             <span>{{ hsc.get_kfo_display }}</span>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
-            <div class="detail_object body small border-bottom border-right">
+            <div class="detail_object body border-bottom border-right">
                 <div class="detail_object body__information">
                     <h4 class="detail_object body__information__title">
                         Реквизиты документа в организации-кореспонденте
                     </h4>
                     <ul class="detail_object body__information__description">
+                        {% if document.draft %}
+                            {% include './partial_sed_document_form_document_info.html' %}
+                        {% else %}
                         <li class="detail_object body__information__description__element">
                             <span>Проект:</span>
                             <span>{{ hsc.project }}</span>
@@ -97,12 +115,30 @@
                             <span>КФО:</span>
                             <span>{{ hsc.get_kfo_display }}</span>
                         </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="detail_object body border-bottom border-right">
+                <div class="detail_object body__information">
+                    <h4 class="detail_object body__information__title">
+                        Файлы
+                    </h4>
+                    <ul class="detail_object body__information__description">
+
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div class="">
-        
+    <div id="moving-container" class="app_container__content__section__preview"
+    _="
+      on mouseenter
+        add .scrollable to me
+      on mouseleave
+        remove .scrollable from me">
+        <div class="app_container__content__section__preview__file">
+            <h1>Файл</h1>
+        </div>
     </div>
 </div>

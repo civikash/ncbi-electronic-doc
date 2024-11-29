@@ -47,6 +47,39 @@
 
     &.body {
         height: fit-content;
+        width: 100%;
+
+        &__draft_select {
+            @include flex-column-start;
+            width: 100%;
+            align-items: center;
+            border: 1px solid $color-gray;
+            background-color: #fafafa;
+            border-radius: .7rem;
+            justify-content: center;
+
+            &__title {
+                text-align: left;
+                color: $gray;
+                font-weight: 400;
+                padding: 1rem;
+            }
+
+            button {
+                margin-block: 1.5rem;
+            }
+
+            &__header {
+                text-align: center;
+                font-size: .9rem;
+                font-weight: 500;
+                color: $text-gray;
+            }
+
+            p {
+                font-size: .8rem;
+            }
+        }
 
         &.small {
             max-width: 50%;
@@ -76,16 +109,52 @@
             width: 100%;
             @include flex-column-start;
             gap: 11px;
+
+            &__header {
+                gap: 3px;
+                padding: 0px;
+                margin-bottom: 1rem;
+
+                p {
+                    font-size: .8rem;
+                }
+
+                &__title {
+                    font-size: 1rem;
+                    color: $color-dark;
+                }
+            }
+
             &__title {
                 margin-block: 15px;
                 font-size: 15px;
                 color: #2b2b2b;
+
             }
 
             &__description {
                 width: 100%;
                 gap: 7px;
                 @include flex-column-start;
+
+                .form_container {
+                    gap: 8px;
+                    margin-block: .2rem;
+
+                    label {
+                        font-size: .8rem;
+                    }
+
+                    .container_input {
+                        height: 2.2rem;
+                        font-size: .8rem;
+                        border-radius: .5rem;
+
+                        &.textarea {
+                            height: 5rem;
+                        }
+                    }
+                }
 
                 &__element {
                     width: 25rem;
@@ -146,6 +215,6 @@
 
 .detail_container {
     position: relative;
-    top: 3rem;
+    top: 10rem;
     height: 100vh;
 }

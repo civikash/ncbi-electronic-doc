@@ -1,9 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from core.models import TypeDocument, Document, Staff
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest, JsonResponse
+from django.views.decorators.http import require_GET
 from django.template.loader import render_to_string
 import mimetypes
+from django_htmx.middleware import HtmxDetails
+
+
+class HtmxHttpRequest(HttpRequest):
+    htmx: HtmxDetails
+
 
 def get_staff(user):
     return Staff.objects.get(user=user)
@@ -15,6 +22,14 @@ def documents_overview(request):
     if request.htmx:
         return render(request, './core/pages/sed/partials/partial_sed_documents.html')
     return render(request, './core/pages/sed/sed_documents.html')
+
+
+def search_staff(request):
+    query = request.GET.get('email', '')
+    results = Staff.objects.filter(user__email__icontains=query)
+    html = render_to_string('./core/components/staffs_list.html', {'staffs': results})
+    return HttpResponse(html)
+
 
 def document_detail(request, *args, **kwargs):
     document_uuid = kwargs.get('doc_uid')
