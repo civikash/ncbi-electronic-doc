@@ -1,5 +1,18 @@
 <div class="app_container__content__section__header">
-    <h1 class="app_container__content__section__header__title">Пользователи</h1>
+    <div class="app_container__content__section__header__row">
+        <h1 class="app_container__content__section__header__title">Пользователи</h1>
+        <button type="button" 
+        hx-target="body"
+        hx-get="{% url 'appcontrol:appcontrol-users-create' %}"
+        hx-swap="beforeend" 
+        class="button border margin-left">
+            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.5 7H10.5" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 10.5V3.5" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>           
+                Создать пользователя</button>
+    </div>
 </div>
-
-<div class="app_container__content__section__body"></div>
+<div id="app-users" class="app_container__content__section__body margin-top-1">
+    {% include '../components/users_table.html' %}
+</div>

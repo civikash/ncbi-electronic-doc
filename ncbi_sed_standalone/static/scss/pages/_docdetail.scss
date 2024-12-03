@@ -52,11 +52,16 @@
         &__draft_select {
             @include flex-column-start;
             width: 100%;
+            min-height: 33rem;
             align-items: center;
             border: 1px solid $color-gray;
             background-color: #fafafa;
             border-radius: .7rem;
             justify-content: center;
+
+            &.focused {
+                justify-content: flex-start !important;
+            }
 
             &__title {
                 text-align: left;
@@ -78,6 +83,17 @@
 
             p {
                 font-size: .8rem;
+            }
+
+            &__form_control {
+                height: 100%;
+                width: 100%;
+                padding: 1rem;
+                @include flex-column-start;
+
+                h3 {
+                    color: #5B5B63;
+                }
             }
         }
 

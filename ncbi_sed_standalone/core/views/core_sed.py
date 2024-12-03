@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from core.models import TypeDocument, Document, Staff
+from core.models import TypeDocument, Document, Staff, DocumentVisas
 from django.http import HttpResponse, HttpRequest, JsonResponse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 import mimetypes
 from django_htmx.middleware import HtmxDetails
@@ -31,14 +31,28 @@ def search_staff(request):
     return HttpResponse(html)
 
 
-def document_detail(request, *args, **kwargs):
+@require_POST
+def document_review(request, *args, **kwargs):
+    document_uuid = kwargs.get('doc_uuid')
+
+    document = Document.objects.get(uuid=document_uuid)
+
+    staff = request.POST.get('type')
+
+
+def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     document_uuid = kwargs.get('doc_uid')
     document = get_object_or_404(Document, uuid=document_uuid)
 
     context = {'document': document}
 
     if request.htmx:
-        return render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
+        if 'staff' in request.GET:
+            visas = Staff.objects.all()
+            context['visas'] = visas
+            return render(request, './core/pages/sed/partials/documents/partial_document_select_staff.html', {'visas': visas})
+        else:
+            return render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
     return render(request, './core/pages/sed/sed_document_detail.html', context)
 
 def create_document(request):

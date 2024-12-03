@@ -1,0 +1,73 @@
+{% extends "../modal_base.html" %}
+
+{% block modal_content %}
+<form method="POST" class="filters_module_form" id="create-user">
+  {% csrf_token %}
+<div class="modal-body__header">
+  <h2 class="modal-body__header__title">Создать нового пользователя</h2>
+  <p class="modal-body__header__description">Создайте виртуальную машину 
+    заполнив необходимые реквизиты</p>
+</div>
+
+<div class="modal-body__content">
+  <div class="modal-body-column">
+    <div class="form_container">
+        <label for="vm-name">ФИО</label>
+        <input required name="vm_name" class="container_input inputing" id="vm-name">
+    </div>
+    <div class="form_container">
+      <label for="vm-name">Email</label>
+      <input required name="vm_name" class="container_input inputing" id="vm-name">
+  </div>
+  <div class="form_container">
+    <label for="vm-name">Пароль</label>
+    <input required type="password" name="password" class="container_input inputing" id="vm-name">
+  </div>
+  <div class="form_container">
+    <label for="vm-name">Подтвердите пароль</label>
+    <input required type="password" name="password_confirmed" class="container_input inputing" id="vm-name">
+  </div>
+    <div class="form_container">
+      <label for="vm-system">Информационная система</label>
+      <select name="vm_system" class="container_select select_create" id="vm-system">
+          <option>Отсутсвует</option>
+          {% for system in staffs %}
+              <option value="{{ system.id }}">{{ system.name }}</option>
+          {% endfor %}    
+      </select>
+      </div>
+  <div class="form_container">
+    <label for="vm-owner">Ответственный</label>
+    <select name="vm_owner" class="container_select select_create" id="vm-owner">
+        <option>Отсутсвует</option>
+        {% for owner in staffs %}
+            <option value="{{ owner.id }}">{{ owner.get_full_name }}</option>
+        {% endfor %}    
+    </select>
+    </div>
+    <div class="form_container">
+      <label for="justification-number">Обоснование</label>
+      <input required name="vm_justification" type="text" placeholder="Служебная записка № вн." maxlength="5" class="container_input inputing" oninput="getNumber(this)" id="justification-number">
+  </div>
+
+  <div class="form_container">
+      <label for="vm-note">Примечание</label>
+      <textarea id="vm-note" name="vm_note" class="container_input inputing textarea"></textarea>
+  </div>
+
+</div>
+
+<div class="modal-body__footer">
+  <div class="modal-body__footer__buttons">
+    <button class="button cancel" _="on click trigger closeModal" type="button">Отмена</button>
+    <button class="button create full-bg" 
+    _="on click trigger closeModal" 
+    hx-post="{% url 'appcontrol:appcontrol-users-create' %}"
+    hx-target="#hosts-vms"
+    hx-include="#create-vm"
+    hx-swap="innerHTML"
+    type="button">Создать</button>
+  </div>
+</div>
+</form>
+{% endblock modal_content %}

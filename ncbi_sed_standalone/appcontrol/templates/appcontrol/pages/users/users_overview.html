@@ -1,17 +1,12 @@
 {% extends "appcontrol_base.html" %}
 
 {% block header_content %}
-<div class="app_container__content__section__header__row">
-    <h1 class="app_container__content__section__header__title">Пользователи</h1>
-    <button type="button" class="button border">
-        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.5 7H10.5" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M7 10.5V3.5" stroke="#C8C8C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>           
-            Создать пользователя</button>
-</div>
+
 {% endblock header_content %}
 
 {% block content %}
-    
+
+{% include './partials/partial_users_overview.html' %}
+
+
 {% endblock content %}

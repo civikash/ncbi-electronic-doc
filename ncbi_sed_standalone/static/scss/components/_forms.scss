@@ -8,6 +8,64 @@
         color: #878787;
     }
 
+    .container_select {
+        position: relative;
+        width: 100%;
+        display: inline-block;
+    
+        &.select_create {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+    
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #D0D4DD !important;
+            border: none;
+            cursor: pointer;
+    
+            &:focus {
+                outline: none;
+            }
+        }
+    
+        .select_search {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+    
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 10px;
+        
+            background-color: #EFF4F8;
+            color: #73768E;
+            border: 1px solid #E1EBF0;
+            border: none;
+            cursor: pointer;
+        
+            &:focus {
+                outline: none;
+            }
+        }
+    
+        &::after {
+            content: '';
+            position: absolute;
+            top: 60%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: 5px solid transparent;
+            border-top-color: #73768E;
+            pointer-events: none;
+        }
+    }
+    
+
     .container_input {
         padding: 0 13px 0 15px;
         height: 2.5rem;
@@ -22,6 +80,11 @@
             border-radius: 8px;
             color: $color-dark;
             transition: .4s ease-in-out;
+
+            &.bscolor {
+                box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+                background-color: $bg-white;
+            }
 
             &:focus {
                 border: 1px solid #70A8FF;

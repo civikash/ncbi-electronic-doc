@@ -17,7 +17,7 @@ def appcontrol_monitoring(request):
 
 def appcontrol_app(request):
     if request.htmx:
-        return render(request, './appcontrol/pages/app/partials/partial_app_overview.html')
+        return render(request, './appcontrol/pages/app/partials/partials_app.html')
 
     return render(request, './appcontrol/pages/app/app_overview.html')
 
@@ -28,6 +28,16 @@ def appcontrol_users(request):
 
     return render(request, './appcontrol/pages/users/users_overview.html')
 
+
+def appcontrol_users_create(request):
+    if request.method == 'GET' and request.htmx:
+        template = './appcontrol/components/modal/users/modal_create_user.html'
+        
+        context = {'middle_modal': True, 'small_modal': False}
+
+        return render(request, template, context)
+    if request.method == 'POST':
+        pass
 
 def appcontrol_settings(request):
     if request.htmx:

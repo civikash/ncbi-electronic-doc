@@ -180,7 +180,11 @@ class Document(models.Model):
         verbose_name = "Документ"
         verbose_name_plural = "Документы"  
 
-
+class DocumentVisas(models.Model):
+    document = models.ForeignKey("Document", verbose_name=_("Документ в системе"), on_delete=models.CASCADE, related_name='visas')
+    staff = models.ForeignKey("Staff", verbose_name=_("Сотрудник"), on_delete=models.CASCADE, related_name='document_visas', null=True)
+    visa = models.BooleanField(_("Статус визирования"), default=False)
+    note = models.CharField(_("Примечание"), max_length=120)
 
 class DocumentFile(models.Model):
     document = models.ForeignKey("Document", verbose_name=_("Документ в системе"), on_delete=models.CASCADE, related_name='files')

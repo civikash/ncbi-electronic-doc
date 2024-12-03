@@ -39,6 +39,10 @@
     overflow: hidden;
 }
 
+.margin-left {
+    margin-left: auto;
+}
+
 .fixed {
     position: fixed;
     z-index: 9999;
@@ -52,6 +56,18 @@
 
 .background-white {
     background-color: $bg-white;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.shadow-zero {
+    box-shadow: none;
+}
+
+.background-transparent {
+    background-color: transparent !important;
 }
 
 

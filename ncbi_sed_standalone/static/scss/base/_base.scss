@@ -96,6 +96,12 @@ form {
                 width: 100%;
                 padding: 1.9rem;
 
+                &__subheader {
+                    width: 100%;
+                    padding: .5rem;
+    
+                }
+
                 &__buttons_panel {
                     @include flex-row;
                     gap: 1rem;
