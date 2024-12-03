@@ -42,4 +42,35 @@
             border: none;
         }
     }
+
+    &.cancel {
+        max-width: 100%;
+        min-width: 100px !important;
+        width: fit-content !important;
+        border-radius: .5rem;
+        gap: 7px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #455A76;
+    }
+
+    &.create {
+        color: #70A8FF;
+        border-radius: 7px;
+        border: 1px solid #70A8FF;
+
+        &.img {
+            width: fit-content !important;
+            height: fit-content !important;
+
+            svg {
+                stroke: #70A8FF;
+            }
+        }
+
+        &.full-bg {
+            background-color: #70A8FF;
+            color: #fff;
+        }
+    }
 }

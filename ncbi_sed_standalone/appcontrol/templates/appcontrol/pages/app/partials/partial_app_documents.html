@@ -6,7 +6,7 @@
     </div>
     <button type="button" 
     hx-target="body"
-    hx-get="{% url 'appcontrol:appcontrol-users-create' %}"
+    hx-get="{% url 'appcontrol:appcontrol-app-document-create' %}"
     hx-swap="beforeend" 
     class="button border margin-left">
         <svg width="15" height="15" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,21 +17,17 @@
   </div>
 </div>
 
-<table cellpadding="0" cellspacing="11" class="table__content settings">
+<table cellpadding="5" cellspacing="5" class="table__content appcore grid-5">
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Инициалы</th>
                 <th>Наименование</th>
                 <th>Описание</th>
                 <th>Тип</th>
               </tr>
           </thead>
-            <tbody id="certs-staffs-table-body">
-                <tr class="table-row">
-                    <td>Тип</td>
-                    <td>Тип</td>
-                    <td>Тип</td>
-                    <td>Тип</td>
-                  </tr>
-            </tbody>
-          </table>
+  <tbody id="app-documents">
+    {% include './components/partial_types_documents.html' %}
+  </tbody>
+</table>

@@ -7,6 +7,38 @@
     border-radius: .7rem 0rem .7rem 0rem;
     min-width: 100%;
 
+    &.appcore {
+        th,
+        td {
+            padding: 5px;
+        }
+
+        td {
+            padding-top: 1rem;
+        }
+
+        th {
+            height: 2.3rem;
+            color: $gray;
+            background-color: $bg-white;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table-row {
+            td {
+                border-right: 1px solid #f0f0f0;
+            }
+            td:first-child {
+                border-left: none;
+            }
+    
+            td:last-child {
+                border-right: none;
+            }
+
+        }
+    }
+
     thead,
     tbody,
     tr {
@@ -68,6 +100,29 @@
         minmax(0px, .7fr);
     }
 
+    &.departments {
+        grid-template-columns:
+        minmax(0px, .5fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr);
+    }
+
+    &.grid-2 {
+        grid-template-columns:
+        minmax(0px, .5fr)
+        minmax(0px, 1fr);
+    }
+
+    &.grid-5 {
+        grid-template-columns:
+        minmax(0px, .3fr)
+        minmax(0px, .3fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr);
+    }
+
+
     &.users {
         grid-template-columns:
         minmax(0px, .6fr)
@@ -76,38 +131,6 @@
         minmax(0px, 1fr)
         minmax(0px, 1fr)
         minmax(0px, 1fr);
-
-
-        th,
-        td {
-            padding: 5px;
-        }
-
-        td {
-            padding-top: 1rem;
-        }
-
-        th {
-            height: 2.3rem;
-            color: $gray;
-            background-color: $bg-white;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .table-row {
-            td {
-                border-right: 1px solid #f0f0f0;
-            }
-            td:first-child {
-                border-left: none;
-            }
-    
-            td:last-child {
-                border-right: none;
-            }
-
-        }
-
     }
 
     &.settings {

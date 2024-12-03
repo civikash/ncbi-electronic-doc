@@ -1,0 +1,9 @@
+{% for document in documents %}
+<tr class="table-row">
+    <td>{{ document.id }}</td>
+    <td>{{ document.short_name }}</td>
+    <td>{{ document.name }}</td>
+    <td>{{ document.description }}</td>
+    <td>{{ document.get_type_display }}</td>
+  </tr>
+{% endfor %}

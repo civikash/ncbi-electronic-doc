@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from core.models import TypeDocument
 
 def appcontrol_overview(request):
     if request.htmx:
@@ -16,10 +16,12 @@ def appcontrol_monitoring(request):
 
 
 def appcontrol_app(request):
+    documents = TypeDocument.objects.all()
+    context = {"documents": documents}
     if request.htmx:
-        return render(request, './appcontrol/pages/app/partials/partials_app.html')
+        return render(request, './appcontrol/pages/app/partials/partials_app.html', context)
 
-    return render(request, './appcontrol/pages/app/app_overview.html')
+    return render(request, './appcontrol/pages/app/app_overview.html', context)
 
 
 def appcontrol_users(request):

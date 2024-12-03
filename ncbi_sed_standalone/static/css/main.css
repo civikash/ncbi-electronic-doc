@@ -376,6 +376,35 @@ legend {
   font-weight: 500;
   border: none;
 }
+.button.cancel {
+  max-width: 100%;
+  min-width: 100px !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  border-radius: 0.5rem;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #455A76;
+}
+.button.create {
+  color: #70A8FF;
+  border-radius: 7px;
+  border: 1px solid #70A8FF;
+}
+.button.create.img {
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+}
+.button.create.img svg {
+  stroke: #70A8FF;
+}
+.button.create.full-bg {
+  background-color: #70A8FF;
+  color: #fff;
+}
 
 .modal {
   display: flex; /* Скрываем модальное окно по умолчанию */
@@ -420,7 +449,7 @@ legend {
   padding-inline: 25px;
   background-color: #fff;
   height: 100%;
-  margin-top: 21px;
+  margin-block: 21px;
   border-radius: 0rem 0rem 1rem 1rem;
   display: flex;
   align-items: flex-start;
@@ -985,6 +1014,28 @@ legend {
   border-radius: 0.7rem 0rem 0.7rem 0rem;
   min-width: 100%;
 }
+.table__content.appcore th,
+.table__content.appcore td {
+  padding: 5px;
+}
+.table__content.appcore td {
+  padding-top: 1rem;
+}
+.table__content.appcore th {
+  height: 2.3rem;
+  color: #5B5B63;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.table__content.appcore .table-row td {
+  border-right: 1px solid #f0f0f0;
+}
+.table__content.appcore .table-row td:first-child {
+  border-left: none;
+}
+.table__content.appcore .table-row td:last-child {
+  border-right: none;
+}
 .table__content thead,
 .table__content tbody,
 .table__content tr {
@@ -1031,30 +1082,17 @@ legend {
 .table__content.documents {
   grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 0.7fr);
 }
+.table__content.departments {
+  grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 1fr) minmax(0px, 1fr);
+}
+.table__content.grid-2 {
+  grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 1fr);
+}
+.table__content.grid-5 {
+  grid-template-columns: minmax(0px, 0.3fr) minmax(0px, 0.3fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
+}
 .table__content.users {
   grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
-}
-.table__content.users th,
-.table__content.users td {
-  padding: 5px;
-}
-.table__content.users td {
-  padding-top: 1rem;
-}
-.table__content.users th {
-  height: 2.3rem;
-  color: #5B5B63;
-  background-color: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
-}
-.table__content.users .table-row td {
-  border-right: 1px solid #f0f0f0;
-}
-.table__content.users .table-row td:first-child {
-  border-left: none;
-}
-.table__content.users .table-row td:last-child {
-  border-right: none;
 }
 .table__content.settings {
   grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr);

@@ -1,12 +1,12 @@
 <div class="app_container__content__section__header__subheader">
   <div class="app_container__content__section__header__row">
     <div class="app_container__content__section background-transparent shadow-zero w-75">
-      <h2 class="app_container__content__section__header__subtitle">Подразделение</h2>
+      <h2 class="app_container__content__section__header__subtitle">Подразделения</h2>
       <p class="app_container__content__section__header__subdescription">Управление подразделениями</p>
     </div>
     <button type="button" 
     hx-target="body"
-    hx-get="{% url 'appcontrol:appcontrol-users-create' %}"
+    hx-get="{% url 'appcontrol:appcontrol-app-department-create' %}"
     hx-swap="beforeend" 
     class="button border margin-left">
         <svg width="15" height="15" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,21 +17,15 @@
   </div>
 </div>
 
-<table cellpadding="0" cellspacing="11" class="table__content settings">
+<table cellpadding="0" cellspacing="5" class="table__content appcore departments">
     <thead>
       <tr>
         <th>ID</th>
         <th>Наименование</th>
-        <th>Описание</th>
-        <th>Тип</th>
+        <th>Состав</th>
       </tr>
   </thead>
-    <tbody id="certs-staffs-table-body">
-        <tr class="table-row">
-            <td>Тип</td>
-            <td>Тип</td>
-            <td>Тип</td>
-            <td>Тип</td>
-          </tr>
+    <tbody id="app-departments">
+      {% include './components/partial_departments.html' %}
     </tbody>
   </table>

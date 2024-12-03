@@ -1,0 +1,33 @@
+{% extends "../modal_base.html" %}
+
+{% block modal_content %}
+<form method="POST" class="filters_module_form" id="create-department">
+  {% csrf_token %}
+<div class="modal-body__header">
+  <h2 class="modal-body__header__title">Создать новое подразделение</h2>
+  <p class="modal-body__header__description">Введите наименование подразделения</p>
+</div>
+
+<div class="modal-body__content">
+  <div class="modal-body-column">
+    <div class="form_container">
+        <label for="department-name">Наименование подразделения</label>
+        <input required name="department_name" class="container_input inputing" id="department-name">
+    </div>
+</div>
+</div>
+
+<div class="modal-body__footer">
+  <div class="modal-body__footer__buttons">
+    <button class="button cancel" _="on click trigger closeModal" type="button">Отмена</button>
+    <button class="button create full-bg" 
+    _="on click trigger closeModal" 
+    hx-post="{% url 'appcontrol:appcontrol-app-department-create' %}"
+    hx-target="#app-departments"
+    hx-include="#create-department"
+    hx-swap="innerHTML"
+    type="button">Создать</button>
+  </div>
+</div>
+</form>
+{% endblock modal_content %}
