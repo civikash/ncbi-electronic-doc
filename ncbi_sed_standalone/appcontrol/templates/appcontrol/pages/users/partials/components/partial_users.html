@@ -1,0 +1,10 @@
+{% for user in users %}
+  <tr class="table-row">
+      <td>{{ user.id }}</td>
+      <td>{{ user.user.get_full_name }}</td>
+      <td>{% for role in user.user.role %}{{ role }}{% endfor %}</td>
+      <td>{% for group in user.user.group %}{{ group }}{% endfor %}</td>
+      <td>{{ user.post }}</td>
+      <td>{{ user.department }}</td>
+    </tr>
+{% endfor %}

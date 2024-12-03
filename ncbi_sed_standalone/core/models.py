@@ -109,7 +109,7 @@ class Department(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField("User", verbose_name=_("Учетная запись"), on_delete=models.CASCADE)
-    organisation = models.OneToOneField("Organisation", verbose_name=_("Организация"), on_delete=models.CASCADE, blank=True)
+    organisation = models.ForeignKey("Organisation", verbose_name=_("Организация"), on_delete=models.CASCADE, blank=True)
     department = models.ForeignKey("Department", verbose_name=_("Отдел"), on_delete=models.CASCADE, blank=True)
     post = models.ForeignKey("Post", verbose_name=_("Должность"), on_delete=models.CASCADE, blank=True)
 

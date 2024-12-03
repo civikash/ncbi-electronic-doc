@@ -5,56 +5,51 @@
   {% csrf_token %}
 <div class="modal-body__header">
   <h2 class="modal-body__header__title">Создать нового пользователя</h2>
-  <p class="modal-body__header__description">Создайте виртуальную машину 
+  <p class="modal-body__header__description">Создайте нового пользователя
     заполнив необходимые реквизиты</p>
 </div>
 
 <div class="modal-body__content">
   <div class="modal-body-column">
+    <div class="modal-body-row">
     <div class="form_container">
-        <label for="vm-name">ФИО</label>
-        <input required name="vm_name" class="container_input inputing" id="vm-name">
+        <label for="user-last-name">Фамилия</label>
+        <input required name="last_name" class="container_input inputing" id="user-last-name">
     </div>
     <div class="form_container">
-      <label for="vm-name">Email</label>
-      <input required name="vm_name" class="container_input inputing" id="vm-name">
+      <label for="user-first-name">Имя</label>
+      <input required name="first_name" class="container_input inputing" id="user-first-name">
   </div>
   <div class="form_container">
-    <label for="vm-name">Пароль</label>
-    <input required type="password" name="password" class="container_input inputing" id="vm-name">
+    <label for="user-patronymic">Отчество</label>
+    <input name="patronymic" class="container_input inputing" id="user-patronymic">
+</div>
+</div>
+    <div class="form_container">
+      <label for="user-email">Email</label>
+      <input required name="email" class="container_input inputing" id="user-email">
   </div>
   <div class="form_container">
-    <label for="vm-name">Подтвердите пароль</label>
-    <input required type="password" name="password_confirmed" class="container_input inputing" id="vm-name">
+    <label for="user-password">Пароль</label>
+    <input required type="password" name="password" class="container_input inputing" id="user-password">
   </div>
     <div class="form_container">
-      <label for="vm-system">Информационная система</label>
-      <select name="vm_system" class="container_select select_create" id="vm-system">
-          <option>Отсутсвует</option>
-          {% for system in staffs %}
-              <option value="{{ system.id }}">{{ system.name }}</option>
+      <label for="user-department">Подразделение</label>
+      <select name="department" class="container_select select_create" id="user-department">
+          {% for department in departments %}
+              <option value="{{ department.id }}">{{ department.name }}</option>
           {% endfor %}    
       </select>
       </div>
   <div class="form_container">
-    <label for="vm-owner">Ответственный</label>
-    <select name="vm_owner" class="container_select select_create" id="vm-owner">
-        <option>Отсутсвует</option>
-        {% for owner in staffs %}
-            <option value="{{ owner.id }}">{{ owner.get_full_name }}</option>
+    <label for="user-post">Должность</label>
+    <select name="post" class="container_select select_create" id="user-post">
+        {% for post in posts %}
+            <option value="{{ post.id }}">{{ post.name }}</option>
         {% endfor %}    
     </select>
     </div>
-    <div class="form_container">
-      <label for="justification-number">Обоснование</label>
-      <input required name="vm_justification" type="text" placeholder="Служебная записка № вн." maxlength="5" class="container_input inputing" oninput="getNumber(this)" id="justification-number">
   </div>
-
-  <div class="form_container">
-      <label for="vm-note">Примечание</label>
-      <textarea id="vm-note" name="vm_note" class="container_input inputing textarea"></textarea>
-  </div>
-
 </div>
 
 <div class="modal-body__footer">
@@ -63,8 +58,8 @@
     <button class="button create full-bg" 
     _="on click trigger closeModal" 
     hx-post="{% url 'appcontrol:appcontrol-users-create' %}"
-    hx-target="#hosts-vms"
-    hx-include="#create-vm"
+    hx-target="#app-users"
+    hx-include="#create-user"
     hx-swap="innerHTML"
     type="button">Создать</button>
   </div>

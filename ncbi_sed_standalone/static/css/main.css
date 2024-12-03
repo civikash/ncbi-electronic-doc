@@ -1091,33 +1091,11 @@ legend {
 .table__content.grid-5 {
   grid-template-columns: minmax(0px, 0.3fr) minmax(0px, 0.3fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
 }
-.table__content.users {
+.table__content.grid-6 {
   grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
 }
 .table__content.settings {
   grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr);
-}
-.table__content.settings th,
-.table__content.settings td {
-  padding: 5px;
-}
-.table__content.settings td {
-  padding-top: 1rem;
-}
-.table__content.settings th {
-  height: 2.3rem;
-  color: #5B5B63;
-  background-color: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
-}
-.table__content.settings .table-row td {
-  border-right: 1px solid #f0f0f0;
-}
-.table__content.settings .table-row td:first-child {
-  border-left: none;
-}
-.table__content.settings .table-row td:last-child {
-  border-right: none;
 }
 
 .sidebar_container {

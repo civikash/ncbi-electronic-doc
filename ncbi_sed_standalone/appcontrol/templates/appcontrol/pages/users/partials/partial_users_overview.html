@@ -13,6 +13,20 @@
                 Создать пользователя</button>
     </div>
 </div>
-<div id="app-users" class="app_container__content__section__body margin-top-1">
-    {% include '../components/users_table.html' %}
+<div class="app_container__content__section__body margin-top-1">
+    <table cellpadding="0" cellspacing="11" class="table__content appcore grid-6">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Пользователь</th>
+            <th>Роль</th>
+            <th>Группа</th>
+            <th>Должность</th>
+            <th>Подразделение</th>
+          </tr>
+      </thead>
+        <tbody id="app-users">
+            {% include './components/partial_users.html' %}
+        </tbody>
+      </table>
 </div>

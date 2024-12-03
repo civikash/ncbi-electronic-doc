@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from .views.appcontrol_manage import appcontrol_overview, appcontrol_app, appcontrol_modules, appcontrol_settings, appcontrol_users_create, appcontrol_users
+from .views.appcontrol_users import appcontrol_users_create
+from .views.appcontrol_manage import appcontrol_overview, appcontrol_app, appcontrol_modules, appcontrol_settings, appcontrol_users
 from .views.appcontrol_appsettings import appcontrol_app_departments, type_document_create, post_create, department_create, appcontrol_app_documents, appcontrol_app_posts
 
 app_name = 'appcontrol'

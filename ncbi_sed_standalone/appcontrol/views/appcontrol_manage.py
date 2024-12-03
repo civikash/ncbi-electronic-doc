@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from core.models import TypeDocument
+from core.models import TypeDocument, Staff
 
 def appcontrol_overview(request):
     if request.htmx:
@@ -25,21 +25,14 @@ def appcontrol_app(request):
 
 
 def appcontrol_users(request):
+    staff = Staff.objects.all()
+    context = {"users": staff}
+
     if request.htmx:
-        return render(request, './appcontrol/pages/users/partials/partial_users_overview.html')
+        return render(request, './appcontrol/pages/users/partials/partial_users_overview.html', context)
 
-    return render(request, './appcontrol/pages/users/users_overview.html')
+    return render(request, './appcontrol/pages/users/users_overview.html', context)
 
-
-def appcontrol_users_create(request):
-    if request.method == 'GET' and request.htmx:
-        template = './appcontrol/components/modal/users/modal_create_user.html'
-        
-        context = {'middle_modal': True, 'small_modal': False}
-
-        return render(request, template, context)
-    if request.method == 'POST':
-        pass
 
 def appcontrol_settings(request):
     if request.htmx:
