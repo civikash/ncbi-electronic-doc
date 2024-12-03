@@ -8,6 +8,69 @@
         color: #878787;
     }
 
+    &__result {
+        position: absolute;
+        top: 4rem;
+        background-color: #ffffff;
+        width: 100%;
+        min-height: 3rem;
+        height: fit-content;
+        padding: 1rem;
+        border-radius: .6rem;
+        max-height: 14rem;
+        overflow-y: scroll;
+        gap: 1.3rem;
+        z-index: 999999;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        opacity: 0;
+        transform: translateY(1rem);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+
+        &.hidden {
+            display: none;
+        }
+        &.fade-out {
+            opacity: 0;
+            animation: fadeOut 1s forwards;
+        }
+
+        &.visible {
+            @include flex-column-start;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        &__staff {
+            width: 100%;
+            gap: .2rem;
+            @include flex-column-start;
+           
+           &__row {
+            gap: .3rem;
+            @include flex-row;
+
+            p {
+                font-size: .8rem;
+                margin-top: 1px;
+
+                &:last-child {
+                    padding-left: .6rem;
+                }
+            }
+
+            h4 {
+                font-size: .9rem;
+
+                span {
+                    font-size: .8rem;
+                    padding-left: 1rem;
+                    color: $text-gray;
+                }
+            }
+           }
+        }
+    }
+
     .container_select {
         position: relative;
         width: 100%;

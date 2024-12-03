@@ -883,6 +883,68 @@ legend {
 .form_container label {
   color: #878787;
 }
+.form_container__result {
+  position: absolute;
+  top: 4rem;
+  background-color: #ffffff;
+  width: 100%;
+  min-height: 3rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  max-height: 14rem;
+  overflow-y: scroll;
+  gap: 1.3rem;
+  z-index: 999999;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.form_container__result.hidden {
+  display: none;
+}
+.form_container__result.fade-out {
+  opacity: 0;
+  animation: fadeOut 1s forwards;
+}
+.form_container__result.visible {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+}
+.form_container__result__staff {
+  width: 100%;
+  gap: 0.2rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.form_container__result__staff__row {
+  gap: 0.3rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.form_container__result__staff__row p {
+  font-size: 0.8rem;
+  margin-top: 1px;
+}
+.form_container__result__staff__row p:last-child {
+  padding-left: 0.6rem;
+}
+.form_container__result__staff__row h4 {
+  font-size: 0.9rem;
+}
+.form_container__result__staff__row h4 span {
+  font-size: 0.8rem;
+  padding-left: 1rem;
+  color: #566882;
+}
 .form_container .container_select {
   position: relative;
   width: 100%;
@@ -1456,6 +1518,9 @@ legend {
 .detail_object.body__draft_select__form_control h3 {
   color: #5B5B63;
 }
+.detail_object.body__draft_select__form_control.reviews {
+  padding: 0.3rem;
+}
 .detail_object.body.small {
   max-width: 50%;
 }
@@ -1638,6 +1703,10 @@ legend {
 .fixed.shadow {
   transition: 0.4s ease-in-out;
   box-shadow: rgba(33, 35, 38, 0.17) 0px 10px 10px -10px;
+}
+
+.relative {
+  position: relative;
 }
 
 .background-white {

@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 import mimetypes
+from django.db.models import Q
 from django_htmx.middleware import HtmxDetails
 
 
@@ -25,29 +26,47 @@ def documents_overview(request):
 
 
 def search_staff(request):
-    query = request.GET.get('email', '')
-    results = Staff.objects.filter(user__email__icontains=query)
-    html = render_to_string('./core/components/staffs_list.html', {'staffs': results})
-    return HttpResponse(html)
+    query = request.GET.get("staff", "").strip()
+    search_all = request.GET.get("all", "false").lower() == "true"
+
+    staff_queryset = Staff.objects.select_related("organisation", "department", "post").all()
+
+    if not search_all and query:
+        staff_queryset = staff_queryset.filter(
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(user__patronymic__icontains=query) |
+            Q(post__name__icontains=query) |
+            Q(department__name__icontains=query)
+    )
+
+    return render(request, "./core/components/partials/partial_staff_results.html", {"staff_list": staff_queryset})
 
 
 @require_POST
-def document_review(request, *args, **kwargs):
-    document_uuid = kwargs.get('doc_uuid')
+def document_add_review(request: HtmxHttpRequest) -> HttpResponse:
+    document_uuid = request.POST.get("document_uuid")
+    staff_id = request.POST.get("staff_id")
 
-    document = Document.objects.get(uuid=document_uuid)
+    document = get_object_or_404(Document, uuid=document_uuid)
+    staff = get_object_or_404(Staff, id=staff_id)
 
-    staff = request.POST.get('type')
+    review, created = DocumentVisas.objects.get_or_create(document=document, staff=staff)
+
+    reviews = document.visas.select_related("staff")
+    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", {"reviews": reviews})
 
 
 def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     document_uuid = kwargs.get('doc_uid')
     document = get_object_or_404(Document, uuid=document_uuid)
 
-    context = {'document': document}
+    reviews = DocumentVisas.objects.filter(document=document)
+
+    context = {'document': document, 'reviews': reviews}
 
     if request.htmx:
-        if 'staff' in request.GET:
+        if 'reviews' in request.GET:
             visas = Staff.objects.all()
             context['visas'] = visas
             return render(request, './core/pages/sed/partials/documents/partial_document_select_staff.html', {'visas': visas})

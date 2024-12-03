@@ -1,16 +1,32 @@
 <div class="detail_object body__draft_select__form_control">
-        <div class="form_container">
-            <label>Выберете сотрудника</label>
+        <div class="form_container relative">
+            <label for="search-staff">Выберете сотрудника</label>
             <input type="text" name="staff" 
                 class="container_input inputing bscolor"
-                hx-trigger="input delay:500ms" 
-                hx-target="#staff-list" 
+                hx-trigger="search, keyup delay:200ms changed"
+                hx-get="{% url 'core:core-lk-staff-search' %}"  
+                hx-target="#visas-container-results" 
                 placeholder="Введите ФИО, должность или подразделение..."
-                hx-swap="innerHTML" />
-                <ul id="staff-list"></ul>
+                hx-swap="innerHTML transition:true"
+                name="staff"
+                id="search-staff"
+                _="
+                    on keyup 
+                    if me.value.trim() then 
+                        show #visas-container-results 
+                        remove .fade-out from #visas-container-results
+                        add .visible to #visas-container-results 
+                    else 
+                        remove .visible from #visas-container-results
+                        add .fade-out to #visas-container-results 
+                        wait 300ms 
+                        then hide #visas-container-results
+                "/>
+                <ul class="form_container__result hidden fade-out overflow-y" id="visas-container-results"
+                _="on htmx:afterSwap remove .hidden then add .visible"></ul>
         </div>
-    <div id="document-visas-list" class="detail_object body__draft_select__form_control">
-        
-    </div>
+    <ul id="document-visas-list" class="detail_object body__draft_select__form_control reviews">
+        {% include './partial_document_reviews_list.html' %}
+    </ul>
 
 </div>

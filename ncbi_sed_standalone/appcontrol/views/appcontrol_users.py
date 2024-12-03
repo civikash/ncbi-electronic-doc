@@ -27,6 +27,7 @@ def appcontrol_users_create(request):
         if email and password:
             if User.objects.filter(email=email).exists():
                 return render()
+            
             user = User.objects.create(
                 email=email,
                 password=make_password(password),

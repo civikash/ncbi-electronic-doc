@@ -2,16 +2,20 @@
 <form>
     {% csrf_token %}
     <h3 class="detail_object body__draft_select__title">Визы</h3>
-    <div id="document-visas" class="detail_object body__draft_select">
+    <div id="document-visas" class="detail_object body__draft_select {% if reviews %}focused{% endif %}">
+        {% if not reviews %}
         <img src="{% static 'img/svg/app/_visas.svg' %}" alt="Визирующие">
             <h3 class="detail_object body__draft_select__header">Назначить визирующих лиц</h3>
             <p>Выберите лиц, для осуществления визирования документа перед отправкой на подписание</p>
         <button class="button border gray"
-        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?staff" 
+        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?reviews" 
         hx-target="#document-visas"
         hx-swap="innerHTML transition:true"
         type="button"
         _="on click wait 100ms add .focused to #document-visas">Выбрать визирующих</button>
+        {% else %}
+            {% include './partial_document_select_staff.html' %}
+        {% endif %}
     </div>
     <h3 class="detail_object body__draft_select__title">Подписант</h3>
     <div id="document-signer" class="detail_object body__draft_select">

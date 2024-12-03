@@ -1,0 +1,15 @@
+    {% for visa in reviews %}
+    <li class="detail_object body__draft_select__form_control__staff">
+        {{ visa.staff.user.get_full_name }} - {{ visa.staff.post.name }}
+        <button 
+            hx-include="[name=document_id]" 
+            hx-vals='{"staff_id": "{{ visa.staff.id }}"}' 
+            hx-target="#visas-list"
+            hx-swap="outerHTML"
+            class="btn-remove">
+            Удалить
+        </button>
+    </li>
+    {% empty %}
+    <li>Визирующие лица не добавлены</li>
+    {% endfor %}

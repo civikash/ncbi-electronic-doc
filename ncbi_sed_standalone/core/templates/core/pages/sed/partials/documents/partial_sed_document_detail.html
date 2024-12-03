@@ -12,6 +12,7 @@
         {% if document.draft %}
             Черновик
         {% endif %}
+        <input type="hidden" name="document_uuid" value="{{ document.uuid }}" />
     </h2>
 </div>
     <div class="app_container__content__section__header__row headerline">
