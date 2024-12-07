@@ -43,6 +43,22 @@
         }
     }
 
+    &.delete  {
+        border: 1px solid #e8e8e8;
+        padding: .1rem;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+        width: 7rem !important;
+        border-radius: .5rem;
+        color: #979797;
+        transition: .4s ease-in-out;
+
+        &:hover {
+            border-color: #ffa1a4;
+            color: #ff6369;
+            box-shadow: rgba(255, 145, 149, 1) 0px 1px 0px;
+        }
+    }
+
     &.cancel {
         max-width: 100%;
         min-width: 100px !important;

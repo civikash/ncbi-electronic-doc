@@ -99,6 +99,47 @@
                 &.reviews {
                     padding: .3rem;
                 }
+
+                &__staff {
+                    border: 1px solid #e8e8e8;
+                    border-radius: .4rem;
+                    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+                    padding: .7rem;
+                    margin-top: 2rem;
+                    align-items: center;
+                    background-color: #fafafa;
+                    gap: .7rem;
+                    @include flex-row;
+
+                    .button {
+                        width: fit-content;
+                        font-size: .8rem;
+                        margin: 0;
+                    }
+
+                    &__column {
+                        @include flex-column-start;
+                        gap: .2rem;
+                    }
+
+                    &__row {
+                        @include flex-row;
+                        gap: .5rem;
+                        align-items: center;
+                    }
+                    &__title {
+                        margin-top: 0px !important;
+                        width: fit-content;
+                        font-size: .9rem !important;
+                        color: #2b2b2b;
+                    }
+
+                    &__description {
+                        width: fit-content;
+                        font-size: .9rem !important;
+                        color: $text-gray;
+                    }
+                }
             }
         }
 
@@ -236,6 +277,6 @@
 
 .detail_container {
     position: relative;
-    top: 10rem;
+    top: 15rem;
     height: 100vh;
 }

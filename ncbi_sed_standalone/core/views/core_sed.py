@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from core.models import TypeDocument, Document, Staff, DocumentVisas
+from core.models import DocumentType, Document, Staff, DocumentVisas, CATEGORY_DOCUMENT_CHOICES
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
@@ -54,7 +54,28 @@ def document_add_review(request: HtmxHttpRequest) -> HttpResponse:
     review, created = DocumentVisas.objects.get_or_create(document=document, staff=staff)
 
     reviews = document.visas.select_related("staff")
-    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", {"reviews": reviews})
+
+    context = {'document': document,
+               'reviews': reviews}
+
+    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", context)
+
+@require_POST
+def document_delete_review(request: HtmxHttpRequest) -> HttpResponse:
+    document_uuid = request.POST.get("document_uuid")
+    staff_id = request.POST.get("staff_id")
+
+    document = get_object_or_404(Document, uuid=document_uuid)
+    staff = get_object_or_404(Staff, id=staff_id)
+
+    DocumentVisas.objects.get(document=document, staff=staff).delete()
+
+    reviews = DocumentVisas.objects.filter(document=document)
+
+    context = {'document': document,
+                'reviews': reviews}
+
+    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", context)
 
 
 def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
@@ -62,8 +83,15 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     document = get_object_or_404(Document, uuid=document_uuid)
 
     reviews = DocumentVisas.objects.filter(document=document)
+    documents_url = reverse('core:core-lk-documents')
+    
+    crumbs = [
+        {"name": "Документы", "url": documents_url},
+        {"name": "Мои документы", "url": documents_url},
+        {"name": f"{document.type} №{document.registration_number}", "url": f"{request.path}"},
+    ]
 
-    context = {'document': document, 'reviews': reviews}
+    context = {'document': document, 'reviews': reviews, 'crumbs': crumbs}
 
     if request.htmx:
         if 'reviews' in request.GET:
@@ -79,11 +107,11 @@ def create_document(request):
 
     if request.htmx:
         if request.method == 'GET':
-            document_types = TypeDocument.TYPE_CHOICES
+            document_types = CATEGORY_DOCUMENT_CHOICES
             type_key = [choice[0] for choice in document_types]
             selected_type = request.GET.get('type')
             if selected_type and selected_type in type_key:
-                context = {'types': TypeDocument.objects.filter(type=selected_type)}
+                context = {'types': DocumentType.objects.filter(category=selected_type)}
                 return render(request, './core/pages/sed/partials/documents/partial_document_types.html', context) 
             
             documents_url = reverse('core:core-lk-documents')
@@ -101,7 +129,7 @@ def create_document(request):
         if request.method == 'POST':
             type_id = request.POST.get('type')
             if type_id:
-                doc_type = TypeDocument.objects.get(id=type_id)
+                doc_type = DocumentType.objects.get(id=type_id)
                 document = Document.objects.create(type=doc_type, author_work_card=get_staff(request.user))
                 document.save()
                 template = render_to_string('./core/pages/sed/partials/documents/partial_sed_document_detail.html')

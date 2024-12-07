@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from core.models import Department, TypeDocument, Post
+from core.models import Department, DocumentType, Post, CATEGORY_DOCUMENT_CHOICES
 
 
 def appcontrol_app_documents(request):
     if request.htmx:
-        documents = TypeDocument.objects.all()
+        documents = DocumentType.objects.all()
         context = {"documents": documents}
         return render(request, './appcontrol/pages/app/partials/partial_app_documents.html', context)
 
@@ -13,7 +13,7 @@ def type_document_create(request):
     if request.method == 'GET' and request.htmx:
         template = './appcontrol/components/modal/app/modal_create_type_document.html'
 
-        type_documents = TypeDocument.TYPE_CHOICES
+        type_documents = CATEGORY_DOCUMENT_CHOICES
         
         context = {'middle_modal': True, 'small_modal': False, 'type_documents': type_documents}
 
@@ -25,13 +25,13 @@ def type_document_create(request):
         type_document_description = request.POST.get('type_document_description')
         type_document = request.POST.get('type_document')
 
-        documents = TypeDocument.objects.all()
+        documents = DocumentType.objects.all()
         context = {"documents": documents}
 
         try:
-            TypeDocument.objects.create(name=document_name, 
+            DocumentType.objects.create(name=document_name, 
                                         short_name=document_short_name,
-                                        type=type_document,
+                                        category=type_document,
                                         description=type_document_description)
             
             return render(request, './appcontrol/pages/app/partials/components/partial_types_documents.html', context)

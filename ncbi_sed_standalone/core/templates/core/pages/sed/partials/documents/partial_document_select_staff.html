@@ -19,8 +19,9 @@
                     else 
                         remove .visible from #visas-container-results
                         add .fade-out to #visas-container-results 
-                        wait 300ms 
+                        wait 200ms 
                         then hide #visas-container-results
+                        set #visas-container-results's innerHTML to ''
                 "/>
                 <ul class="form_container__result hidden fade-out overflow-y" id="visas-container-results"
                 _="on htmx:afterSwap remove .hidden then add .visible"></ul>

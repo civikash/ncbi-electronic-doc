@@ -10,7 +10,7 @@
 
     &__result {
         position: absolute;
-        top: 4rem;
+        top: 4.3rem;
         background-color: #ffffff;
         width: 100%;
         min-height: 3rem;
@@ -23,8 +23,8 @@
         z-index: 999999;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
         opacity: 0;
-        transform: translateY(1rem);
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateY(3rem);
+        transition: opacity 0.1s ease, transform 0.6s ease;
 
         &.hidden {
             display: none;
@@ -37,6 +37,7 @@
         &.visible {
             @include flex-column-start;
             opacity: 1;
+            transition: .5s ease-in-out;
             transform: translateY(0);
         }
 
