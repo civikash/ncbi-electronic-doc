@@ -8,6 +8,12 @@ function initFileUpload(fileInputSelector, fileListSelector) {
     }
 }
 
+function updateInputFiles(input, filesArray) {
+    const dataTransfer = new DataTransfer();
+    filesArray.forEach(file => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+  }
+
 function handleFileChange(fileInput, fileList) {
     const files = Array.from(fileInput.files);
     updateFileList(files, fileList, fileInput);

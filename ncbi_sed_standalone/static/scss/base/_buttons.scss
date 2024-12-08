@@ -9,6 +9,12 @@
         border-radius: .2rem;
         background-color: #5580FF;
         color: $bg-white;    
+
+        &.border {
+            background-color: #fff;
+            color: #5580FF;
+            border: 1px solid #5580FF;
+        }
     }
 
     &.none-active {

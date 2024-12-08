@@ -1,0 +1,11 @@
+{% for organisation in organisations %}
+<tr class="table-row">
+    <td>{{ organisation.id }}</td>
+    <td>{{ organisation.short_name }}</td>
+    <td>{{ organisation.inn }}</td>
+    <td>{{ organisation.ogrn }}</td>
+    <td>{{ organisation.city }}</td>
+    <td>{{ organisation.region }}</td>
+    <td>{{ organisation.legal_address }}</td>
+  </tr>
+{% endfor %}

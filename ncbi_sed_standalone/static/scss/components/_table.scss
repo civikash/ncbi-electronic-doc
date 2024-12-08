@@ -132,6 +132,17 @@
         minmax(0px, 1fr);
     }
 
+    &.grid-7{
+        grid-template-columns:
+        minmax(0px, .6fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr)
+        minmax(0px, 1fr);
+    }
+
     &.settings {
         grid-template-columns:
         minmax(0px, .5fr)

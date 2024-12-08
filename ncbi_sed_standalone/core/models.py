@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'patronymic']
 
     def get_full_name(self):
         """Возвращает полное имя (ФИО)"""
@@ -136,30 +136,35 @@ class Staff(models.Model):
         verbose_name = _("Сотрудник")
         verbose_name_plural = _("Сотрудники")
 
-class DirectorsOrganisations(models.Model):
-    first_name = models.CharField(_("Имя"), max_length=100)
-    last_name = models.CharField(_("Фамилия"), max_length=100)
-    patronymic = models.CharField(_("Отчество"), max_length=100, blank=True, null=True)
-    post = models.ForeignKey(Post, verbose_name=_("Должность"), on_delete=models.CASCADE, blank=True)
-
-    class Meta:
-        verbose_name = _("Руководитель организации")
-        verbose_name_plural = _("Руководители организаций")
-
 class InteractingOrganisations(models.Model):
     full_name = models.CharField(_("Полное наименование организации"), max_length=255)
     short_name = models.CharField(_("Сокращенное наименование организации"), max_length=155)
     inn = models.CharField(_("ИНН"), max_length=10)
     ogrn = models.CharField(_("ОГРН"), max_length=13)
-    city = models.CharField(_("Город"), max_length=50)
-    region = models.CharField(_("Регион"), max_length=50)
-    index = models.CharField(_("Индекс"), max_length=50)
-    legal_address = models.CharField(_("Юридический адрес"), max_length=120)
-    director = models.ForeignKey(DirectorsOrganisations, verbose_name=_("Руководитель"), on_delete=models.CASCADE)
+    city = models.CharField(_("Город"), max_length=50, null=True)
+    region = models.CharField(_("Регион"), max_length=50, null=True)
+    index = models.CharField(_("Индекс"), max_length=50, null=True)
+    legal_address = models.CharField(_("Юридический адрес"), max_length=120, null=True)
     
     class Meta:
         verbose_name = _("Взаимодействующая организация")
         verbose_name_plural = _("Взаимодействующие организации")
+
+class DirectorsOrganisations(models.Model):
+    first_name = models.CharField(_("Имя"), max_length=100)
+    last_name = models.CharField(_("Фамилия"), max_length=100)
+    patronymic = models.CharField(_("Отчество"), max_length=100, blank=True, null=True)
+    post = models.CharField(_("Отчество"), max_length=120, blank=True, null=False)
+    organisation = models.OneToOneField(InteractingOrganisations, verbose_name=_("Организация"), on_delete=models.CASCADE)
+
+    def get_full_name(self):
+        """Возвращает полное имя (ФИО)"""
+        parts = [self.last_name, self.first_name, self.patronymic]
+        return " ".join(filter(None, parts))
+
+    class Meta:
+        verbose_name = _("Руководитель организации")
+        verbose_name_plural = _("Руководители организаций")
 
 class DocumentType(models.Model):
     category = models.CharField(max_length=55, choices=CATEGORY_DOCUMENT_CHOICES)
@@ -183,19 +188,32 @@ class Document(models.Model):
     category = models.CharField(max_length=55, choices=CATEGORY_DOCUMENT_CHOICES)
     brief = models.CharField(_("Краткое описание"), max_length=250, null=True)
     draft = models.BooleanField(_("Черновик"), default=True)
-    case = models.ForeignKey(Cases, verbose_name=_("Дело"), on_delete=models.CASCADE)
+    case = models.ForeignKey(Cases, verbose_name=_("Дело"), on_delete=models.CASCADE, null=True)
     document_sheets = models.IntegerField(_("Листов документа"), null=True)
     application_sheets = models.IntegerField(_("Листов приложения"), null=True)
-    direction = models.ForeignKey("Staff", verbose_name=_("Направление"), on_delete=models.CASCADE, related_name='+', null=True)
-    addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='+', null=True)
     author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор рабочей карточки"), on_delete=models.CASCADE)
     note = models.CharField(_("Примечание"), max_length=250, null=True)
     registration_number = models.CharField(_("Регистрационный номер"), max_length=110)
     created_at = models.DateTimeField(_("Дата создания в системе"), auto_now_add=True)
 
+    class Meta:
+        abstract = True
+
+
+class IncomingDocuments(Document):
+    type = models.ForeignKey(DocumentType, verbose_name=_("Тип документа"), on_delete=models.CASCADE)
+    shared_access = models.BooleanField(_("Общий доступ"), default=True)
+    signatory = models.ForeignKey(DirectorsOrganisations, verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='incoming_document_signatory', null=True)
+    outgoing_number = models.CharField(_("Исходящий номер"), max_length=50, null=True)
+    addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='incoming_addressee', null=True)
+    date = models.DateField(_("Дата регистрации"), auto_now_add=False, null=True)
+
     def save(self, *args, **kwargs):
+        if not self.category:
+            self.category = 'INCOMING_DOCUMENT'
+        
         if not self.registration_number:
-            last_document = Document.objects.filter(category=self.category).order_by('registration_number').last()
+            last_document = IncomingDocuments.objects.filter(category=self.category).order_by('registration_number').last()
             
             if last_document:
                 match = re.search(r'(\d+)$', last_document.registration_number)
@@ -208,19 +226,16 @@ class Document(models.Model):
 
         super().save(*args, **kwargs)
 
-    class Meta:
-        abstract = True
-
-
-class IncomingDocuments(Document):
-    shared_access = models.BooleanField(_("Общий доступ"), default=True)
-    signatory = models.ForeignKey(InteractingOrganisations, verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='incoming_document_incoming', null=True)
+class OutgoingDocuments(Document):
+    type = models.ForeignKey(DocumentType, verbose_name=_("Тип документа"), on_delete=models.CASCADE)
+    shared_access = models.BooleanField(_("Общий доступ"), default=False)
+    signatory = models.ForeignKey(Staff, verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='outgoing_document_signatory', null=True)
     outgoing_number = models.CharField(_("Исходящий номер"), max_length=50)
     date = models.DateField(_("Дата регистрации"), auto_now_add=False, null=True)
 
     def save(self, *args, **kwargs):
         if not self.category:
-            self.category = 'INCOMING_DOCUMENT'
+            self.category = 'OUTGOING_DOCUMENT'
 
         super().save(*args, **kwargs)
 
@@ -232,7 +247,10 @@ class CoverLetters(models.Model):
 
 
 class InternalDocuments(Document):
+    type = models.ForeignKey(DocumentType, verbose_name=_("Тип документа"), on_delete=models.CASCADE)
     signatory = models.ForeignKey(Staff, verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='internal_document_signatory', null=True)
+    direction = models.ForeignKey("Staff", verbose_name=_("Направление"), on_delete=models.CASCADE, related_name='+', null=True)
+    addressee = models.ForeignKey("Staff", verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='internal_addressee', null=True)
     readers = models.ManyToManyField("Staff", verbose_name=_("Читатели"), related_name='internal_document_readers')
     executor = models.ForeignKey(Staff, verbose_name=_("Исполнитель"), on_delete=models.CASCADE, related_name='internal_document_executor')
 
@@ -248,6 +266,14 @@ class DocumentVisas(models.Model):
     staff = models.ForeignKey("Staff", verbose_name=_("Сотрудник"), on_delete=models.CASCADE, related_name='document_visas_staff', null=True)
     visa = models.BooleanField(_("Статус визирования"), default=False)
     note = models.CharField(_("Примечание"), max_length=120)
+
+class DocumentFile(models.Model):
+    def custom_upload_path(self, filename):
+        return os.path.join(settings.MEDIA_ROOT, f'documents/{self.document.type}/{self.document.uuid}')
+    
+    document = models.ForeignKey(IncomingDocuments, on_delete=models.CASCADE, related_name="files")
+    file = models.FileField(upload_to=custom_upload_path)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
 # class DocumentFile(models.Model):
 #     document = models.ForeignKey("Document", verbose_name=_("Документ в системе"), on_delete=models.CASCADE, related_name='files')

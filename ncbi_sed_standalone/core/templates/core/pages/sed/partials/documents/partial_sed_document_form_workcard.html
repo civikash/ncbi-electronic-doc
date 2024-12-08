@@ -1,32 +1,42 @@
 {% load static %}
 <form>
     {% csrf_token %}
-    <h3 class="detail_object body__draft_select__title">Визы</h3>
-    <div id="document-visas" class="detail_object body__draft_select {% if reviews %}focused{% endif %}">
-        {% if not reviews %}
-        <img src="{% static 'img/svg/app/_visas.svg' %}" alt="Визирующие">
-            <h3 class="detail_object body__draft_select__header">Назначить визирующих лиц</h3>
-            <p>Выберите лиц, для осуществления визирования документа перед отправкой на подписание</p>
-        <button class="button border gray"
-        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?reviews" 
-        hx-target="#document-visas"
-        hx-swap="innerHTML transition:true"
-        type="button"
-        _="on click wait 100ms add .focused to #document-visas">Выбрать визирующих</button>
-        {% else %}
-            {% include './partial_document_select_staff.html' %}
-        {% endif %}
-    </div>
+    {% if not document.category == 'INCOMING_DOCUMENT' %}
+        <h3 class="detail_object body__draft_select__title">Визы</h3>
+        <div id="document-visas" class="detail_object body__draft_select {% if reviews %}focused{% endif %}">
+            {% if not reviews %}
+            <img src="{% static 'img/svg/app/_visas.svg' %}" alt="Визирующие">
+                <h3 class="detail_object body__draft_select__header">Назначить визирующих лиц</h3>
+                <p>Выберите лиц, для осуществления визирования документа перед отправкой на подписание</p>
+            <button class="button border gray"
+            hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?reviews" 
+            hx-target="#document-visas"
+            hx-swap="innerHTML transition:true"
+            type="button"
+            _="on click wait 100ms add .focused to #document-visas">Выбрать визирующих</button>
+            {% else %}
+                {% include './partial_document_select_staff.html' %}
+            {% endif %}
+        </div>
+    {% endif %}
     <h3 class="detail_object body__draft_select__title">Подписант</h3>
-    <div id="document-signer" class="detail_object body__draft_select">
-        <img src="{% static 'img/svg/app/_signer.svg' %}" alt="Подписант">
+    <div id="document-signer" class="detail_object body__draft_select {% if document.signatory %}focused{% endif %}">
+        {% if not document.signatory %}
+            <img src="{% if not document.category == 'INCOMING_DOCUMENT' %}
+                {% static 'img/svg/app/_signer.svg' %} 
+            {% else %}
+                {% static 'img/svg/app/_signer_organisation.svg' %}
+            {% endif %}"alt="Подписант документа">
             <h3 class="detail_object body__draft_select__header">Выберите подписанта документа</h3>
-            <p>Укажите лицо, которое подпишет документ</p>
+            <p>Укажите лицо, подписываемое документ</p>
         <button class="button border gray" type="button"
         hx-target="#document-signer"
         hx-swap="innerHTML transition:true"
-        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?staff" 
+        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?signer" 
         _="on click wait 100ms add .focused to #document-signer">Выбрать подписанта</button>
+        {% else %}
+            {% include './detail/signer/partial_signers.html' %}
+        {% endif %}
     </div>
     <h3 class="detail_object body__draft_select__title">Адресат</h3>
     <div id="document-addressee" class="detail_object body__draft_select">
@@ -36,10 +46,11 @@
         <button class="button border gray"
         hx-target="#document-addressee" 
         hx-swap="innerHTML transition:true"
-        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?staff" 
+        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?addressee" 
         type="button"
         _="on click wait 100ms add .focused to #document-addressee">Выбрать адресата</button>
     </div>
+    {% if not document.category == 'INCOMING_DOCUMENT' %}
     <h3 class="detail_object body__draft_select__title">Направление</h3>
     <div id="document-direction" class="detail_object body__draft_select">
         <img src="{% static 'img/svg/app/_direction.svg' %}" alt="Направление">
@@ -52,4 +63,5 @@
         class="button border gray" type="button"
         _="on click wait 100ms add .focused to #document-addressee">Выбрать адресата</button>
     </div>
+    {% endif %}
 </form>

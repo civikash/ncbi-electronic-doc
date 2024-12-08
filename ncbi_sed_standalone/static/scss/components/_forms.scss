@@ -2,7 +2,13 @@
     @include flex-column-start;
     gap: 8px;
     width: 100%;
-    font-size: 1rem;
+    font-size: .8rem;
+
+    &__row {
+        @include flex-row;
+        width: 100%;
+        gap: 1rem;
+    }
 
     label {
         color: #878787;
@@ -50,6 +56,10 @@
             gap: .3rem;
             @include flex-row;
 
+            &.organisation {
+                gap: .6rem;
+            }
+
             p {
                 font-size: .8rem;
                 margin-top: 1px;
@@ -68,6 +78,15 @@
                     color: $text-gray;
                 }
             }
+           }
+
+           &.organisation {
+                p {
+                    &:last-child {
+                        padding-left: 0rem;
+                    } 
+                }
+
            }
         }
     }
@@ -131,8 +150,8 @@
     
 
     .container_input {
-        padding: 0 13px 0 15px;
-        height: 2.5rem;
+        padding: 0 8px 0 11px;
+        height: 2.2rem;
         line-height: 20px;
         letter-spacing: 0.5px;
         width: 100%;

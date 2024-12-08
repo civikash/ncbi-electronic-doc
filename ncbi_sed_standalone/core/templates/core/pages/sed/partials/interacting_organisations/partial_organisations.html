@@ -1,0 +1,55 @@
+<div class="app_container__content__section__header">
+    <h1 class="app_container__content__section__header__title">Взаимодействующие организации</h1>
+</div>
+
+<div class="app_container__content__section__body">
+    <div class="app_container__content__section__body row cards-panel">
+        <a
+        hx-get="{% url 'core:core-lk-recipients-new' %}"
+        hx-target="#app-content-section"
+        hx-swap="innerHTML transition:true"
+        hx-push-url="false"
+        class="card_container flex-2">
+            <div class="card_container__header">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.70001 18H4.15002C2.72002 18 2 17.28 2 15.85V4.15002C2 2.72002 2.72002 2 4.15002 2H8.45001C9.88001 2 10.6 2.72002 10.6 4.15002V6" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.3702 8.41998V19.58C17.3702 21.19 16.5702 22 14.9602 22H9.12018C7.51018 22 6.7002 21.19 6.7002 19.58V8.41998C6.7002 6.80998 7.51018 6 9.12018 6H14.9602C16.5702 6 17.3702 6.80998 17.3702 8.41998Z" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.3994 6V4.15002C13.3994 2.72002 14.1194 2 15.5494 2H19.8494C21.2794 2 21.9994 2.72002 21.9994 4.15002V15.85C21.9994 17.28 21.2794 18 19.8494 18H17.3694" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 11H14" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 14H14" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 22V19" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                                                                    
+                <h3>Добавить организацию</h3>
+            </div>
+            <div class="card_container__body">
+                <p>
+                    Укажите данные организации и информацию об ее руководителе
+                </p>
+            </div>
+            <div class="card_container__footer">
+                <span>Перейти</span>
+            </div>
+        </a>
+    </div>
+    <div class="app_container__content__section__body">
+        <h2>Все организации</h2>    
+        <p>Все взаимодействующие организации зарегистрированные в системе</p>   
+        <table cellpadding="5" cellspacing="5" class="table__content appcore grid-7">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Наименование</th>
+                <th>ИНН</th>
+                <th>ОГРН</th>
+                <th>Город</th>
+                <th>Регион</th>
+                <th>Адрес</th>
+              </tr>
+          </thead>
+        <tbody id="app-documents">
+            {% include './partial_oranisations_table.html' %}
+        </tbody>
+</table>
+    </div>
+</div>

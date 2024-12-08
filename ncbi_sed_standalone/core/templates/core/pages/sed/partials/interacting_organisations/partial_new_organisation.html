@@ -1,0 +1,118 @@
+<div class="app_container__content__section__header">
+    {% include "core/components/breadcrumb.html" %}
+    <h1 class="app_container__content__section__header__title">Добавление новой организации</h1>
+</div>
+
+
+<form id="new-organisation"
+hx-post="{% url 'core:core-lk-recipients-new' %}"
+hx-target="#app-content-section"
+hx-swap="innerHTML transition:true"
+hx-push-url="false">
+{% csrf_token %}
+<div class="organisation_create__container">
+    <div id="organisation-information" class="organisation_create__content">
+        <div id="organisation-information-header" class="organisation_create__content__header">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.70001 18H4.15002C2.72002 18 2 17.28 2 15.85V4.15002C2 2.72002 2.72002 2 4.15002 2H8.45001C9.88001 2 10.6 2.72002 10.6 4.15002V6" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17.3702 8.41998V19.58C17.3702 21.19 16.5702 22 14.9602 22H9.12018C7.51018 22 6.7002 21.19 6.7002 19.58V8.41998C6.7002 6.80998 7.51018 6 9.12018 6H14.9602C16.5702 6 17.3702 6.80998 17.3702 8.41998Z" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.3994 6V4.15002C13.3994 2.72002 14.1194 2 15.5494 2H19.8494C21.2794 2 21.9994 2.72002 21.9994 4.15002V15.85C21.9994 17.28 21.2794 18 19.8494 18H17.3694" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 11H14" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 14H14" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 22V19" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                
+            <h1>Реквизиты организации</h1>
+            <p>Заполните представленные реквизиты, для добавление новой организации в систему</p>
+        </div>
+        <div class="form_container">
+            <label for="org-short-name">Полное наименование организации</label>
+            <input required name="full_name" type="text" class="container_input inputing" id="org-short-name">
+        </div>
+        <div class="form_container">
+            <label for="org-full-name">Сокращенное наименование организации</label>
+            <input required name="short_name" type="text" class="container_input inputing" id="org-full-name">
+        </div>
+        <div class="organisation_create__content__row">
+            <div class="form_container">
+                <label for="org-inn">ИНН</label>
+                <input required name="inn" type="text" class="container_input inputing" id="org-inn">
+            </div>
+            <div class="form_container">
+                <label for="org-ogrn">ОГРН</label>
+                <input name="ogrn" type="text" class="container_input inputing" id="org-ogrn">
+            </div>
+        </div>
+        <div class="organisation_create__content__row">
+            <div class="form_container">
+                <label for="org-index">Индекс</label>
+                <input name="index" type="text" class="container_input inputing" id="org-index">
+            </div>
+            <div class="form_container">
+                <label for="org-city">Город</label>
+                <input name="city" type="text" class="container_input inputing" id="org-city">
+            </div>
+            <div class="form_container">
+                <label for="org-region">Регион</label>
+                <input name="region" type="text" class="container_input inputing" id="org-region">
+            </div>
+        </div>
+        <div class="form_container">
+            <label for="legal-address">Юридический адрес</label>
+            <input name="legal_address" type="text" class="container_input inputing" id="legal-address">
+        </div>
+
+        
+        <div id="organisation-director" class="organisation_create__content__over">
+            <div class="organisation_create__content__header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.70001 18H4.15002C2.72002 18 2 17.28 2 15.85V4.15002C2 2.72002 2.72002 2 4.15002 2H8.45001C9.88001 2 10.6 2.72002 10.6 4.15002V6" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.3702 8.41998V19.58C17.3702 21.19 16.5702 22 14.9602 22H9.12018C7.51018 22 6.7002 21.19 6.7002 19.58V8.41998C6.7002 6.80998 7.51018 6 9.12018 6H14.9602C16.5702 6 17.3702 6.80998 17.3702 8.41998Z" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.3994 6V4.15002C13.3994 2.72002 14.1194 2 15.5494 2H19.8494C21.2794 2 21.9994 2.72002 21.9994 4.15002V15.85C21.9994 17.28 21.2794 18 19.8494 18H17.3694" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.8712 13.7565C11.8379 13.7531 11.7979 13.7531 11.7612 13.7565C10.9679 13.7298 10.3379 13.0798 10.3379 12.2798C10.3379 11.4631 10.9979 10.7998 11.8179 10.7998C12.6346 10.7998 13.2979 11.4631 13.2979 12.2798C13.2946 13.0798 12.6646 13.7298 11.8712 13.7565Z" stroke="#70A8FF" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2046 14.9868C9.39794 15.5268 9.39794 16.4068 10.2046 16.9435C11.1213 17.5568 12.6246 17.5568 13.5413 16.9435C14.3479 16.4035 14.3479 15.5235 13.5413 14.9868C12.6279 14.3768 11.1246 14.3768 10.2046 14.9868Z" stroke="#70A8FF" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>           
+                <h1>Руководитель организации</h1>
+                <p>Укажите информацию о руководителе добавляемой организации</p>
+            </div>
+            <div class="organisation_create__content__row">
+                <div class="form_container">
+                    <label for="org-director-last-name">Фамилия</label>
+                    <input required name="last_name" type="text" class="container_input inputing" id="org-director-last-name">
+                </div>
+                <div class="form_container">
+                    <label for="org-director-first-name">Имя</label>
+                    <input required name="first_name" type="text" class="container_input inputing" id="org-director-first-name">
+                </div>
+                <div class="form_container">
+                    <label for="org-director-patronymic">Отчество</label>
+                    <input required name="patronymic" type="text" class="container_input inputing" id="org-director-patronymic">
+                </div>
+            </div>
+            <div class="form_container">
+                <label for="org-director-post">Должность</label>
+                <input required name="post" type="text" class="container_input inputing" id="org-director-post">
+            </div>
+            <div class="organisation_create__content__footer">
+                <div class="organisation_create__content__footer__buttons">
+                    <button class="button border" type="button"
+                    _="on click 
+                        remove .opacity_hidden from #organisation-information-header
+                        remove .fade-bottom from #organisation-director"
+                    >Назад</button>
+                    <button class="button base border" type="submit">Создать</button>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="organisation_create__content__footer">
+            <button class="button base border" type="button"
+            _="on click 
+            add .opacity_hidden to #organisation-information-header
+            add .fade-bottom to #organisation-director">Далее</button>
+        </div>
+    </div>
+
+
+</div>
+</form>
