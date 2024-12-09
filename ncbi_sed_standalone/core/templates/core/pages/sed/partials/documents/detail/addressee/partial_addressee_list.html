@@ -2,23 +2,23 @@
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#059051" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M7.75 11.9999L10.58 14.8299L16.25 9.16992" stroke="#059051" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>   
+        </svg>     
     <div class="detail_object body__draft_select__form_control__staff__column">     
         <div class="detail_object body__draft_select__form_control__staff__row">
-            <p class="detail_object body__draft_select__form_control__staff__title">{{ document.signatory.get_full_name }}</p>
-            <span class="detail_object body__draft_select__form_control__staff__description">{{ document.signatory.post }}</span>
+            <p class="detail_object body__draft_select__form_control__staff__title">{{ document.addressee.user.get_full_name }}</p>
+            <span class="detail_object body__draft_select__form_control__staff__description">{{ document.addressee.post }}</span>
         </div>
 
-    <span class="detail_object body__draft_select__form_control__staff__description">{{ document.signatory.organisation.short_name }}</span>
+    <span class="detail_object body__draft_select__form_control__staff__description">{{ document.addressee.department }}</span>
 </div>
 <button 
-hx-target="#document-signer" 
+hx-target="#document-addressee" 
 hx-swap="innerHTML transition:true"
 hx-trigger="click delay:200ms"
-hx-post="{% url 'core:document-delete-signer' %}"
+hx-post="{% url 'core:document-delete-addressee' %}"
 hx-vals='{"document_uuid": "{{ document.uuid }}"}'
 class="button delete" type="button"
 _="on click 
-    add .focused to #document-signer
-    remove .selected from #document-signer">Удалить</button>
+    add .focused to #document-addressee
+    remove .selected from #document-addressee">Удалить</button>
 </li>

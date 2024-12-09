@@ -41,6 +41,14 @@
             color: $text-gray;
         }
 
+        &.white {
+            border: 1px solid #e8e8e8;
+            background-color: #fff;
+            width: 7rem !important;
+            color: #979797;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+        }
+
         &.create {
             background-color: #70A8FF;
             color: $bg-white;

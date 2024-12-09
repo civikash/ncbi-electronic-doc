@@ -3,7 +3,7 @@ from django.urls import path
 from .views import core_interacting_organisations
 from .views import core_document
 from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, authenticate_user
-from .views.core_sed import documents_overview, search_staff, incoming_overview, signdocuments_overview, recipients_overview
+from .views.core_sed import search_staff, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
 from django.contrib.auth.decorators import login_required
 
@@ -14,17 +14,22 @@ urlpatterns = [
     path('space/', login_required(lk_overview), name='core-lk'),
     path('login/', login_overview, name='core-lk-login'),
     path('login/auth/', authenticate_user, name='core-lk-login-auth'),
-
+    
     #СЭД
     path('staff-search/', login_required(search_staff), name='core-lk-staff-search'),
     path('organisation-search/', login_required(core_interacting_organisations.search_organisation), name='core-lk-organisation-search'),
-    path('documents/', login_required(documents_overview), name='core-lk-documents'),
+    path('documents/', login_required(core_document.documents_overview), name='core-lk-documents'),
     path('documents/add-review/', login_required(core_document.document_add_review), name='core-lk-document-review'),
     path('documents/delete-review/', login_required(core_document.document_delete_review), name='core-lk-document-delete-review'),
     path('documents/add-signer/', login_required(core_document.document_add_signer), name='document-add-signer'),
     path('documents/delete-signer/', login_required(core_document.document_delete_signer), name='document-delete-signer'),
+    path('documents/add-addressee/', login_required(core_document.document_add_addressee), name='document-add-addressee'),
+    path('documents/delete-addressee/', login_required(core_document.document_delete_addressee), name='document-delete-addressee'),
     path('documents/<str:doc_uid>/', login_required(core_document.document_detail), name='core-lk-document-detail'),
-    
+    path('documents/<str:doc_uid>/upload-files/', login_required(core_document.document_upload_files), name='document-upload-files'),
+    path('documents/<str:doc_uuid>/preview-file/', login_required(core_document.get_file_preview), name='document-preview-file'),
+    path('documents/<str:doc_uuid>/update-requisites/', login_required(core_document.document_update_requisites), name='document-update-requisites'),
+
     path('incoming/', login_required(incoming_overview), name='core-lk-incoming'),
     path('signing/', login_required(signdocuments_overview), name='core-lk-signing'),
     path('recipients/', login_required(recipients_overview), name='core-lk-recipients'),

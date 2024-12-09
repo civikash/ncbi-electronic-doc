@@ -20,15 +20,11 @@ def get_staff(user):
 def breadcrumb():
     pass
 
-def documents_overview(request):
-    if request.htmx:
-        return render(request, './core/pages/sed/partials/partial_sed_documents.html')
-    return render(request, './core/pages/sed/sed_documents.html')
-
 
 def search_staff(request):
-    query = request.GET.get("staff", "").strip()
+    query = request.GET.get("q", "").strip()
     search_all = request.GET.get("all", "false").lower() == "true"
+    search_type = request.GET.get("search_type")
 
     staff_queryset = Staff.objects.select_related("organisation", "department", "post").all()
 
@@ -40,7 +36,8 @@ def search_staff(request):
             Q(post__name__icontains=query) |
             Q(department__name__icontains=query)
     )
-
+    if search_type == 'addressee':
+        return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"staff_list": staff_queryset})
     return render(request, "./core/components/partials/partial_staff_results.html", {"staff_list": staff_queryset})
 
 

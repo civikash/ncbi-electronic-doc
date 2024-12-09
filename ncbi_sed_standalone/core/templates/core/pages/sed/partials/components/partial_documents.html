@@ -1,0 +1,16 @@
+{% for document in documents %}
+<tr class="table-row">
+    <td>{{ document.type }}</td>
+    <td>{{ document.registration_number }}<br>{{ document.created_at }}</td>
+    <td>{{ document.signatory }}</td>
+    <td>{{ document.addressee }}</td>
+    <td>{{ document.brief }}</td>
+    <td>{{ document.get_status_display }}</td>
+    <td><a 
+        hx-target="#app-content-section"
+        hx-swap="innerHTML transition: true"
+        hx-push-url="true"
+        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}"
+        class="button border gray" href="#!">Смотреть</a></td>
+</tr>
+{% endfor %}

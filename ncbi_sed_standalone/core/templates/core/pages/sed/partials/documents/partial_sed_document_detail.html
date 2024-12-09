@@ -83,7 +83,8 @@
                     <h4 class="detail_object body__information__title">
                         Файлы
                     </h4>
-                    <form hx-encoding='multipart/form-data' hx-trigger="change" hx-post='/upload'>
+                    <form hx-encoding='multipart/form-data' hx-trigger="change" hx-swap="innerHTML transition: true" hx-target="#upload-files-list" hx-post="{% url 'core:document-upload-files' doc_uid=document.uuid %}">
+                        {% csrf_token %}
                         <div class="upload_files__container">
                             <label
                             for="document-files"
@@ -101,24 +102,34 @@
                                 call updateInputFiles(input, allFiles)
                                 trigger change on input">
                                 <img src="{% static 'img/svg/app/_upload_files.svg' %}" alt="Загрузка файлов">
-                                <h3 class="upload_files__container__title">Перетащите файлы в эту область или Выберите</h3>
-                                <input hidden multiple id="document-files" name="document_files"  hx-target="#upload-files-list" 
-                                hx-swap="beforeend" 
-                                type="file">
+                                <h3 class="upload_files__container__title">Перетащите файлы в эту область или нажмите, чтобы выбрать</h3>
+                                <input hidden multiple id="document-files" name="document_files" type="file">
                             </label>
-
-                            <ul id="upload-files-list" class="upload_files__container__content__files">
-
-                            </ul>
                         </div>
+                        <ul id="upload-files-list" class="upload_files__container__content__files">
+                            {% if document_files %}
+                                {% include './detail/files/partial_document_files.html' %}
+                            {% endif %}
+                        </ul>
                 </form>
                 </div>
             </div>
         </div>
     </div>
-    <div id="moving-container" class="app_container__content__section__preview">
+    <div id="moving-container" 
+    class="app_container__content__section__preview">
         <div class="app_container__content__section__preview__file">
-            <h1>Файл</h1>
+            <img class="app_container__content__section__preview__file__image"
+            hx-trigger="load delay:100ms"
+            hx-push-url="false"
+            hx-swap="none"
+            hx-get="{% url 'core:document-preview-file' doc_uuid=document.uuid %}?document_preview={{ document_preview.id }}&page_number=1"
+            id="document-file-preview" 
+            hx-on="htmx:afterRequest: 
+            const response = JSON.parse(event.detail.xhr.responseText); 
+            if (response.image_url) { 
+                this.src = response.image_url; 
+            }">
         </div>
     </div>
 </div>

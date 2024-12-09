@@ -32,13 +32,7 @@
                   if #header-detail-document exists
                     then remove .shadow from #header-detail-document
                   end
-              end
-              then
-                if #moving-container exists
-                  set #moving-container's style.transform 
-                    to 'translateY(' + (my.scrollTop * 0.8) + 'px)'
-                  then wait 1500ms
-                end">
+              end">
                     {% block header_content %}{% endblock header_content %}
                 </div>
                 {% block content %}{% endblock content %}

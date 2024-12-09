@@ -1,6 +1,6 @@
 <div class="detail_object body__draft_select__form_control">
     {% if not document.signatory %}
-    <div class="form_container relative">
+    <div id="signer-form-search" class="form_container relative">
         <label for="search-signer">Выберете подписанта</label>
         <input type="text" name="organisation" 
             class="container_input inputing bscolor"
@@ -30,9 +30,13 @@
             <ul class="form_container__result hidden fade-out overflow-y" id="signer-container-results"
             _="on htmx:afterSwap remove .hidden then add .visible"></ul>
     </div>
-    {% endif %}
-<ul id="document-signer-list" class="detail_object body__draft_select__form_control reviews"></ul>
+    {% endif %}    
+
+<ul id="document-signer-list" class="detail_object body__draft_select__form_control reviews"
+_="on htmx:afterSwap add .hidden to #signer-form-search">
     {% if document.signatory %}
         {% include './partial_signer_list.html' %}
     {% endif %}
+</ul>
+
 </div>

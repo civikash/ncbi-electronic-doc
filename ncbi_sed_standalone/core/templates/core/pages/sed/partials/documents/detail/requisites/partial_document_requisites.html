@@ -1,31 +1,65 @@
-<form id="document-requisites" method="POST">
+<form id="document-requisites">
     {% csrf_token %}
     <div class="form_container__row">
         <div class="form_container">
             <label for="document-date">Дата</label>
-            <input required name="date" type="date" class="container_input inputing" id="document-date">
+            <input required 
+            value="{{ document.date|date:'Y-m-d' }}" 
+            hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+            hx-trigger="change"
+            hx-include="this"
+            hx-vals='{"field": "date"}'
+            name="date" type="date" class="container_input inputing" id="document-date">
         </div>
         <div class="form_container">
             <label for="outgoing-number">Исходящий номер</label>
-            <input name="email" type="text" class="container_input inputing" id="outgoing-number">
+            <input name="outgoing_number" 
+            value={{ document.outgoing_number }}
+            hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+            hx-trigger="change"
+            hx-include="this"
+            hx-vals='{"field": "outgoing_number"}'
+            type="text" class="container_input inputing" id="outgoing-number">
         </div>
     </div>
     <div class="form_container">
         <label for="document-brief">Краткое содержание</label>
-        <textarea id="document-brief" name="brief" class="container_input inputing textarea"></textarea>
+        <textarea id="document-brief" 
+        hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+        hx-trigger="change"
+        hx-include="this"
+        hx-vals='{"field": "brief"}'
+        name="brief" class="container_input inputing textarea">{{ document.brief }}</textarea>
     </div>
     <div class="form_container__row">
         <div class="form_container">
             <label for="count-page-document">Листов документа</label>
-            <inputname="page_document" type="text" class="container_input inputing" id="count-page-document">
+            <input name="document_sheets" 
+            hx-trigger="change"
+            value={{ document.document_sheets }}
+            hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+            hx-include="[name=document_sheets]"
+            hx-vals='{"field": "document_sheets"}'
+            type="text" class="container_input inputing" id="count-page-document">
         </div>
         <div class="form_container">
             <label for="count-appendix-document">Количество приложений</label>
-            <input name="appendix_document" type="text" class="container_input inputing" id="count-appendix-document">
+            <input name="application_sheets" 
+            hx-trigger="change"
+            value={{ document.application_sheets }}
+            hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+            hx-include="this"
+            hx-vals='{"field": "application_sheets"}'
+            type="text" class="container_input inputing" id="count-appendix-document">
         </div>
     </div>
     <div class="form_container">
         <label for="document-note">Примечание</label>
-        <textarea id="document-note" name="note" class="container_input inputing textarea"></textarea>
+        <textarea id="document-note" 
+        hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
+        hx-trigger="change"
+        hx-include="this"
+        hx-vals='{"field": "note"}'
+        name="note" class="container_input inputing textarea">{{ document.note }}</textarea>
     </div>
 </form>

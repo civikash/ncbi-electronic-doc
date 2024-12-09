@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.utils.text import slugify
 from django.conf import settings
 import re
 import uuid
@@ -154,7 +155,7 @@ class DirectorsOrganisations(models.Model):
     first_name = models.CharField(_("Имя"), max_length=100)
     last_name = models.CharField(_("Фамилия"), max_length=100)
     patronymic = models.CharField(_("Отчество"), max_length=100, blank=True, null=True)
-    post = models.CharField(_("Отчество"), max_length=120, blank=True, null=False)
+    post = models.CharField(_("Должность"), max_length=120, blank=True, null=False)
     organisation = models.OneToOneField(InteractingOrganisations, verbose_name=_("Организация"), on_delete=models.CASCADE)
 
     def get_full_name(self):
@@ -184,6 +185,13 @@ class Cases(models.Model):
         verbose_name_plural = _("Дела")
 
 class Document(models.Model):
+    STATUS_DOCUMENT_CHOICES = [
+        ('IN_WORKING', 'В работе'),
+        ('SIGNED', 'Подписан'),
+        ('SIGNING', 'Подписание'),
+        ('WRITTEN_OFF', 'Списано'),
+        ('NOT_ASSIGNED', 'Не назначен'),
+    ]
     uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     category = models.CharField(max_length=55, choices=CATEGORY_DOCUMENT_CHOICES)
     brief = models.CharField(_("Краткое описание"), max_length=250, null=True)
@@ -193,6 +201,7 @@ class Document(models.Model):
     application_sheets = models.IntegerField(_("Листов приложения"), null=True)
     author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор рабочей карточки"), on_delete=models.CASCADE)
     note = models.CharField(_("Примечание"), max_length=250, null=True)
+    status = models.CharField(_("Статус"), max_length=55, choices=STATUS_DOCUMENT_CHOICES, default='NOT_ASSIGNED')
     registration_number = models.CharField(_("Регистрационный номер"), max_length=110)
     created_at = models.DateTimeField(_("Дата создания в системе"), auto_now_add=True)
 
@@ -269,21 +278,11 @@ class DocumentVisas(models.Model):
 
 class DocumentFile(models.Model):
     def custom_upload_path(self, filename):
-        return os.path.join(settings.MEDIA_ROOT, f'documents/{self.document.type}/{self.document.uuid}')
+        safe_filename = slugify(os.path.splitext(filename)[0])
+        extension = os.path.splitext(filename)[1]
+        return f'documents/{self.document.type.id}/{self.document.uuid}/{safe_filename}{extension}'
     
     document = models.ForeignKey(IncomingDocuments, on_delete=models.CASCADE, related_name="files")
+    file_name = models.CharField(_("Имя файла"), max_length=190, null=True)
     file = models.FileField(upload_to=custom_upload_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
-# class DocumentFile(models.Model):
-#     document = models.ForeignKey("Document", verbose_name=_("Документ в системе"), on_delete=models.CASCADE, related_name='files')
-#     file_name = models.CharField(_("Имя файла"), max_length=190)
-#     file_path = models.CharField(_("Путь к файлу"), max_length=355)
-#     uploaded_at = models.DateTimeField("Дата загрузки", auto_now_add=True)
-
-#     def save_file(self, file):
-#         directory = os.path.join(settings.MEDIA_ROOT, f'documents/{self.type}/{self.uuid}')
-
-
-#     def __str__(self):
-#         return f"{self.file_name} for {self.document}"

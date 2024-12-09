@@ -22,6 +22,40 @@
             transition: .5s ease-in-out;
             @include flex-column-center;
 
+            &__files {
+                @include flex-column-start;
+                gap: 1rem;
+                width: 100%;
+                margin-top: 1rem;
+
+                &__file {
+                    @include flex-row;
+                    align-items: center;
+                    padding: 1rem;
+                    width: 100%;
+                    gap: 1rem;
+                    border-radius: .7rem;
+                    background-color: #fafafa;
+                    border: 1px solid $bg-white;
+
+                    p {
+                        font-size: 1rem;
+                        margin-top: 0px !important;
+                        width: 100%;
+                    }
+                }
+            }
+
+            &:hover {
+                border-color: #5580FF;
+                cursor: pointer;
+
+                h3 {
+                    transition: .5s ease-in-out;
+                    color: #5580FF;
+                }
+            }
+
             &.dragging {
                 border-color: #5580FF;
             }

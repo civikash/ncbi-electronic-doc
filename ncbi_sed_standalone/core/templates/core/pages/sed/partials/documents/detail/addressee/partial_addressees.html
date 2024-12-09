@@ -1,0 +1,37 @@
+<div class="detail_object body__draft_select__form_control">
+    {% if not document.addressee %}
+    <div id="addressee-form-search" class="form_container relative">
+        <label for="search-addressee">Выберете адресата</label>
+        <input type="text" name="q" 
+            class="container_input inputing bscolor"
+            hx-trigger="search, keyup delay:200ms changed"
+            hx-get="{% url 'core:core-lk-staff-search' %}"
+            hx-vals='{"search_type": "addressee"}'
+            hx-target="#addressee-container-results" 
+            placeholder="Введите ФИО или должность..."
+            hx-swap="innerHTML transition:true"
+            id="search-addressee"
+            _="
+                on keyup 
+                if me.value.trim() then 
+                    show #addressee-container-results
+                    remove .fade-out from #addressee-container-results
+                    add .visible to #addressee-container-results 
+                else 
+                    remove .visible from #addressee-container-results
+                    add .fade-out to  #addressee-container-results 
+                    wait 200ms 
+                    then hide #addressee-container-results
+                    set #addressee-container-results's innerHTML to ''
+            "/>
+            <ul class="form_container__result hidden fade-out overflow-y" id="addressee-container-results"
+            _="on htmx:afterSwap remove .hidden then add .visible"></ul>
+    </div>
+    {% endif %}
+<ul id="document-addressee-list" class="detail_object body__draft_select__form_control reviews"
+_="on htmx:afterSwap add .hidden to #addressee-form-search">
+    {% if document.addressee %}
+        {% include './partial_addressee_list.html' %}
+    {% endif %}
+</ul>
+</div>

@@ -3,7 +3,7 @@
 </div>
 
 <div class="app_container__content__section__body">
-    <div class="app_container__content__section__body row cards-panel">
+    <div class="app_container__content__section__body row cards-panel padding-0">
         <a
         hx-get="{% url 'core:core-lk-create-document' %}"
         hx-target="#app-content-section"
@@ -44,9 +44,24 @@
             </div>
         </a>
     </div>
-    <div class="app_container__content__section__body">
+    <div class="app_container__content__section__body padding-0">
         <h2>Все документы</h2>    
         <p>Все зарегистрированные документы в системе</p>   
-        {% include './components/table_sed_documents.html' %}
+        <table cellpadding="0" cellspacing="11" class="table__content appcore grid-7"  id="documents-list">
+            <thead>
+              <tr>
+                <th>Тип</th>
+                <th>№ / Дата</th>
+                <th>Подписант</th>
+                <th>Адресат</th>
+                <th>Краткое описание</th>
+                <th>Статус</th>
+                <th></th>
+              </tr>
+          </thead>
+            <tbody id="certs-staffs-table-body">
+                {% include './components/partial_documents.html' %}
+            </tbody>
+          </table>
     </div>
 </div>

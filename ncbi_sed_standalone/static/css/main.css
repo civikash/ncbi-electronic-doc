@@ -82,6 +82,15 @@ form {
   justify-content: center;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
 }
+.app_container__content__section__preview__file__image {
+  transition: all 0.5s ease-in-out;
+  height: 100%;
+  outline: none;
+  vertical-align: middle;
+  border: 0;
+  animation: fadeIn 1s ease-in-out;
+  width: 87% !important;
+}
 .app_container__content__section__preview.scrollable {
   overflow-y: scroll;
 }
@@ -374,6 +383,13 @@ legend {
 }
 .button.border.gray {
   color: #566882;
+}
+.button.border.white {
+  border: 1px solid #e8e8e8;
+  background-color: #fff;
+  width: 7rem !important;
+  color: #979797;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 }
 .button.border.create {
   background-color: #70A8FF;
@@ -915,6 +931,40 @@ legend {
   flex-direction: column;
   align-items: center;
 }
+.upload_files__container__content__files {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+.upload_files__container__content__files__file {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  gap: 1rem;
+  border-radius: 0.7rem;
+  background-color: #fafafa;
+  border: 1px solid #ffffff;
+}
+.upload_files__container__content__files__file p {
+  font-size: 1rem;
+  margin-top: 0px !important;
+  width: 100%;
+}
+.upload_files__container__content:hover {
+  border-color: #5580FF;
+  cursor: pointer;
+}
+.upload_files__container__content:hover h3 {
+  transition: 0.5s ease-in-out;
+  color: #5580FF;
+}
 .upload_files__container__content.dragging {
   border-color: #5580FF;
 }
@@ -926,6 +976,9 @@ legend {
   gap: 8px;
   width: 100%;
   font-size: 0.8rem;
+}
+.form_container.hidden {
+  display: none;
 }
 .form_container__row {
   display: flex;
@@ -1131,10 +1184,9 @@ legend {
 
 .table__content {
   display: grid;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border-collapse: collapse;
   width: 100%;
-  padding: 0.5rem;
   border-radius: 0.7rem 0rem 0.7rem 0rem;
   min-width: 100%;
 }
@@ -1143,7 +1195,7 @@ legend {
   padding: 5px;
 }
 .table__content.appcore td {
-  padding-top: 1rem;
+  padding-block: 1rem;
 }
 .table__content.appcore th {
   height: 2.3rem;
@@ -1195,10 +1247,12 @@ legend {
   color: #566882;
 }
 .table__content td {
-  padding-top: 8px;
-  height: -moz-fit-content;
-  height: fit-content;
-  min-height: 4rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  height: 100%;
   padding-bottom: 11px;
   border-bottom: 1px solid #f0f0f0;
   color: #2b2b2b;
@@ -1219,7 +1273,7 @@ legend {
   grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
 }
 .table__content.grid-7 {
-  grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr);
+  grid-template-columns: minmax(0px, 0.6fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 0.6fr);
 }
 .table__content.settings {
   grid-template-columns: minmax(0px, 0.5fr) minmax(0px, 0.7fr) minmax(0px, 1fr) minmax(0px, 1fr);
@@ -1655,9 +1709,20 @@ legend {
   background-color: #fafafa;
   border-radius: 0.7rem;
   justify-content: center;
+  transition: all 0.5s ease-in-out;
 }
 .detail_object.body__draft_select.focused {
+  transition: all 0.5s ease-in-out;
   justify-content: flex-start !important;
+}
+.detail_object.body__draft_select.selected {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+  min-height: -moz-fit-content !important;
+  min-height: fit-content !important;
+}
+.detail_object.body__draft_select.selected .body__draft_select__form_control__staff {
+  margin-top: 0.1rem !important;
 }
 .detail_object.body__draft_select__title {
   text-align: left;
@@ -1773,7 +1838,7 @@ legend {
   margin-bottom: 1rem;
 }
 .detail_object.body__information__header p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .detail_object.body__information__header__title {
   font-size: 1rem;
@@ -1878,6 +1943,10 @@ legend {
 
 .margin-0 {
   margin: 0rem;
+}
+
+.padding-0 {
+  padding: 0rem;
 }
 
 .margin-top-1 {

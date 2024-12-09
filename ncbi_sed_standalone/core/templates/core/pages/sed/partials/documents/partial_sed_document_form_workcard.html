@@ -3,7 +3,7 @@
     {% csrf_token %}
     {% if not document.category == 'INCOMING_DOCUMENT' %}
         <h3 class="detail_object body__draft_select__title">Визы</h3>
-        <div id="document-visas" class="detail_object body__draft_select {% if reviews %}focused{% endif %}">
+        <div id="document-visas" class="detail_object body__draft_select {% if reviews %}selected{% endif %}">
             {% if not reviews %}
             <img src="{% static 'img/svg/app/_visas.svg' %}" alt="Визирующие">
                 <h3 class="detail_object body__draft_select__header">Назначить визирующих лиц</h3>
@@ -20,7 +20,7 @@
         </div>
     {% endif %}
     <h3 class="detail_object body__draft_select__title">Подписант</h3>
-    <div id="document-signer" class="detail_object body__draft_select {% if document.signatory %}focused{% endif %}">
+    <div id="document-signer" class="detail_object body__draft_select {% if document.signatory %}selected{% endif %}">
         {% if not document.signatory %}
             <img src="{% if not document.category == 'INCOMING_DOCUMENT' %}
                 {% static 'img/svg/app/_signer.svg' %} 
@@ -39,7 +39,8 @@
         {% endif %}
     </div>
     <h3 class="detail_object body__draft_select__title">Адресат</h3>
-    <div id="document-addressee" class="detail_object body__draft_select">
+    <div id="document-addressee" class="detail_object body__draft_select {% if document.addressee %}selected{% endif %}">
+        {% if not document.addressee %}
         <img src="{% static 'img/svg/app/_addressee.svg' %}" alt="Адресат">
             <h3 class="detail_object body__draft_select__header">Выбрать адресата</h3>
             <p>Укажите получателя документа</p>
@@ -49,6 +50,9 @@
         hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?addressee" 
         type="button"
         _="on click wait 100ms add .focused to #document-addressee">Выбрать адресата</button>
+        {% else %}
+            {% include './detail/addressee/partial_addressees.html' %}
+        {% endif %}
     </div>
     {% if not document.category == 'INCOMING_DOCUMENT' %}
     <h3 class="detail_object body__draft_select__title">Направление</h3>

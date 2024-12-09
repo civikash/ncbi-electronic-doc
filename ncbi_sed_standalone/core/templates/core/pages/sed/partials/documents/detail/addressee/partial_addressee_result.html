@@ -1,0 +1,33 @@
+{% for staff in staff_list %}
+<li class="form_container__result__staff">
+    <a href="#!"
+    hx-post="{% url 'core:document-add-addressee' %}"
+    hx-vals='{"addressee_id": "{{ staff.id }}", "addressee_type": "staff"}'
+    hx-swap="innerHTML transition:true"
+    hx-target="#document-addressee-list"
+    hx-include="[name=document_uuid]" 
+    hx-push-url="false"
+    _="on click 
+    set #search-addressee's value to '' 
+    then hide #addressee-container-results
+    wait 100ms 
+    then add .selected to #document-addressee">
+        <div class="form_container__result__staff__row">
+            <svg width="19" height="19" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.4" d="M14.0538 5.71969V10.2797C14.0538 11.0263 13.6538 11.7197 13.0071 12.0997L9.04712 14.3863C8.40046 14.7597 7.60046 14.7597 6.94712 14.3863L2.9871 12.0997C2.34043 11.7263 1.94043 11.033 1.94043 10.2797V5.71969C1.94043 4.97303 2.34043 4.27967 2.9871 3.89967L6.94712 1.61301C7.59379 1.23967 8.39379 1.23967 9.04712 1.61301L13.0071 3.89967C13.6538 4.27967 14.0538 4.96636 14.0538 5.71969Z" fill="#4174BD"/>
+                <path d="M7.99961 8.00019C8.85748 8.00019 9.55294 7.30473 9.55294 6.44686C9.55294 5.58898 8.85748 4.89355 7.99961 4.89355C7.14174 4.89355 6.44629 5.58898 6.44629 6.44686C6.44629 7.30473 7.14174 8.00019 7.99961 8.00019Z" fill="#4174BD"/>
+                <path d="M9.78713 11.1069C10.3271 11.1069 10.6405 10.5069 10.3405 10.0603C9.88713 9.38693 9.00713 8.93359 8.00046 8.93359C6.99379 8.93359 6.11377 9.38693 5.66043 10.0603C5.36043 10.5069 5.67377 11.1069 6.21377 11.1069H9.78713Z" fill="#4174BD"/>
+            </svg>
+            <div class="form_container__result__staff">
+                <h4>{{ staff.user.get_full_name }}<span>{{ staff.user.email }}</span></h4>
+                <div class="form_container__result__staff__row">
+                    <p>Должность: {{ staff.post.name }}</p>
+                    <p>Подразделение: {{ staff.department.name }}</p>
+                </div>
+            </div>
+        </div>   
+    </a> 
+</li>
+{% empty %}
+    <li>Нет результатов</li>
+{% endfor %}

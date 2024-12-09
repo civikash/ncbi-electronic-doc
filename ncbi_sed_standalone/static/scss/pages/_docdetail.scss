@@ -58,9 +58,21 @@
             background-color: #fafafa;
             border-radius: .7rem;
             justify-content: center;
+            transition: all .5s ease-in-out;
 
             &.focused {
+                transition: all .5s ease-in-out;
                 justify-content: flex-start !important;
+
+            }
+
+            &.selected {
+                height: fit-content !important;
+                min-height: fit-content !important;
+
+                .body__draft_select__form_control__staff {
+                    margin-top: .1rem !important;
+                }
             }
 
             &__title {
@@ -178,7 +190,7 @@
                 margin-bottom: 1rem;
 
                 p {
-                    font-size: .8rem;
+                    font-size: .9rem;
                 }
 
                 &__title {

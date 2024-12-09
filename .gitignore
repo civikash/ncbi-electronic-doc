@@ -6,6 +6,8 @@ venv
 __pycache
 db.sqlite3
 
+ncbi_sed_standalone/media/documents/
+ncbi_sed_standalone/media/previews/
 api/migrations/0*.py
 
 **/migrations/**
