@@ -25,6 +25,7 @@ def search_staff(request):
     query = request.GET.get("q", "").strip()
     search_all = request.GET.get("all", "false").lower() == "true"
     search_type = request.GET.get("search_type")
+    type = request.GET.get("type")
 
     staff_queryset = Staff.objects.select_related("organisation", "department", "post").all()
 
@@ -38,7 +39,9 @@ def search_staff(request):
     )
     if search_type == 'addressee':
         return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"staff_list": staff_queryset})
-    return render(request, "./core/components/partials/partial_staff_results.html", {"staff_list": staff_queryset})
+    if type == 'signer':
+        return render(request, "./core/pages/sed/partials/documents/detail/signer/partial_signer_result.html", {"directors": staff_queryset})
+    return render(request, "./core/pages/sed/partials/documents/detail/reviews/partial_reviews_results.html", {"staff_list": staff_queryset})
 
 
 def incoming_overview(request):

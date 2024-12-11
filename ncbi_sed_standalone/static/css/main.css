@@ -218,7 +218,7 @@ form {
   will-change: transform;
 }
 .app_container__content__section__body h2 {
-  font-size: 1rem !important;
+  font-size: 1.1rem !important;
 }
 .app_container__content__section__body p {
   margin-top: 9px;
@@ -992,6 +992,49 @@ legend {
 }
 .upload_files__container__content.dragging {
   border-color: #5580FF;
+}
+
+.folder__container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  border: 1px solid #e8e8e8;
+  background-color: #fafafa;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 15rem;
+  border-radius: 0.7rem;
+  padding: 1rem;
+  cursor: pointer;
+  height: 100%;
+  gap: 1rem;
+  transition: all 0.4s ease-in-out;
+}
+.folder__container:hover {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.folder__container.create_folder {
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.folder__container.create_folder:hover {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+.folder__title {
+  font-size: 0.9rem;
+  color: #2b2b2b;
+}
+.folder__text {
+  font-size: 0.8rem;
+  color: #566882;
+}
+.folder__text.gray {
+  color: #5B5B63;
 }
 
 .form_container {

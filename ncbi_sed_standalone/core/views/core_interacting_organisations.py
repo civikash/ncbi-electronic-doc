@@ -65,7 +65,7 @@ def interacting_organisation_new(request):
             
 
 def search_organisation(request):
-    query = request.GET.get("organisation", "").strip()
+    query = request.GET.get("q", "").strip()
 
     organisation_queryset = DirectorsOrganisations.objects.all()
 

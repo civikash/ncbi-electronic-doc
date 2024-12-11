@@ -26,7 +26,8 @@
                 <ul class="form_container__result hidden fade-out overflow-y" id="visas-container-results"
                 _="on htmx:afterSwap remove .hidden then add .visible"></ul>
         </div>
-    <ul id="document-visas-list" class="detail_object body__draft_select__form_control reviews">
+    <ul id="document-visas-list" class="detail_object body__draft_select__form_control reviews"
+    _="on htmx:afterSwap add .hidden to #search-staff">
         {% include './partial_document_reviews_list.html' %}
     </ul>
 

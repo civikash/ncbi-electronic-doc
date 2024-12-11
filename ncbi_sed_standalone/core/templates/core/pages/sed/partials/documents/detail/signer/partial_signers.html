@@ -2,13 +2,15 @@
     {% if not document.signatory %}
     <div id="signer-form-search" class="form_container relative">
         <label for="search-signer">Выберете подписанта</label>
-        <input type="text" name="organisation" 
+        <input type="text" name="q" 
             class="container_input inputing bscolor"
             hx-trigger="search, keyup delay:200ms changed"
             {% if not document.category == 'INCOMING_DOCUMENT' %}
                 hx-get="{% url 'core:core-lk-staff-search' %}"
+                hx-vals='{"type": "signer", "signer": "internal_signer"}'
             {% else %}
                 hx-get="{% url 'core:core-lk-organisation-search' %}"
+                hx-vals='{"type": "signer", "signer": "external_signer"}'
             {% endif %}  
             hx-target="#signer-container-results" 
             placeholder="Введите данные организации или его руководителя..."

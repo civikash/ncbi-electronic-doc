@@ -1,0 +1,47 @@
+.folder {
+    &__container {
+        @include flex-column-start; 
+        border: 1px solid #e8e8e8;
+        background-color: #fafafa;
+        width: fit-content;
+        min-width: 15rem;
+        border-radius: .7rem;
+        padding: 1rem;
+        cursor: pointer;
+        height: 100%;
+        gap: 1rem;
+        transition: all .4s ease-in-out;
+
+        &:hover {
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+        }
+
+        &.create_folder {
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+
+            &:hover {
+                backface-visibility: hidden;
+                transform: translateZ(0);
+                box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+            }
+        }
+    }   
+
+    &__title {
+        font-size: .9rem;
+        color: $color-dark;
+    }
+
+    &__text {
+        font-size: .8rem;
+        color: $text-gray;
+
+        &.gray {
+            color: $gray;
+        }
+    }
+}

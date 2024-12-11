@@ -1,0 +1,42 @@
+{% for director in directors %}
+<li class="form_container__result__staff">
+    <a href="#!"
+    hx-post="{% url 'core:document-add-signer' %}"
+    hx-vals='{"signer_id": "{{ director.id }}", "signer_type": "staff"}'
+    hx-swap="innerHTML transition:true"
+    hx-target="#document-signer-list"
+    hx-include="[name=document_uuid]" 
+    hx-push-url="false"
+    _="on click 
+    set #search-signer's value to '' 
+    then hide #signer-container-results
+    wait 100ms 
+    then add .selected to #document-signer">
+        <div class="form_container__result__staff__row organisation">
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1862_2002)">
+                <path d="M5.30385 14.2497H3.28511C2.15302 14.2497 1.58301 13.6797 1.58301 12.5476V3.28511C1.58301 2.15302 2.15302 1.58301 3.28511 1.58301H6.68927C7.82135 1.58301 8.39134 2.15302 8.39134 3.28511V4.74967" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.7518 6.66582V15.5008C13.7518 16.7754 13.1184 17.4167 11.8439 17.4167H7.2205C5.94592 17.4167 5.30469 16.7754 5.30469 15.5008V6.66582C5.30469 5.39123 5.94592 4.75 7.2205 4.75H11.8439C13.1184 4.75 13.7518 5.39123 13.7518 6.66582Z" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6084 4.74967V3.28511C10.6084 2.15302 11.1784 1.58301 12.3105 1.58301H15.7146C16.8467 1.58301 17.4167 2.15302 17.4167 3.28511V12.5476C17.4167 13.6797 16.8467 14.2497 15.7146 14.2497H13.7513" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.91699 8.70801H11.0837" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.91699 11.083H11.0837" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.5 17.417V15.042" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1862_2002">
+                <rect width="19" height="19" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+                
+                
+            <div class="form_container__result__staff organisation">
+                <h4>{{ director.get_full_name }}<span>{{ director.post }}</span></h4>
+                <p>{{ director.organisation.short_name }}</p>
+            </div>
+        </div>   
+    </a> 
+</li>
+{% empty %}
+<li>Нет результатов</li>
+{% endfor %}

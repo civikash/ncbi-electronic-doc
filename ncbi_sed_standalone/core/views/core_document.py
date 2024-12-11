@@ -11,7 +11,7 @@ from django.utils.dateparse import parse_date
 from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 import mimetypes
-from django.db.models import Q
+from django.db.models import Count
 import os
 from pdf2image import convert_from_path
 from itertools import chain
@@ -40,7 +40,7 @@ def get_document_by_uuid(document_uuid: str) -> Optional[Type]:
 
 def documents_overview(request):
     documents = chain(IncomingDocuments.objects.all(), OutgoingDocuments.objects.all())
-    folders = Folder.objects.all()
+    folders = Folder.objects.annotate(documents_count=Count('folderobject'))
 
     context = {
         'documents': documents,
@@ -69,7 +69,7 @@ def document_add_review(request: HtmxHttpRequest) -> HttpResponse:
     context = {'document': document,
                'reviews': reviews}
 
-    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", context)
+    return render(request, "./core/pages/sed/partials/documents/detail/reviews/partial_document_reviews_list.html", context)
 
 @require_POST
 def document_delete_review(request: HtmxHttpRequest) -> HttpResponse:
@@ -86,7 +86,7 @@ def document_delete_review(request: HtmxHttpRequest) -> HttpResponse:
     context = {'document': document,
                 'reviews': reviews}
 
-    return render(request, "./core/pages/sed/partials/documents/partial_document_reviews_list.html", context)
+    return render(request, "./core/pages/sed/partials/documents/detail/reviews/partial_document_reviews_list.html", context)
 
 
 def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
@@ -119,9 +119,7 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
 
     if request.htmx:
         if 'reviews' in request.GET:
-            visas = Staff.objects.all()
-            context['visas'] = visas
-            return render(request, './core/pages/sed/partials/documents/partial_document_select_staff.html', {'visas': visas})
+            return render(request, './core/pages/sed/partials/documents/detail/reviews/partial_reviews.html', context)
         elif 'signer' in request.GET:
             return render(request, './core/pages/sed/partials/documents/detail/signer/partial_signers.html', context)
         elif 'addressee' in request.GET:

@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from django.dispatch import receiver
 from django.utils.text import slugify
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
