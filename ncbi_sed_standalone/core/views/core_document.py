@@ -2,12 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from typing import Optional, Type
 from django.contrib.contenttypes.models import ContentType
-from core.models import DocumentType, Document, Folder, FolderObject, DocumentFile, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
+from core.models import DocumentType, Document, Folder, FolderObject, IncomingDocumentFile, OutgoingDocumentFile, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
 from django.http import HttpResponse, HttpRequest, JsonResponse, Http404
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 from django.db import models
 from django.utils.dateparse import parse_date
+from django.apps import apps
+from django.core.exceptions import ImproperlyConfigured
 import mimetypes
 from django.db.models import Q
 import os
@@ -54,12 +56,15 @@ def document_add_review(request: HtmxHttpRequest) -> HttpResponse:
     document_uuid = request.POST.get("document_uuid")
     staff_id = request.POST.get("staff_id")
 
-    document = get_object_or_404(Document, uuid=document_uuid)
+    document = get_document_by_uuid(document_uuid)
     staff = get_object_or_404(Staff, id=staff_id)
 
-    review, created = DocumentVisas.objects.get_or_create(document=document, staff=staff)
+    review, created = DocumentVisas.objects.get_or_create(
+        document=document.uuid, 
+        content_type=ContentType.objects.get_for_model(type(document)),
+        staff=staff)
 
-    reviews = document.visas.select_related("staff")
+    reviews = DocumentVisas.objects.filter(document=document.uuid)
 
     context = {'document': document,
                'reviews': reviews}
@@ -71,12 +76,12 @@ def document_delete_review(request: HtmxHttpRequest) -> HttpResponse:
     document_uuid = request.POST.get("document_uuid")
     staff_id = request.POST.get("staff_id")
 
-    document = get_object_or_404(Document, uuid=document_uuid)
+    document = get_document_by_uuid(document_uuid)
     staff = get_object_or_404(Staff, id=staff_id)
 
-    DocumentVisas.objects.get(document=document, staff=staff).delete()
+    DocumentVisas.objects.get(document=document.uuid, staff=staff).delete()
 
-    reviews = DocumentVisas.objects.filter(document=document)
+    reviews = DocumentVisas.objects.filter(document=document.uuid)
 
     context = {'document': document,
                 'reviews': reviews}
@@ -99,16 +104,17 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
         {"name": f"{document.type} №{document.registration_number}", "url": f"{request.path}"},
     ]
 
-    document_files = DocumentFile.objects.filter(document=document)
-    document_preview = DocumentFile.objects.filter(document=document).first()
+    # document_files = DocumentFile.objects.filter(document=document)
+    # document_preview = DocumentFile.objects.filter(document=document).first()
 
     context = {'document': document, 
                'crumbs': crumbs, 
-               'document_preview': document_preview,
-               'document_files': document_files}
+            #    'document_preview': document_preview,
+            #    'document_files': document_files
+            }
     
     if not document.category == 'INCOMING_DOCUMENT':
-        reviews = DocumentVisas.objects.filter(document=document)
+        reviews = DocumentVisas.objects.filter(document=document.uuid)
         context['reviews'] = reviews
 
     if request.htmx:
@@ -153,7 +159,6 @@ def create_document(request):
 
     documents_url = reverse('core:core-lk-documents')
 
-
     if request.htmx:
         if request.method == 'GET':
             document_types = CATEGORY_DOCUMENT_CHOICES
@@ -184,32 +189,37 @@ def create_document(request):
                         type=doc_type,
                         author_work_card=get_staff(request.user)
                     )
-
-                    drafts_folder = Folder.get_or_create_drafts_folder(owner=get_staff(request.user))
-
-                    content_type_document = ContentType.objects.get_for_model(IncomingDocuments)
-                    FolderObject.objects.create(
-                        folder=drafts_folder,
-                        content_type =content_type_document,
-                        owner=get_staff(request.user),
-                        document=document.uuid
+                elif doc_type.category == 'OUTGOING_DOCUMENT':
+                    document = OutgoingDocuments.objects.create(
+                        type=doc_type,
+                        author_work_card=get_staff(request.user)
                     )
 
-                    crumbs = [
-                        {"name": "Документы", "url": "/documents/"},
-                        {"name": "Мои документы", "url": "/my-documents/"},
-                        {"name": f"{document.type} №{document.registration_number}", "url": request.path},
-                    ]
+                drafts_folder = Folder.get_or_create_drafts_folder(owner=get_staff(request.user))
 
-                    context = {
-                        'crumbs': crumbs,
-                        'document': document
-                    }
-                    context.update(csrf(request))
+                content_type_document = ContentType.objects.get_for_model(IncomingDocuments)
+                FolderObject.objects.create(
+                    folder=drafts_folder,
+                    content_type =content_type_document,
+                    owner=get_staff(request.user),
+                    document=document.uuid
+                )
 
-                    response = render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
-                    response['HX-Push'] = reverse('core:core-lk-document-detail', args=[document.uuid])
-                    return response
+                crumbs = [
+                    {"name": "Документы", "url": documents_url},
+                    {"name": "Черновики", "url": "/my-documents/"},
+                    {"name": f"{document.type} №{document.registration_number}", "url": request.path},
+                ]
+
+                context = {
+                    'crumbs': crumbs,
+                    'document': document
+                }
+                context.update(csrf(request))
+
+                response = render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
+                response['HX-Push'] = reverse('core:core-lk-document-detail', args=[document.uuid])
+                return response
             return HttpResponse('Ошибка', status=400)
 
 
@@ -308,14 +318,15 @@ def document_upload_files(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
         original_name = uploaded_file.name
         safe_name = os.path.basename(original_name)
 
-        document_file = DocumentFile(
-            document=document,
-            file=uploaded_file,
-            file_name=safe_name
-        )
-        document_file.save()
+        # document_file = DocumentFile(
+        #     document=document,
+        #     file=uploaded_file,
+        #     file_name=safe_name
+        # )
+        # document_file.save()
 
-        context = {'document_files': DocumentFile.objects.filter(document=document)}
+        #context = {'document_files': DocumentFile.objects.filter(document=document)}
+        context = {}
 
     return render(request, "./core/pages/sed/partials/documents/detail/files/partial_document_files.html", context)
 
@@ -337,13 +348,16 @@ def document_registration(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
         {"name": f"{document.type} №{document.registration_number}", "url": f"{request.path}"},
     ]
 
-    document_files = DocumentFile.objects.filter(document=document)
-    document_preview = DocumentFile.objects.filter(document=document).first()
+    # document_files = DocumentFile.objects.filter(document=document)
+    # document_preview = DocumentFile.objects.filter(document=document).first()
 
+    # context = {'document': document, 
+    #            'crumbs': crumbs, 
+    #            'document_preview': document_preview,
+    #            'document_files': document_files}
+    
     context = {'document': document, 
-               'crumbs': crumbs, 
-               'document_preview': document_preview,
-               'document_files': document_files}
+               'crumbs': crumbs}
 
     return render(request, "./core/pages/sed/partials/documents/partial_sed_document_detail.html", context)
 
@@ -355,23 +369,24 @@ def get_file_preview(request, *args, **kwargs):
 
     document = get_document_by_uuid(document_uuid)
     if document_file_id:
-        document_file = DocumentFile.objects.filter(id=document_file_id).first()
-        file_path = document_file.file.path
+        # document_file = DocumentFile.objects.filter(id=document_file_id).first()
+        # file_path = document_file.file.path
 
         try:
-            images = convert_from_path(file_path)
-            page_index = page_number - 1
+            # images = convert_from_path(file_path)
+            # page_index = page_number - 1
 
-            if page_index < 0 or page_index >= len(images):
-                return JsonResponse({'error': 'Неверный номер страницы'}, status=400)
+            # if page_index < 0 or page_index >= len(images):
+            #     return JsonResponse({'error': 'Неверный номер страницы'}, status=400)
 
-            output_dir = os.path.join("media", "previews", str(document.uuid), str(document_file.id))
-            os.makedirs(output_dir, exist_ok=True)
-            page_image_path = os.path.join(output_dir, f"page_{page_number}.jpg")
-            images[page_index].save(page_image_path, "JPEG")
+            # output_dir = os.path.join("media", "previews", str(document.uuid), str(document_file.id))
+            # os.makedirs(output_dir, exist_ok=True)
+            # page_image_path = os.path.join(output_dir, f"page_{page_number}.jpg")
+            # images[page_index].save(page_image_path, "JPEG")
 
+            pass
         
-            return JsonResponse({'image_url': f'/media/previews/{document.uuid}/{document_file.id}/page_{page_number}.jpg'})
+            # return JsonResponse({'image_url': f'/media/previews/{document.uuid}/{document_file.id}/page_{page_number}.jpg'})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'status': f'Файл не найден'})

@@ -1,10 +1,10 @@
 from django.db import models
+from django.db.models import Max
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, Permission
 from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.conf import settings
@@ -237,18 +237,19 @@ class IncomingDocuments(Document):
     def save(self, *args, **kwargs):
         if not self.category:
             self.category = 'INCOMING_DOCUMENT'
-        
         if not self.registration_number:
-            last_document = IncomingDocuments.objects.filter(category=self.category).order_by('registration_number').last()
+            all_numbers = IncomingDocuments.objects.filter(type=self.type).values_list('registration_number', flat=True)
             
-            if last_document:
-                match = re.search(r'(\d+)$', last_document.registration_number)
+            max_number = 0
+            for reg_number in all_numbers:
+                match = re.search(r'(\d+)$', reg_number)
                 if match:
-                    new_number = int(match.group(1)) + 1
-            else:
-                new_number = 1
+                    number = int(match.group(1))
+                    max_number = max(max_number, number)
 
-            self.registration_number = f"{self.type.short_name}-{new_number}"
+            new_number = max_number + 1
+
+            self.registration_number = f"{self.type.short_name}-{new_number:03d}"
 
         super().save(*args, **kwargs)
 
@@ -264,6 +265,19 @@ class OutgoingDocuments(Document):
     def save(self, *args, **kwargs):
         if not self.category:
             self.category = 'OUTGOING_DOCUMENT'
+        if not self.registration_number:
+            all_numbers = OutgoingDocuments.objects.filter(type=self.type).values_list('registration_number', flat=True)
+            
+            max_number = 0
+            for reg_number in all_numbers:
+                match = re.search(r'(\d+)$', reg_number)
+                if match:
+                    number = int(match.group(1))
+                    max_number = max(max_number, number)
+
+            new_number = max_number + 1
+
+            self.registration_number = f"{self.type.short_name}-{new_number:03d}"
 
         super().save(*args, **kwargs)
 
@@ -285,12 +299,30 @@ class InternalDocuments(Document):
     def save(self, *args, **kwargs):
         if not self.category:
             self.category = 'INTERNAL_DOCUMENT'
+        if not self.registration_number:
+            all_numbers = InternalDocuments.objects.filter(type=self.type).values_list('registration_number', flat=True)
+            
+            max_number = 0
+            for reg_number in all_numbers:
+                match = re.search(r'(\d+)$', reg_number)
+                if match:
+                    number = int(match.group(1))
+                    max_number = max(max_number, number)
+
+            new_number = max_number + 1
+
+            self.registration_number = f"{self.type.short_name}-{new_number:03d}"
 
         super().save(*args, **kwargs)
 
+"""
+Визирование документов
+"""
 
 class DocumentVisas(models.Model):
-    document = models.ForeignKey(InternalDocuments, verbose_name=_("Документ в системе"), to_field='uuid', on_delete=models.CASCADE, related_name='visas_internal')
+    content_type = models.ForeignKey(ContentType, verbose_name=_("Документ"), on_delete=models.CASCADE)
+    document = models.UUIDField(editable=False, null=True)
+    content_object = GenericForeignKey('content_type', 'document')
     staff = models.ForeignKey("Staff", verbose_name=_("Сотрудник"), on_delete=models.CASCADE, related_name='document_visas_staff', null=True)
     visa = models.BooleanField(_("Статус визирования"), default=False)
     note = models.CharField(_("Примечание"), max_length=120)
@@ -305,11 +337,18 @@ class DocumentFile(models.Model):
         extension = os.path.splitext(filename)[1]
         return f'documents/{self.document.type.id}/{self.document.uuid}/{safe_filename}{extension}'
     
-    document = models.ForeignKey(IncomingDocuments, on_delete=models.CASCADE, related_name="files")
     file_name = models.CharField(_("Имя файла"), max_length=190, null=True)
     file = models.FileField(upload_to=custom_upload_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        abstract = True
+
+class OutgoingDocumentFile(DocumentFile):
+    document = models.ForeignKey(OutgoingDocuments, on_delete=models.CASCADE, related_name="files")
+
+class IncomingDocumentFile(DocumentFile):
+    document = models.ForeignKey(IncomingDocuments, on_delete=models.CASCADE, related_name="files")
 
 """
 Папки и элементы папок
