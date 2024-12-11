@@ -4,8 +4,12 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.text import slugify
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 import re
 import uuid
 import os
@@ -48,6 +52,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    ROLE_SYSTEM = [
+        ('STAFF', 'Сотрудник'),
+        ('CHANCELLERY_CLERK', 'Делопроизводитель'),
+        ('HEAD_CHANCELLERY', 'Руководитель канцелярии'),
+        ('HEAD_DEPARTMENT', 'Руководитель подразделения'),
+        ('RECTOR', 'Ректор')
+    ]
     id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=100, unique=True)
@@ -58,6 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("Имя"), max_length=100)
     last_name = models.CharField(_("Фамилия"), max_length=100)
     patronymic = models.CharField(_("Отчество"), max_length=100, blank=True, null=True)
+    role = models.CharField(_("Роль в системе"), choices=ROLE_SYSTEM, default='STAFF', max_length=50)
     username = None
 
     groups = models.ManyToManyField(
@@ -184,6 +196,11 @@ class Cases(models.Model):
         verbose_name = _("Дело")
         verbose_name_plural = _("Дела")
 
+"""
+Модели относящийся к Документам
+"""
+
+
 class Document(models.Model):
     STATUS_DOCUMENT_CHOICES = [
         ('IN_WORKING', 'В работе'),
@@ -235,10 +252,12 @@ class IncomingDocuments(Document):
 
         super().save(*args, **kwargs)
 
+
 class OutgoingDocuments(Document):
     type = models.ForeignKey(DocumentType, verbose_name=_("Тип документа"), on_delete=models.CASCADE)
     shared_access = models.BooleanField(_("Общий доступ"), default=False)
     signatory = models.ForeignKey(Staff, verbose_name=_("Подписант"), on_delete=models.CASCADE, related_name='outgoing_document_signatory', null=True)
+    addressee = models.ForeignKey(DirectorsOrganisations, verbose_name=_("Адресат"), on_delete=models.CASCADE, related_name='outgoing_document_addressee', null=True)
     outgoing_number = models.CharField(_("Исходящий номер"), max_length=50)
     date = models.DateField(_("Дата регистрации"), auto_now_add=False, null=True)
 
@@ -276,6 +295,10 @@ class DocumentVisas(models.Model):
     visa = models.BooleanField(_("Статус визирования"), default=False)
     note = models.CharField(_("Примечание"), max_length=120)
 
+"""
+Файлы прикрепленные к объектам Документы
+"""
+
 class DocumentFile(models.Model):
     def custom_upload_path(self, filename):
         safe_filename = slugify(os.path.splitext(filename)[0])
@@ -286,3 +309,46 @@ class DocumentFile(models.Model):
     file_name = models.CharField(_("Имя файла"), max_length=190, null=True)
     file = models.FileField(upload_to=custom_upload_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+"""
+Папки и элементы папок
+"""
+
+class Folder(models.Model):
+    name = models.CharField(_("Наименование папки"), max_length=75)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+
+    def __str__(self):
+        return self.name
+    
+    @staticmethod
+    def get_or_create_drafts_folder(owner):
+        drafts_folder, created = Folder.objects.get_or_create(
+            name="Черновики",
+            defaults={
+                "name": "Черновики"
+            }
+        )
+        return drafts_folder
+    
+        
+    class Meta:
+        verbose_name = "Папка"
+        verbose_name_plural = "Папки"
+
+
+class FolderObject(models.Model):
+    folder = models.ForeignKey(Folder, verbose_name=_("Папка"), on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, verbose_name=_("Документ"), on_delete=models.CASCADE)
+    owner = models.ForeignKey(Staff, verbose_name=_("Владелец папки"), on_delete=models.CASCADE)
+    document = models.UUIDField(editable=False, null=True)
+    content_object = GenericForeignKey('content_type', 'document')
+
+    def __str__(self):
+        return f"{self.document} из папки {self.folder}"
+
+    class Meta:
+        verbose_name = "Элемент папки"
+        verbose_name_plural = "Элементы папки"

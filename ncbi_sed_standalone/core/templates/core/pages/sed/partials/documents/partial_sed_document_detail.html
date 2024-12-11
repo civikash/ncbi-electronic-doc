@@ -3,20 +3,30 @@
     {% include '../../../../components/breadcrumb.html' %}
     <div class="app_container__content__section__header__row">
         <div class="app_container__content__section__column">
-    <div class="app_container__content__section__header__row {% if document.draft %}draft_status{% endif %}">
+            {% if document.draft %}
+    <div class="app_container__content__section__header__row draft_status">
         <svg width="15" height="15" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.4" d="M16.625 17.417H2.375C2.05042 17.417 1.78125 17.1478 1.78125 16.8232C1.78125 16.4987 2.05042 16.2295 2.375 16.2295H16.625C16.9496 16.2295 17.2188 16.4987 17.2188 16.8232C17.2188 17.1478 16.9496 17.417 16.625 17.417Z" fill="#5B5B63"/>
             <path opacity="0.4" d="M15.0572 2.75466C13.5214 1.21882 12.0172 1.17924 10.4418 2.75466L9.48388 3.71257C9.40471 3.79174 9.37305 3.91841 9.40471 4.02924C10.0064 6.12716 11.6847 7.80549 13.7826 8.40715C13.8143 8.41506 13.846 8.42298 13.8776 8.42298C13.9647 8.42298 14.0439 8.39132 14.1072 8.32798L15.0572 7.37007C15.841 6.59424 16.221 5.84216 16.221 5.08216C16.2289 4.29841 15.8489 3.53841 15.0572 2.75466Z" fill="#5B5B63"/>
             <path d="M12.3586 9.12833C12.129 9.0175 11.9073 8.90667 11.6936 8.78C11.5194 8.67708 11.3531 8.56625 11.1869 8.4475C11.0523 8.36042 10.894 8.23375 10.7436 8.10708C10.7277 8.09917 10.6723 8.05167 10.609 7.98833C10.3477 7.76671 10.0548 7.48171 9.79356 7.16504C9.76981 7.14921 9.73023 7.09379 9.67481 7.02254C9.59564 6.92754 9.46106 6.76921 9.34231 6.58712C9.24731 6.46837 9.13648 6.29421 9.03356 6.12004C8.90689 5.90629 8.79606 5.69254 8.68523 5.47087C8.57439 5.23337 8.48731 5.00379 8.40814 4.79004L3.43649 9.76167C3.33358 9.86458 3.23858 10.0625 3.21483 10.1971L2.78733 13.2292C2.70816 13.7675 2.85858 14.2742 3.19108 14.6146C3.47608 14.8917 3.87191 15.0421 4.29941 15.0421C4.39441 15.0421 4.48941 15.0342 4.58441 15.0183L7.62441 14.5908C7.76691 14.5671 7.96481 14.4721 8.05981 14.3692L13.0315 9.3975C12.8098 9.31833 12.5961 9.23125 12.3586 9.12833Z" fill="#5B5B63"/>
             </svg>
             
-    <h2 class="app_container__content__section__header__subtitle">
-        {% if document.draft %}
-            Черновик
+            <h2 class="app_container__content__section__header__subtitle">
+                    Черновик
+                <input type="hidden" name="document_uuid" value="{{ document.uuid }}" />
+            </h2>
+        </div>
+        {% else %}
+        <div class="app_container__content__section__header__row status {{ document.status|lower }}">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="6.5"/>
+                <path d="M7 11.5C6.68479 11.5 6.50935 11.4673 6.42116 11.4346C6.4261 11.4081 6.43592 11.3685 6.4556 11.3129C6.50452 11.1746 6.59103 11.0003 6.7143 10.7779C6.77582 10.6669 6.84615 10.5448 6.9216 10.4139C7.13268 10.0477 7.38375 9.61203 7.59351 9.15465C7.8831 8.52318 8.125 7.79079 8.125 7C8.125 6.20921 7.8831 5.47682 7.59351 4.84535C7.38375 4.38797 7.13268 3.95233 6.9216 3.58607C6.84615 3.45516 6.77582 3.33311 6.7143 3.22211C6.59103 2.99967 6.50452 2.82539 6.4556 2.68713C6.43592 2.63152 6.4261 2.59191 6.42116 2.56535C6.50935 2.53274 6.68479 2.5 7 2.5C9.48528 2.5 11.5 4.51472 11.5 7C11.5 9.48528 9.48528 11.5 7 11.5ZM5.51288 10.9793C5.48655 11.0537 5.46151 11.136 5.4435 11.2235C3.72529 10.5901 2.5 8.93815 2.5 7C2.5 5.06185 3.72529 3.40988 5.4435 2.77646C5.46151 2.86398 5.48655 2.94631 5.51288 3.02071C5.59113 3.24187 5.71219 3.47685 5.83963 3.70683C5.91582 3.84431 5.99568 3.98288 6.07704 4.12404C6.28164 4.47903 6.49569 4.85041 6.68453 5.2622C6.9436 5.82711 7.125 6.41008 7.125 7C7.125 7.58992 6.9436 8.17289 6.68453 8.7378C6.49569 9.14959 6.28164 9.52097 6.07704 9.87596C5.99568 10.0171 5.91582 10.1557 5.83963 10.2932C5.71219 10.5231 5.59113 10.7581 5.51288 10.9793Z"/>
+                </svg>  
+                <h2>
+                    {{ document.get_status_display }}
+                </h2>              
+        </div>
         {% endif %}
-        <input type="hidden" name="document_uuid" value="{{ document.uuid }}" />
-    </h2>
-</div>
     <div class="app_container__content__section__header__row headerline">
         <h1 class="app_container__content__section__header__title">{{ document.type }}</h1>
         <span class="app_container__content__section__header__element__headerline">
@@ -28,8 +38,17 @@
     </div>
 </div>
     <div class="app_container__content__section__header__buttons_panel">
-        <button class="button border">Удалить</button>
-        <button class="button border create">Зарегистрировать</button>
+        {% if document.draft %}
+            <button class="button border">Удалить</button>
+            <button hx-target="#app-content-section"
+            hx-post="{% url 'core:document-registration' doc_uuid=document.uuid %}"
+            hx-push-url="false"
+            hx-swap="innerHTML transition: true"
+            class="button border create">Зарегистрировать</button>
+        {% else %}
+            <button class="button border">Редактировать</button>
+            <button class="button border">Списать</button>
+        {% endif %}
     </div>
 </div>
 </div>
@@ -49,14 +68,7 @@
                         {% if document.draft %}
                             {% include './partial_sed_document_form_workcard.html' %}
                         {% else %}
-                        <li class="detail_object body__information__description__element">
-                            <span>Проект:</span>
-                            <span>{{ hsc.project }}</span>
-                        </li>
-                        <li class="detail_object body__information__description__element">
-                            <span>Инвентарный номер:</span>
-                            <span>{{ hsc.inventory_number }}</span>
-                        </li>
+                            {% include './partial_sed_document_form_workcard.html' %}
                         {% endif %}
                     </ul>
                 </div>
@@ -71,8 +83,24 @@
                             {% include './detail/requisites/partial_document_requisites.html' %}
                         {% else %}
                         <li class="detail_object body__information__description__element">
-                            <span>Проект:</span>
-                            <span>{{ hsc.project }}</span>
+                            <span>Краткое описание:</span>
+                            <span>{{ document.brief }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Листов документа:</span>
+                            <span>{{ document.document_sheets }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Листов приложений:</span>
+                            <span>{{ document.application_sheets }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Примечание:</span>
+                            <span>{{ document.note }}</span>
+                        </li>
+                        <li class="detail_object body__information__description__element">
+                            <span>Автор РК:</span>
+                            <span>{{ document.author_work_card.user.get_full_name }}</span>
                         </li>
                         {% endif %}
                     </ul>
@@ -84,7 +112,7 @@
                         Файлы
                     </h4>
                     <form hx-encoding='multipart/form-data' hx-trigger="change" hx-swap="innerHTML transition: true" hx-target="#upload-files-list" hx-post="{% url 'core:document-upload-files' doc_uid=document.uuid %}">
-                        {% csrf_token %}
+                        {% if document.draft %}
                         <div class="upload_files__container">
                             <label
                             for="document-files"
@@ -106,6 +134,7 @@
                                 <input hidden multiple id="document-files" name="document_files" type="file">
                             </label>
                         </div>
+                        {% endif %}
                         <ul id="upload-files-list" class="upload_files__container__content__files">
                             {% if document_files %}
                                 {% include './detail/files/partial_document_files.html' %}

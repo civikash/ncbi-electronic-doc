@@ -178,6 +178,33 @@ form {
                         }
                     }
 
+                    &.status {
+                        @include flex-center;
+                        width: 7.5rem;
+                        padding: .4rem;
+                        margin-bottom: .5rem;
+                        border-radius: .3rem;
+                        border: 1px solid $color-gray;
+                        gap: .4rem;
+                        
+                        h2 {
+                            font-size: .8rem;
+                        }
+
+                        &.in_working {
+                            border-color: #5580FF;
+                            background-color: #f1f4ff;
+                            h2 {
+                                color: #5580FF;
+                            }
+                            svg {
+                                stroke: #5580FF;
+                            }
+                        }
+
+                    }
+
+
                     &.headerline {
                         gap: 1rem;
                     }
@@ -212,6 +239,7 @@ form {
                     @include flex-row;
 
                     &.cards-panel {
+                        margin-block: .3rem;
                         height: 13rem;
                         width: 100%;
 

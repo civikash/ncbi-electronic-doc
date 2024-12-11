@@ -13,7 +13,7 @@
     {% endblock scripts %}
     <title>{% block title %}СЭД | Университет им С.Ю. Витте{% endblock %}</title>
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <section id="app-container" class="app_container" hx-history-elt>
         {% block sidebar %}
             {% include "sidebar.html" %}

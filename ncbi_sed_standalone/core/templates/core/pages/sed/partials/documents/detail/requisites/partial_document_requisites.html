@@ -4,7 +4,7 @@
         <div class="form_container">
             <label for="document-date">Дата</label>
             <input required 
-            value="{{ document.date|date:'Y-m-d' }}" 
+            {% if document.document.date|date:'Y-m-d' %}value="{{ document.date|date:'Y-m-d' }}"{% endif %} 
             hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
             hx-trigger="change"
             hx-include="this"
@@ -14,7 +14,7 @@
         <div class="form_container">
             <label for="outgoing-number">Исходящий номер</label>
             <input name="outgoing_number" 
-            value={{ document.outgoing_number }}
+            {% if document.outgoing_number %}value={{ document.outgoing_number }}{% endif %}
             hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
             hx-trigger="change"
             hx-include="this"
@@ -29,14 +29,14 @@
         hx-trigger="change"
         hx-include="this"
         hx-vals='{"field": "brief"}'
-        name="brief" class="container_input inputing textarea">{{ document.brief }}</textarea>
+        name="brief" class="container_input inputing textarea">{% if document.brief %}{{ document.brief }}{% endif %}</textarea>
     </div>
     <div class="form_container__row">
         <div class="form_container">
             <label for="count-page-document">Листов документа</label>
             <input name="document_sheets" 
             hx-trigger="change"
-            value={{ document.document_sheets }}
+            {% if document.document_sheets %}value={{ document.document_sheets }}{% endif %}
             hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
             hx-include="[name=document_sheets]"
             hx-vals='{"field": "document_sheets"}'
@@ -46,7 +46,7 @@
             <label for="count-appendix-document">Количество приложений</label>
             <input name="application_sheets" 
             hx-trigger="change"
-            value={{ document.application_sheets }}
+            {% if document.application_sheets %}value={{ document.application_sheets }}{% endif %}
             hx-post="{% url 'core:document-update-requisites' doc_uuid=document.uuid %}"
             hx-include="this"
             hx-vals='{"field": "application_sheets"}'
@@ -60,6 +60,7 @@
         hx-trigger="change"
         hx-include="this"
         hx-vals='{"field": "note"}'
-        name="note" class="container_input inputing textarea">{{ document.note }}</textarea>
+        name="note" class="container_input inputing textarea">
+        {% if document.note %}{{ document.note }}{% endif %}</textarea>
     </div>
 </form>

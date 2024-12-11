@@ -26,6 +26,7 @@ urlpatterns = [
     path('documents/add-addressee/', login_required(core_document.document_add_addressee), name='document-add-addressee'),
     path('documents/delete-addressee/', login_required(core_document.document_delete_addressee), name='document-delete-addressee'),
     path('documents/<str:doc_uid>/', login_required(core_document.document_detail), name='core-lk-document-detail'),
+    path('documents/<str:doc_uuid>/registration/', login_required(core_document.document_registration), name='document-registration'),
     path('documents/<str:doc_uid>/upload-files/', login_required(core_document.document_upload_files), name='document-upload-files'),
     path('documents/<str:doc_uuid>/preview-file/', login_required(core_document.get_file_preview), name='document-preview-file'),
     path('documents/<str:doc_uuid>/update-requisites/', login_required(core_document.document_update_requisites), name='document-update-requisites'),

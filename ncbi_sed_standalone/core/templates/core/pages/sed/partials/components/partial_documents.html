@@ -2,8 +2,8 @@
 <tr class="table-row">
     <td>{{ document.type }}</td>
     <td>{{ document.registration_number }}<br>{{ document.created_at }}</td>
-    <td>{{ document.signatory }}</td>
-    <td>{{ document.addressee }}</td>
+    <td>{{ document.signatory.get_full_name }}</td>
+    <td>{{ document.addressee.user.get_full_name }}</td>
     <td>{{ document.brief }}</td>
     <td>{{ document.get_status_display }}</td>
     <td><a 

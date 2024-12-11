@@ -2,7 +2,7 @@
   <tr class="table-row">
       <td>{{ user.id }}</td>
       <td>{{ user.user.get_full_name }}</td>
-      <td>{% for role in user.user.role %}{{ role }}{% endfor %}</td>
+      <td>{{ user.user.get_role_display }}</td>
       <td>{% for group in user.user.group %}{{ group }}{% endfor %}</td>
       <td>{{ user.post }}</td>
       <td>{{ user.department }}</td>

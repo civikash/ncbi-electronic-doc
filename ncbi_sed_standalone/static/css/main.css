@@ -176,6 +176,30 @@ form {
   color: #5B5B63 !important;
   font-size: 0.8rem;
 }
+.app_container__content__section__header__row.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7.5rem;
+  padding: 0.4rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.3rem;
+  border: 1px solid #e8e8e8;
+  gap: 0.4rem;
+}
+.app_container__content__section__header__row.status h2 {
+  font-size: 0.8rem;
+}
+.app_container__content__section__header__row.status.in_working {
+  border-color: #5580FF;
+  background-color: #f1f4ff;
+}
+.app_container__content__section__header__row.status.in_working h2 {
+  color: #5580FF;
+}
+.app_container__content__section__header__row.status.in_working svg {
+  stroke: #5580FF;
+}
 .app_container__content__section__header__row.headerline {
   gap: 1rem;
 }
@@ -209,6 +233,7 @@ form {
   flex-wrap: nowrap;
 }
 .app_container__content__section__body.row.cards-panel {
+  margin-block: 0.3rem;
   height: 13rem;
   width: 100%;
 }
