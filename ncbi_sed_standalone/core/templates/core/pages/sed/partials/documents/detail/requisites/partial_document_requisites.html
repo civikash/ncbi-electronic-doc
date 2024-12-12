@@ -62,7 +62,6 @@
         hx-trigger="change"
         hx-include="this"
         hx-vals='{"field": "note"}'
-        name="note" class="container_input inputing textarea">
-        {% if document.note %}{{ document.note }}{% endif %}</textarea>
+        name="note" class="container_input inputing textarea">{% if document.note %}{{ document.note }}{% endif %}</textarea>
     </div>
 </form>

@@ -224,22 +224,22 @@ def create_document(request):
 @require_POST
 def document_add_signer(request: HtmxHttpRequest) -> HttpResponse:
     document_uuid = request.POST.get("document_uuid")
-    signer_type = request.POST.get("signer_type")
+    source = request.POST.get("source")
     signer_id = request.POST.get("signer_id")
 
     document = get_document_by_uuid(document_uuid)
     
     signer = None
-    if signer_type == 'organisation':
+    if source == 'external_signer':
         signer = get_object_or_404(DirectorsOrganisations, id=signer_id)
-    if signer_type == 'staff': 
+    if source == 'internal_signer': 
         signer = get_object_or_404(Staff, id=signer_id)
 
     document.signatory = signer
     document.save()
 
 
-    context = {'document': document}
+    context = {'document': document, 'source': source}
 
     return render(request, "./core/pages/sed/partials/documents/detail/signer/partial_signer_list.html", context)
 
@@ -261,22 +261,22 @@ def document_delete_signer(request: HtmxHttpRequest) -> HttpResponse:
 @require_POST
 def document_add_addressee(request: HtmxHttpRequest) -> HttpResponse:
     document_uuid = request.POST.get("document_uuid")
-    addressee_type = request.POST.get("addressee_type")
+    source = request.POST.get("source")
     addressee_id = request.POST.get("addressee_id")
 
     document = get_document_by_uuid(document_uuid)
-    
-    signer = None
-    if addressee_type == 'organisation':
-        signer = get_object_or_404(DirectorsOrganisations, id=addressee_id)
-    if addressee_type == 'staff': 
-        signer = get_object_or_404(Staff, id=addressee_id)
 
-    document.addressee = signer
+    addressee = None
+    if source == 'external_addressee':
+        addressee = get_object_or_404(DirectorsOrganisations, id=addressee_id)
+    if source == 'internal_addressee': 
+        addressee = get_object_or_404(Staff, id=addressee_id)
+
+    document.addressee = addressee
     document.save()
 
 
-    context = {'document': document}
+    context = {'document': document, 'source': source}
 
     return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_list.html", context)
 
@@ -333,10 +333,16 @@ def document_registration(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
     document_uuid = kwargs.get('doc_uuid')
 
     document = get_document_by_uuid(document_uuid)
-
-    document.status = 'IN_WORKING'
-    document.draft = False
-    document.save()
+    if document.signatory and document.addressee:
+        document.status = 'IN_WORKING'
+        document.draft = False
+        document.save()
+    else:
+        message = f'Ошибка регистрации документа в системе'
+        context = {'message': message}
+        response = render(request, "./core/pages/sed/partials/components/notification/notification_error.html", context)
+        response.status_code = 400
+        return response
 
     documents_url = reverse('core:core-lk-documents')
     

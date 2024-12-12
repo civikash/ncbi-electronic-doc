@@ -7,13 +7,15 @@
             hx-trigger="search, keyup delay:200ms changed"
             {% if not document.category == 'INCOMING_DOCUMENT' %}
                 hx-get="{% url 'core:core-lk-staff-search' %}"
-                hx-vals='{"type": "signer", "signer": "internal_signer"}'
+                hx-vals='{"type": "signer", "source": "internal_signer"}'
+                placeholder="Введите ФИО или должность..."
             {% else %}
                 hx-get="{% url 'core:core-lk-organisation-search' %}"
-                hx-vals='{"type": "signer", "signer": "external_signer"}'
+                hx-vals='{"type": "signer", "source": "external_signer"}'
+                placeholder="Введите данные организации или его руководителя..."
             {% endif %}  
             hx-target="#signer-container-results" 
-            placeholder="Введите данные организации или его руководителя..."
+            
             hx-swap="innerHTML transition:true"
             id="search-signer"
             _="

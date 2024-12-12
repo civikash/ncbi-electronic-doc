@@ -1,8 +1,12 @@
-{% for staff in staff_list %}
+{% for director in directors %}
 <li class="form_container__result__staff">
     <a href="#!"
     hx-post="{% url 'core:document-add-addressee' %}"
-    hx-vals='{"addressee_id": "{{ staff.id }}", "addressee_type": "staff"}'
+    {% if document.category == 'INCOMING_DOCUMENT' %}
+        hx-vals='{"addressee_id": "{{ director.id }}", "source": "internal_addressee"}'
+    {% else %}
+        hx-vals='{"addressee_id": "{{ director.id }}", "source": "external_addressee"}'
+    {% endif %}
     hx-swap="innerHTML transition:true"
     hx-target="#document-addressee-list"
     hx-include="[name=document_uuid]" 
@@ -12,18 +16,34 @@
     then hide #addressee-container-results
     wait 100ms 
     then add .selected to #document-addressee">
-        <div class="form_container__result__staff__row">
-            <svg width="19" height="19" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path opacity="0.4" d="M14.0538 5.71969V10.2797C14.0538 11.0263 13.6538 11.7197 13.0071 12.0997L9.04712 14.3863C8.40046 14.7597 7.60046 14.7597 6.94712 14.3863L2.9871 12.0997C2.34043 11.7263 1.94043 11.033 1.94043 10.2797V5.71969C1.94043 4.97303 2.34043 4.27967 2.9871 3.89967L6.94712 1.61301C7.59379 1.23967 8.39379 1.23967 9.04712 1.61301L13.0071 3.89967C13.6538 4.27967 14.0538 4.96636 14.0538 5.71969Z" fill="#4174BD"/>
-                <path d="M7.99961 8.00019C8.85748 8.00019 9.55294 7.30473 9.55294 6.44686C9.55294 5.58898 8.85748 4.89355 7.99961 4.89355C7.14174 4.89355 6.44629 5.58898 6.44629 6.44686C6.44629 7.30473 7.14174 8.00019 7.99961 8.00019Z" fill="#4174BD"/>
-                <path d="M9.78713 11.1069C10.3271 11.1069 10.6405 10.5069 10.3405 10.0603C9.88713 9.38693 9.00713 8.93359 8.00046 8.93359C6.99379 8.93359 6.11377 9.38693 5.66043 10.0603C5.36043 10.5069 5.67377 11.1069 6.21377 11.1069H9.78713Z" fill="#4174BD"/>
-            </svg>
-            <div class="form_container__result__staff">
-                <h4>{{ staff.user.get_full_name }}<span>{{ staff.user.email }}</span></h4>
-                <div class="form_container__result__staff__row">
-                    <p>Должность: {{ staff.post.name }}</p>
-                    <p>Подразделение: {{ staff.department.name }}</p>
-                </div>
+        <div class="form_container__result__staff__row organisation">
+            {% if source == 'external_addressee' %}
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1862_2002)">
+                <path d="M5.30385 14.2497H3.28511C2.15302 14.2497 1.58301 13.6797 1.58301 12.5476V3.28511C1.58301 2.15302 2.15302 1.58301 3.28511 1.58301H6.68927C7.82135 1.58301 8.39134 2.15302 8.39134 3.28511V4.74967" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.7518 6.66582V15.5008C13.7518 16.7754 13.1184 17.4167 11.8439 17.4167H7.2205C5.94592 17.4167 5.30469 16.7754 5.30469 15.5008V6.66582C5.30469 5.39123 5.94592 4.75 7.2205 4.75H11.8439C13.1184 4.75 13.7518 5.39123 13.7518 6.66582Z" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6084 4.74967V3.28511C10.6084 2.15302 11.1784 1.58301 12.3105 1.58301H15.7146C16.8467 1.58301 17.4167 2.15302 17.4167 3.28511V12.5476C17.4167 13.6797 16.8467 14.2497 15.7146 14.2497H13.7513" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.91699 8.70801H11.0837" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.91699 11.083H11.0837" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.5 17.417V15.042" stroke="#70A8FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1862_2002">
+                <rect width="19" height="19" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+            {% else %}
+            <svg width="21" height="21" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.09351 6.34116C7.03517 6.33533 6.96517 6.33533 6.90101 6.34116C5.51266 6.29449 4.41016 5.15699 4.41016 3.75699C4.41016 2.32783 5.56516 1.16699 7.00017 1.16699C8.42934 1.16699 9.59017 2.32783 9.59017 3.75699C9.58434 5.15699 8.48184 6.29449 7.09351 6.34116Z" stroke="#70A8FF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.17691 8.49301C2.76525 9.43801 2.76525 10.978 4.17691 11.9172C5.78108 12.9905 8.4119 12.9905 10.0161 11.9172C11.4277 10.9722 11.4277 9.43217 10.0161 8.49301C8.41773 7.42551 5.78691 7.42551 4.17691 8.49301Z" stroke="#70A8FF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            {% endif %}
+
+            <div class="form_container__result__staff organisation">
+                <h4>{% if source == 'external_addressee' %}{{ director.get_full_name }}{% else %}{{ director.user.get_full_name }}{% endif %}<span>{{ director.post }}</span></h4>
+                <p>{% if source == 'external_addressee' %}{{ director.organisation.short_name }}{% else %}{{ director.department }}{% endif %}</p>
+            </div>
             </div>
         </div>   
     </a> 

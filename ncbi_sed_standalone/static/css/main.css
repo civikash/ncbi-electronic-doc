@@ -69,12 +69,13 @@ form {
   border-radius: 0.7rem;
   padding: 3rem;
   overflow: hidden;
-  height: 100%;
+  border: 1px solid #f0f0f0;
+  height: 99%;
   background-color: #F8F6F7;
 }
 .app_container__content__section__preview__file {
   background-color: #ffffff;
-  height: 100%;
+  height: 60rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -2080,7 +2081,7 @@ legend {
 .detail_container {
   position: relative;
   top: 15rem;
-  height: 100vh;
+  height: auto !important;
 }
 
 .border-base {

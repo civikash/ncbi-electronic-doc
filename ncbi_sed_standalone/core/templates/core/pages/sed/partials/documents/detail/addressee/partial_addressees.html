@@ -5,10 +5,16 @@
         <input type="text" name="q" 
             class="container_input inputing bscolor"
             hx-trigger="search, keyup delay:200ms changed"
-            hx-get="{% url 'core:core-lk-staff-search' %}"
-            hx-vals='{"search_type": "addressee"}'
+            {% if  document.category == 'INCOMING_DOCUMENT' %}
+                hx-get="{% url 'core:core-lk-staff-search' %}"
+                hx-vals='{"type": "addressee", "source": "internal_addressee"}'
+                placeholder="Введите ФИО или должность..."
+            {% else %}
+                hx-get="{% url 'core:core-lk-organisation-search' %}"
+                hx-vals='{"type": "addressee", "source": "external_addressee"}'
+                placeholder="Введите данные организации или его руководителя..."
+            {% endif %}
             hx-target="#addressee-container-results" 
-            placeholder="Введите ФИО или должность..."
             hx-swap="innerHTML transition:true"
             id="search-addressee"
             _="

@@ -13,11 +13,11 @@
     {% endif %}    
     <div class="detail_object body__draft_select__form_control__staff__column">     
         <div class="detail_object body__draft_select__form_control__staff__row">
-            <p class="detail_object body__draft_select__form_control__staff__title">{{ document.addressee.user.get_full_name }}</p>
+            <p class="detail_object body__draft_select__form_control__staff__title">{% if document.addressee.get_full_name %}{{ document.addressee.get_full_name }}{% else %}{{ document.addressee.user.get_full_name }}{% endif %}</p>
             <span class="detail_object body__draft_select__form_control__staff__description">{{ document.addressee.post }}</span>
         </div>
 
-    <span class="detail_object body__draft_select__form_control__staff__description">{{ document.addressee.department }}</span>
+        <span class="detail_object body__draft_select__form_control__staff__description">{% if document.addressee.organisation.short_name %}{{ document.addressee.organisation.short_name }}{% else %}{{ document.addressee.department }}{% endif %}</span>
 </div>
 {% if document.draft %}
 <button 
