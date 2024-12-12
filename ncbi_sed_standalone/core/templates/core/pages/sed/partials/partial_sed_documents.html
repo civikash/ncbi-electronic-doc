@@ -17,16 +17,19 @@
         <p>Размещайте документы в удобные для вас папки</p>
         <div class="app_container__content__section__body row padding-0">
             {% for folder in folders %}
-                <a href="#!" hx-get="" hx-push-url="true" class="folder__container">
+                <a href="#!" 
+                hx-get="{% url 'core:folders-folder' folder_id=folder.id %}" 
+                hx-push-url="true" 
+                hx-swap="innerHTML transition: true"
+                hx-target="#app-content-section" 
+                class="folder__container">
                     <img src="{% static 'img/svg/app/_folder.svg' %}" alt="Папка">
                         <span class="folder__title">{{ folder.name }}</span>
                         <span class="folder__text">Документов: {{ folder.documents_count }}</span>
                 </a>
             {% endfor %}
             <div class="folder__container create_folder">
-                <img src="{% static 'img/svg/app/_create_folder.svg' %}" alt="Создать папку">
-                    
-                    
+                <img src="{% static 'img/svg/app/_create_folder.svg' %}" alt="Создать папку">   
                 <span class="folder__text gray">Новая папка</span>
             </div>
         </div>

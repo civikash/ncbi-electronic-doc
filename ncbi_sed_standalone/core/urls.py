@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from .views import core_interacting_organisations
 from .views import core_document
+from .views import core_folders
 from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, authenticate_user
 from .views.core_sed import search_staff, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
@@ -19,6 +20,8 @@ urlpatterns = [
     path('staff-search/', login_required(search_staff), name='core-lk-staff-search'),
     path('organisation-search/', login_required(core_interacting_organisations.search_organisation), name='core-lk-organisation-search'),
     path('documents/', login_required(core_document.documents_overview), name='core-lk-documents'),
+    path('documents/folders/', login_required(core_folders.folders_overview), name='core-lk-folders'),
+    path('documents/folders/<int:folder_id>/', login_required(core_folders.folder_detail), name='folders-folder'),
     path('documents/add-review/', login_required(core_document.document_add_review), name='core-lk-document-review'),
     path('documents/delete-review/', login_required(core_document.document_delete_review), name='core-lk-document-delete-review'),
     path('documents/add-signer/', login_required(core_document.document_add_signer), name='document-add-signer'),

@@ -148,6 +148,7 @@
     <div id="moving-container" 
     class="app_container__content__section__preview">
         <div class="app_container__content__section__preview__file">
+            {% if document_preview %}
             <img class="app_container__content__section__preview__file__image"
             hx-trigger="load delay:100ms"
             hx-push-url="false"
@@ -159,6 +160,7 @@
             if (response.image_url) { 
                 this.src = response.image_url; 
             }">
+            {% endif %}
         </div>
     </div>
 </div>

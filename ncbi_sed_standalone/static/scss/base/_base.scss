@@ -234,6 +234,13 @@ form {
                     color: $text-gray;
                 }
 
+                &.files {
+                    gap: 1rem;
+                    @include flex-row;
+                    height: fit-content;
+                    flex-wrap: wrap !important;
+                }
+
                 &.row {
                     gap: 1.3rem;
                     @include flex-row;

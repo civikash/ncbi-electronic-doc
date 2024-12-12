@@ -225,6 +225,16 @@ form {
   font-size: 0.9rem;
   color: #566882;
 }
+.app_container__content__section__body.files {
+  gap: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: -moz-fit-content;
+  height: fit-content;
+  flex-wrap: wrap !important;
+}
 .app_container__content__section__body.row {
   gap: 1.3rem;
   display: flex;
@@ -1035,6 +1045,79 @@ legend {
 }
 .folder__text.gray {
   color: #5B5B63;
+}
+.folder__file__container {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #e8e8e8;
+  background-color: #fafafa;
+  width: 20rem;
+  justify-content: center;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 15rem;
+  border-radius: 0.7rem;
+  padding: 1rem;
+  gap: 1rem;
+  transition: all 0.4s ease-in-out;
+}
+.folder__file__container__body {
+  gap: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.folder__file__container__body h1 {
+  font-size: 1.1rem;
+  color: #566882;
+}
+.folder__file__container__body__description {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 0.2rem;
+}
+.folder__file__container__body__description span {
+  font-size: 0.9rem;
+  color: #2b2b2b;
+}
+.folder__file__container__body__description p {
+  margin-top: 0.1rem;
+  font-size: 0.8rem;
+  color: #566882 !important;
+}
+.folder__file__container__body__row {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: space-between;
+}
+.folder__file__file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 0.7rem;
+  padding: 1rem;
+  height: 10rem;
+  width: 7rem;
+}
+.folder__file__file h4 {
+  padding: 0.4rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 0.8rem;
+  background-color: #eef2ff;
+  border-radius: 0.4rem;
+  color: #5580FF;
 }
 
 .form_container {
@@ -2007,6 +2090,10 @@ legend {
 
 .align-items-end {
   align-items: flex-end !important;
+}
+
+.wrap {
+  flex-wrap: wrap !important;
 }
 
 .margin-0 {

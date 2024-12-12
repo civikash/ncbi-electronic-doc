@@ -1,0 +1,22 @@
+{% load static %}
+<div class="app_container__content__section__header">
+    {% include "core/components/breadcrumb.html" %}
+    <h1 class="app_container__content__section__header__title">Папки</h1>
+</div>
+
+<div class="app_container__content__section__body files">
+    {% for folder in folders %}
+        <a href="#!" 
+        hx-get="{% url 'core:folders-folder' folder_id=folder.id %}" 
+        hx-push-url="true" 
+        hx-swap="innerHTML transition: true"
+        hx-target="#app-content-section" 
+        class="folder__container">
+            <img src="{% static 'img/svg/app/_folder.svg' %}" alt="Папка">
+                <span class="folder__title">{{ folder.name }}</span>
+                <span class="folder__text">Документов: {{ folder.documents_count }}</span>
+        </a>
+        {% empty %}
+        <h1>Папка пустая</h1>
+    {% endfor %}
+</div>

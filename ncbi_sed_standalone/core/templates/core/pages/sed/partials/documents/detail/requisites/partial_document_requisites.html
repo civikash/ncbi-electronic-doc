@@ -1,5 +1,6 @@
 <form id="document-requisites">
     {% csrf_token %}
+    {% if not document.category == 'OUTGOING_DOCUMENT' %}
     <div class="form_container__row">
         <div class="form_container">
             <label for="document-date">Дата</label>
@@ -22,6 +23,7 @@
             type="text" class="container_input inputing" id="outgoing-number">
         </div>
     </div>
+    {% endif %}
     <div class="form_container">
         <label for="document-brief">Краткое содержание</label>
         <textarea id="document-brief" 

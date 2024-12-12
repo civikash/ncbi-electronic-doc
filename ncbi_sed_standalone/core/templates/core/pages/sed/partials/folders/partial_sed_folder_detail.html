@@ -1,0 +1,33 @@
+{% load static %}
+<div class="app_container__content__section__header">
+    {% include "core/components/breadcrumb.html" %}
+    <h1 class="app_container__content__section__header__title">{{ folder.name }}</h1>
+</div>
+<div class="app_container__content__section__body files">
+    {% for document in documents %}
+        <div
+        class="folder__file__container">
+            <div class="folder__file__container__body">
+                <div class="folder__file__file">
+                    <h4>{{ document.registration_number }}</h4>
+                </div>
+                <div class="folder__file__container__body__row">
+                    <div class="folder__file__container__body__description">
+                        <span>Дата создания:</span>
+                        <p>{{ document.created_at }}</p>
+                    </div>
+                    <button
+                    hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}"
+                    hx-swap="innerHTML transition: true"
+                    hx-target="#app-content-section"
+                    hx-push-url="true">
+                            <img src="{% static 'img/svg/app/_open.svg' %}" alt="Открыть документ">   
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        {% empty %}
+        <h1>Папка пустая</h1>
+    {% endfor %}
+</div>

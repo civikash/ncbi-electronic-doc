@@ -54,18 +54,4 @@
             {% include './detail/addressee/partial_addressees.html' %}
         {% endif %}
     </div>
-    {% if not document.category == 'INCOMING_DOCUMENT' %}
-    <h3 class="detail_object body__draft_select__title">Направление</h3>
-    <div id="document-direction" class="detail_object body__draft_select">
-        <img src="{% static 'img/svg/app/_direction.svg' %}" alt="Направление">
-            <h3 class="detail_object body__draft_select__header">Выберите направление</h3>
-            <p>Укажите, какому подразделению адресован документ</p>
-        <button 
-        hx-target="#document-direction" 
-        hx-get="{% url 'core:core-lk-document-detail' doc_uid=document.uuid %}?staff" 
-        hx-swap="innerHTML transition:true"
-        class="button border gray" type="button"
-        _="on click wait 100ms add .focused to #document-addressee">Выбрать адресата</button>
-    </div>
-    {% endif %}
 </form>

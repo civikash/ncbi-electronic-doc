@@ -31,7 +31,8 @@ def create_initial_data(sender, **kwargs):
         print("Подразделение успешно создано")
 
     if not Post.objects.exists():
+        posts = ['Ректор', 'Директор', 'Генеральный директор']
         print("[Первоначальная инициализация СЭД] Должность руководителя")
-        post_name = input("Введите наименование должности: ")
-        Post.objects.create(name=post_name)
+        for post in posts:
+            Post.objects.create(name=post)
         print("Должность руководителя организации успешно создана")
