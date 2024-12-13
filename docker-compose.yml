@@ -61,11 +61,14 @@ services:
     build: 
       context: ./nginx
       dockerfile: Dockerfile.nginx
+    container_name: nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
     depends_on:
       - web
       - crypto-api
+    networks:
+      - ncbi-sed-network
     ports:
       - "80:80"
 
