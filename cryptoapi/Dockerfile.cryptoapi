@@ -49,10 +49,6 @@ WORKDIR $APP_HOME
 COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./pycades.sh .
-RUN sed -i 's/\r$//g'  $APP_HOME/pycades.sh
-RUN chmod +x  $APP_HOME/pycades.sh
-
 COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
