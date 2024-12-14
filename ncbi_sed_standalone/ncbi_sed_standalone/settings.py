@@ -2,7 +2,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
 import os
-from datetime import timedelta
 
 load_dotenv()
 
@@ -20,8 +19,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
-
+ALLOWED_HOSTS = os.environ.get('APP_ALLOWED_HOSTS').split(" ")
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +38,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'middleware.network.DomainRouterMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
