@@ -81,7 +81,7 @@ def search_organisation(request):
             Q(last_name__icontains=query)
     )
     if type == 'addressee':
-        return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"directors": organisation_queryset, "source": source})
+        return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"addressees": organisation_queryset, "source": source})
     if type == 'signer':
-        return render(request, "./core/pages/sed/partials/documents/detail/signer/partial_signer_result.html", {"directors": organisation_queryset, "source": source})
+        return render(request, "./core/pages/sed/partials/documents/detail/signer/partial_signer_result.html", {"signers": organisation_queryset, "source": source})
     return render(request, "./core/components/partials/partial_organisations_results.html", {"directors": organisation_queryset})

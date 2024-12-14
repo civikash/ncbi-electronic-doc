@@ -38,7 +38,7 @@ def search_staff(request):
             Q(department__name__icontains=query)
     )
     if type == 'addressee':
-        return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"staff_list": staff_queryset, "source": source})
+        return render(request, "./core/pages/sed/partials/documents/detail/addressee/partial_addressee_result.html", {"addressees": staff_queryset, "source": source})
     if type == 'signer':
         return render(request, "./core/pages/sed/partials/documents/detail/signer/partial_signer_result.html", {"signers": staff_queryset, "source": source})
     return render(request, "./core/pages/sed/partials/documents/detail/reviews/partial_reviews_results.html", {"staff_list": staff_queryset})

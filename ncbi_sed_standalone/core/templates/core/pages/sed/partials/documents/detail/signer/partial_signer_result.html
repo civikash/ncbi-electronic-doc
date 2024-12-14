@@ -2,11 +2,7 @@
 <li class="form_container__result__staff">
     <a href="#!"
     hx-post="{% url 'core:document-add-signer' %}"
-    {% if not document.category == 'INCOMING_DOCUMENT' %}
-        hx-vals='{"signer_id": "{{ signer.id }}", "source": "internal_signer"}'
-    {% else %}
-        hx-vals='{"signer_id": "{{ signer.id }}", "source": "external_signer"}'
-    {% endif %}
+    hx-vals='{"signer_id": "{{ signer.id }}", "source": "{{ source }}"}'
     hx-swap="innerHTML transition:true"
     hx-target="#document-signer-list"
     hx-include="[name=document_uuid]" 

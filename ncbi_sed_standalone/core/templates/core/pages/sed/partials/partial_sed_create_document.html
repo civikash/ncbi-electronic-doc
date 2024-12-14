@@ -10,7 +10,7 @@ hx-target="#app-content-section"
 hx-swap="innerHTML transition:true"
 hx-push-url="true">
 {% csrf_token %}
-<div class="app_container__content__section__body margin-top-3">
+<div class="app_container__content__section__body margin-top-1 padding-0">
     <div class="app_container__content__section__header">
         <h2>Выберите тип документа</h2>
         <p>Разделение документов по их назначению, характеру и содержанию, что упрощает поиск и управление ими</p>
@@ -37,7 +37,7 @@ hx-push-url="true">
             {% endfor %}
         </ul>
     </nav>
-        <div class="app_container__content__section__body">
+        <div class="app_container__content__section__body padding-0">
             <div id="document-types"
                 hx-trigger="load"
                 hx-push-url="false"
@@ -47,7 +47,7 @@ hx-push-url="true">
                 class="app_container__content__section__body row cards-panel-full">
             </div>
             <div class="app_container__content__section__body row align-items-end">
-                <button class="button base" type="submit">Создать</button>
+                <button class="button base padding-0" type="submit">Создать</button>
             </div>
         </div>
 </div>

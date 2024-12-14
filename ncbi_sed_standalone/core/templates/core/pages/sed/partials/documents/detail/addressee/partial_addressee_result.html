@@ -1,12 +1,8 @@
-{% for director in directors %}
+{% for addressee in addressees %}
 <li class="form_container__result__staff">
     <a href="#!"
     hx-post="{% url 'core:document-add-addressee' %}"
-    {% if document.category == 'INCOMING_DOCUMENT' %}
-        hx-vals='{"addressee_id": "{{ director.id }}", "source": "internal_addressee"}'
-    {% else %}
-        hx-vals='{"addressee_id": "{{ director.id }}", "source": "external_addressee"}'
-    {% endif %}
+    hx-vals='{"addressee_id": "{{ addressee.id }}", "source": "{{ source }}"}'
     hx-swap="innerHTML transition:true"
     hx-target="#document-addressee-list"
     hx-include="[name=document_uuid]" 
@@ -41,8 +37,8 @@
             {% endif %}
 
             <div class="form_container__result__staff organisation">
-                <h4>{% if source == 'external_addressee' %}{{ director.get_full_name }}{% else %}{{ director.user.get_full_name }}{% endif %}<span>{{ director.post }}</span></h4>
-                <p>{% if source == 'external_addressee' %}{{ director.organisation.short_name }}{% else %}{{ director.department }}{% endif %}</p>
+                <h4>{% if source == 'external_addressee' %}{{ addressee.get_full_name }}{% else %}{{ addressee.user.get_full_name }}{% endif %}<span>{{ addressee.post }}</span></h4>
+                <p>{% if source == 'external_addressee' %}{{ addressee.organisation.short_name }}{% else %}{{ addressee.department }}{% endif %}</p>
             </div>
             </div>
         </div>   

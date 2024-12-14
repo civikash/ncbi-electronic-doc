@@ -39,6 +39,7 @@ RUN cd /tmp/linux-amd64_deb/ && \
     dpkg -i lsb-cprocsp-rdr-64_5.0.13300-7_amd64.deb && \
     dpkg -i lsb-cprocsp-kc1-64_5.0.13300-7_amd64.deb && \
     dpkg -i lsb-cprocsp-capilite-64_5.0.13300-7_amd64.deb && \
+    dpkg -i lsb-cprocsp-devel_5.0.13300-7_all.deb && \
     dpkg -i lsb-cprocsp-ca-certs_5.0.13300-7_all.deb && \
     apt-get install -f -y && \
     rm -rf /tmp/linux-arm64_deb
