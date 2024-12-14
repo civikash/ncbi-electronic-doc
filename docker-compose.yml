@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile.prod
     command: gunicorn ncbi_sed_standalone.wsgi:application --bind 0.0.0.0:8000
     container_name: web
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
     expose:
       - 8000
     env_file: .env.prod
@@ -67,6 +70,7 @@ services:
     container_name: nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
     depends_on:
       - web
       - crypto-api
@@ -79,6 +83,7 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
 
 
 networks:
