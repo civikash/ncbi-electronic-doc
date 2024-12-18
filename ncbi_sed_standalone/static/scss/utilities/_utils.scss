@@ -16,7 +16,7 @@
 }
 
 .padding-0 {
-    padding: 0rem;
+    padding: 0rem !important;
 }
 
 .margin-top-1 {
@@ -53,7 +53,7 @@
 
 .fixed {
     position: fixed;
-    z-index: 9999;
+    z-index: 99999;
     transition: .4s ease-in-out;
 
     &.shadow {

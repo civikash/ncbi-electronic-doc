@@ -61,14 +61,37 @@ form {
             }
 
             &__preview {
+                @include flex-column-center;
                 flex: 1;
+                gap: 2rem;
                 transition: .3s ease-in;
                 border-radius: .7rem;
                 padding: 3rem;
-                overflow: hidden;
                 border: 1px solid #f0f0f0;
+                overflow: hidden;
                 height: 99%;
+                max-height: 99.15rem;
+                position: relative;
                 background-color: $bg-color;
+
+                &__page_number {
+                    color: $text-gray;
+                    font-size: .9rem;
+                }
+
+                &__pagination {
+                    position: absolute;
+                    @include flex-column-center;
+                    gap: 1.2rem;
+                    z-index: 9999;
+                    left: 0;
+                    top: 0;
+                    padding: 1.4rem;
+                    width: 13rem;
+                    height: 100%;
+                    background-color: #fff;
+                    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                }
 
                 &__file {
                     background-color: $bg-white;
@@ -77,8 +100,14 @@ form {
                     @include flex-column-center;
                     justify-content: center;
                     box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
+
+                    &.thumb {
+                        cursor: pointer;
+                        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+                    }
                     
                     &__image {
+                        display: none;
                         transition: all .5s ease-in-out;
                         height: 100%;
                         outline: none;
@@ -86,6 +115,9 @@ form {
                         border: 0;
                         animation: fadeIn 1s ease-in-out;
                         width: 87% !important;
+                    }
+                    &__image[src] {
+                        display: block;
                     }
                 
                 }

@@ -1,0 +1,25 @@
+{% load filters %}
+<div class="app_container__content__section__preview__pagination overflow-y no-scrl">
+    {% for page_number in total_pages|range_filter %}
+    <div class="app_container__content__section__preview__file thumb">
+        <img class="app_container__content__section__preview__file__image"
+            src="{{ document_previews|index:page_number|default:'' }}"
+            hx-get="#page-{{ page_number }}"
+            hx-swap="none"
+            hx-trigger="click">
+    </div>
+    <span class="app_container__content__section__preview__page_number">
+        Страница {{ page_number }}
+    </span>
+    {% endfor %}
+</div>
+
+<div class="app_container__content__section__preview overflow-y no-scrl padding-0">
+    {% for page_url in document_previews %}
+        <div class="app_container__content__section__preview__file">
+            <img class="app_container__content__section__preview__file__image"
+            src="{{ page_url }}"
+            id="page-{{ forloop.counter }}">
+        </div>
+    {% endfor %}
+</div>

@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import DocumentType, Folder, FolderObject, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, InternalDocuments, Organisation, Department, Post
+from .models import DocumentType, DocumentFile, Folder, FolderObject, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, InternalDocuments, Organisation, Department, Post
 
 admin.site.register(DocumentVisas)
+admin.site.register(DocumentFile)
 admin.site.register(DirectorsOrganisations)
 admin.site.register(InteractingOrganisations)
 admin.site.register(DocumentType)

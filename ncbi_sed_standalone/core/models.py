@@ -332,22 +332,18 @@ class DocumentVisas(models.Model):
 
 class DocumentFile(models.Model):
     def custom_upload_path(self, filename):
-        safe_filename = slugify(os.path.splitext(filename)[0])
+        name, extension = os.path.splitext(filename)
+        safe_filename = name if any("\u0400" <= char <= "\u04FF" for char in name) else slugify(name)
         extension = os.path.splitext(filename)[1]
-        return f'documents/{self.document.type.id}/{self.document.uuid}/{safe_filename}{extension}'
+        return f'documents/{self.document}/{safe_filename}{extension}'
     
     file_name = models.CharField(_("Имя файла"), max_length=190, null=True)
     file = models.FileField(upload_to=custom_upload_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        abstract = True
-
-class OutgoingDocumentFile(DocumentFile):
-    document = models.ForeignKey(OutgoingDocuments, on_delete=models.CASCADE, related_name="files")
-
-class IncomingDocumentFile(DocumentFile):
-    document = models.ForeignKey(IncomingDocuments, on_delete=models.CASCADE, related_name="files")
+    content_type = models.ForeignKey(ContentType, verbose_name=_("Документ"), on_delete=models.CASCADE)
+    owner = models.ForeignKey(Staff, verbose_name=_("Пользователь"), on_delete=models.CASCADE)
+    document = models.UUIDField(editable=False, null=True)
+    content_object = GenericForeignKey('content_type', 'document')
 
 """
 Папки и элементы папок

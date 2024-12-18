@@ -146,23 +146,8 @@
     </div>
     <div id="preview-files-container" 
     class="app_container__content__section__preview">
-        {% if document_preview %}
-        <div class="app_container__content__section__preview__file">
-            <img class="app_container__content__section__preview__file__image"
-            hx-trigger="load delay:100ms"
-            hx-push-url="false"
-            hx-swap="none"
-            hx-get="{% url 'core:document-preview-file' doc_uuid=document.uuid %}?document_preview={{ document_preview.id }}&page_number=1"
-            id="document-file-preview" 
-            hx-on="htmx:afterRequest: 
-            const response = JSON.parse(event.detail.xhr.responseText); 
-            if (response.image_url) { 
-                this.src = response.image_url; 
-            }">
-
-        </div>
-        {% else %}
-
-        {% endif %}
+    {% if document_files %}
+        {% include './detail/files/partial_document_preview.html' %}
+    {% endif %}
     </div>
 </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.db.models import Count
-from core.models import Folder, FolderObject, IncomingDocumentFile, OutgoingDocumentFile, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
+from core.models import Folder, FolderObject, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
 from django.http import HttpResponse, HttpRequest, JsonResponse, Http404
 from django_htmx.middleware import HtmxDetails
 from .core_document import get_document_by_uuid, get_staff
