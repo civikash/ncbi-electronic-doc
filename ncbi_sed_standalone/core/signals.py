@@ -2,11 +2,6 @@ from django.db.models.signals import post_save, post_migrate
 from django.dispatch import receiver
 from .models import User, Staff, Organisation, Post, Department
 
-@receiver(post_save, sender=User)
-def create_staff_for_user(sender, instance, created, **kwargs):
-    if created and not instance.is_superuser:
-        Staff.objects.create(user=instance)
-
 @receiver(post_migrate)
 def create_initial_data(sender, **kwargs):
     if not Organisation.objects.exists():

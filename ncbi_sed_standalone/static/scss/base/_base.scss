@@ -34,8 +34,17 @@ form {
         width: calc(100% - 15rem);
         left: 15rem;
         position: relative;
-        padding: 5rem 0rem 0rem 5rem;
+        padding: 3rem 0rem 0rem 5rem;
         height: 100vh;
+
+        &__user {
+            font-size: 1.1rem;
+            color: #5d697b;
+
+            &__post {
+                font-size: 1rem;
+            }
+        }
 
         &__row {
             width: 100%;
@@ -66,7 +75,7 @@ form {
                 gap: 2rem;
                 transition: .3s ease-in;
                 border-radius: .7rem;
-                padding: 3rem;
+                padding: 2rem;
                 border: 1px solid #f0f0f0;
                 overflow: hidden;
                 height: 99%;
@@ -91,30 +100,41 @@ form {
                     height: 100%;
                     background-color: #fff;
                     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                    
+                    &__header {
+                        width: 100%;
+                        border-bottom: 1px solid $color-gray;
+                    }
                 }
 
                 &__file {
                     background-color: $bg-white;
-                    height: 60rem;
+                    height: 100%;
                     width: 100%;
                     @include flex-column-center;
-                    justify-content: center;
                     box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
 
                     &.thumb {
                         cursor: pointer;
+                        border-radius: .3rem;
+                        max-width: 11rem;
+                        max-height: 13rem;
                         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+                    
+                        img {
+                            height: 100% !important;
+                        }
                     }
                     
                     &__image {
                         display: none;
                         transition: all .5s ease-in-out;
-                        height: 100%;
+                        height: 71rem;
                         outline: none;
                         vertical-align: middle;
                         border: 0;
                         animation: fadeIn 1s ease-in-out;
-                        width: 87% !important;
+                        width: 100% !important;
                     }
                     &__image[src] {
                         display: block;
@@ -218,6 +238,12 @@ form {
                         border-radius: .3rem;
                         border: 1px solid $color-gray;
                         gap: .4rem;
+
+                        &.card {
+                            h2 {
+                                font-size: .8rem !important;
+                            }
+                        }
                         
                         h2 {
                             font-size: .8rem;
@@ -231,6 +257,17 @@ form {
                             }
                             svg {
                                 stroke: #5580FF;
+                            }
+                        }
+
+                        &.not_assigned {
+                            border-color: $gray;
+                            background-color: #eeeeee;
+                            h2 {
+                                color: $gray;
+                            }
+                            svg {
+                                stroke: $gray;
                             }
                         }
 
@@ -279,7 +316,7 @@ form {
 
                     &.cards-panel {
                         margin-block: .3rem;
-                        height: 13rem;
+                        height: fit-content;
                         width: 100%;
 
                         &-full {

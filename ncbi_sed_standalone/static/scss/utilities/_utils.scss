@@ -7,8 +7,16 @@
     align-items: flex-end !important;
 }
 
+.align-items-center {
+    align-items: center !important;
+}
+
 .wrap {
     flex-wrap: wrap !important;
+}
+
+.height-fit {
+    height: fit-content;
 }
 
 .margin-0 {
@@ -45,6 +53,10 @@
 
 .overflow-hidden {
     overflow: hidden;
+}
+
+.margin-top {
+    margin-top: auto;
 }
 
 .margin-left {

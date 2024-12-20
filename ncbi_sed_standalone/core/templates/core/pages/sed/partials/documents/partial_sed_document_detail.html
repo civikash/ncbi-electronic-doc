@@ -38,15 +38,17 @@
 </div>
     <div class="app_container__content__section__header__buttons_panel">
         {% if document.draft %}
-            <button class="button border">Удалить</button>
+            <button class="button border gray">Удалить</button>
             <button hx-target="#app-content-section"
             hx-post="{% url 'core:document-registration' doc_uuid=document.uuid %}"
             hx-push-url="false"
             hx-swap="innerHTML transition: true"
             class="button border create">Зарегистрировать</button>
         {% else %}
-            <button class="button border">Редактировать</button>
-            <button class="button border">Списать</button>
+            {% if document.author_work_card == request.user.staff %}
+                <button class="button border gray">Редактировать</button>
+            {% endif %}
+            <button class="button border gray">Списать</button>
         {% endif %}
     </div>
 </div>

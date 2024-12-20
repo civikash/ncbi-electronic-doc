@@ -5,9 +5,10 @@ from core.models import DocumentType, Document, Staff, DocumentVisas, Interactin
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
-import mimetypes
+from itertools import chain
 from django.db.models import Q
 from django_htmx.middleware import HtmxDetails
+from .core_document import get_document_by_uuid, get_staff
 
 
 class HtmxHttpRequest(HttpRequest):
@@ -48,16 +49,39 @@ def incoming_overview(request):
     if request.htmx:
         return render(request, './core/pages/sed/partials/partial_sed_incoming.html')
     return render(request, './core/pages/sed/sed_incoming.html')
-    
+
+
 def signdocuments_overview(request):
+    documents = chain(OutgoingDocuments.objects.filter(draft=False))
+    context = {
+        'documents': documents
+    }
     if request.htmx:
-        return render(request, './core/pages/sed/partials/partial_sed_signing.html')
-    return render(request, './core/pages/sed/sed_signing.html')
+        return render(request, './core/pages/sed/partials/partial_sed_signing.html', context)
+    return render(request, './core/pages/sed/sed_signing.html', context)
+
+
+def reviewdocuments_overview(request):
+    reviews = DocumentVisas.objects.filter(staff=request.user.staff).values_list('document', flat=True)
+    documents = []
+    for document in reviews:
+        doc = get_document_by_uuid(document)
+        if not doc.draft:
+            documents.append(doc)
+
+    context = {
+        'documents': documents
+    }
+    if request.htmx:
+        return render(request, './core/pages/sed/partials/partial_reviews_documents.html', context)
+    return render(request, './core/pages/sed/sed_reviews.html', context)
+
 
 def recipients_overview(request):
     context = {
         'organisations': InteractingOrganisations.objects.all()
     }
+
     if request.htmx:
         return render(request, './core/pages/sed/partials/interacting_organisations/partial_organisations.html', context)
     return render(request, './core/pages/sed/sed_recipients.html', context)

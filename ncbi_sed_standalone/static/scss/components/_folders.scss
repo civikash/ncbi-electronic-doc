@@ -5,10 +5,12 @@
         background-color: #fafafa;
         width: fit-content;
         min-width: 15rem;
+        min-height: 8rem;
+        max-height: 8rem;
         border-radius: .7rem;
         padding: 1rem;
         cursor: pointer;
-        height: 100%;
+        height: fit-content;
         gap: 1rem;
         transition: all .4s ease-in-out;
 

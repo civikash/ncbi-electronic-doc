@@ -55,6 +55,11 @@
             font-weight: 500;
             border: none;
         }
+
+        &.no-border {
+            padding: 0rem;
+            border: none;
+        }
     }
 
     &.delete  {

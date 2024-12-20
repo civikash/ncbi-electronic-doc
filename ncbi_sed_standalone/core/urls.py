@@ -4,7 +4,7 @@ from .views import core_interacting_organisations
 from .views import core_document
 from .views import core_folders
 from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, authenticate_user
-from .views.core_sed import search_staff, incoming_overview, signdocuments_overview, recipients_overview
+from .views.core_sed import search_staff, reviewdocuments_overview, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
 from django.contrib.auth.decorators import login_required
 
@@ -35,6 +35,7 @@ urlpatterns = [
 
     path('incoming/', login_required(incoming_overview), name='core-lk-incoming'),
     path('signing/', login_required(signdocuments_overview), name='core-lk-signing'),
+    path('reviews/', login_required(reviewdocuments_overview), name='core-lk-reviews'),
     path('recipients/', login_required(recipients_overview), name='core-lk-recipients'),
     path('recipients/new/', login_required(core_interacting_organisations.interacting_organisation_new), name='core-lk-recipients-new'),
 

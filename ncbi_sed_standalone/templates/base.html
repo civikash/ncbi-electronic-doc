@@ -11,7 +11,7 @@
     <script src="{% static '/js/htmx.min.js' %}" defer></script>
     <script src="{% static '/js/hyperscript.min.js' %}" defer></script>
     {% endblock scripts %}
-    <title>{% block title %}СЭД | Университет им С.Ю. Витте{% endblock %}</title>
+    <title>{% block title %}СЭД | {{ request.user.staff.organisation.short_name }}{% endblock %}</title>
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <section id="app-container" class="app_container" hx-history-elt>
@@ -20,9 +20,14 @@
         {% endblock sidebar %}
 
         <section class="app_container__content">
+            <nav class="app_container__content__row height-fit padding-bottom-1">
+              <div class="app_container__content__section__column">
+                  <h3 class="app_container__content__user__post">Добро пожаловать,</h4>
+                  <h4 class="app_container__content__user">{{ request.user.get_full_name }}</h4>
+                </div>
+              </nav>
             <section id="app-content-section" class="app_container__content__section overflow-y"
-            _="
-            on scroll
+            _="on scroll
               if my.scrollTop > 0
                 then
                   if #header-detail-document exists

@@ -75,6 +75,15 @@
            </a>  
         </li>
         <li class="sidebar_container__content__linked">
+            <a hx-get="{% url 'core:core-lk-reviews' %}"
+            hx-target="#app-content-section"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true">
+            <img src="{% static 'img/svg/sidebar/_review_doc.svg' %}" alt="Подписание">                  
+            Визирование       
+           </a>  
+        </li>
+        <li class="sidebar_container__content__linked">
             <a hx-get="{% url 'core:core-lk-recipients' %}"
             hx-target="#app-content-section"
             hx-swap="innerHTML transition:true"

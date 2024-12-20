@@ -1,5 +1,15 @@
 {% load filters %}
 <div class="app_container__content__section__preview__pagination overflow-y no-scrl">
+    <div class="app_container__content__section__preview__pagination__header">
+        <button 
+        class="button border gray no-border margin-left" type="button">
+            <svg width="18" height="18" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.57592 4.69434L2.77051 9.49973L7.57592 14.3051" stroke="#566882" stroke-width="1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.229 9.5H2.90527" stroke="#566882" stroke-width="1" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            Свернуть
+        </button>
+    </div>
     {% for page_number in total_pages|range_filter %}
     <div class="app_container__content__section__preview__file thumb">
         <img class="app_container__content__section__preview__file__image"

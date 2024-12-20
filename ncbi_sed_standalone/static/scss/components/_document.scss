@@ -1,0 +1,32 @@
+.document {
+    &__title {
+        font-size: .9rem !important;
+
+        &__xl {
+            font-size: 1.1rem !important;
+            font-weight: 500;
+            color: #5580FF;
+        }
+    }
+
+    &__text {
+        font-size: .8rem !important;
+        color: $text-gray !important;
+
+        &.dark {
+            color: $color-dark !important;
+        }
+    }
+
+    &__container {
+        max-width: 27rem !important;
+        min-width: 27rem !important;
+        min-height: 17rem !important;
+        height: fit-content !important;
+    }
+
+    &__document__row {
+        justify-content: start !important;
+        gap: 1.3rem;
+    }
+}

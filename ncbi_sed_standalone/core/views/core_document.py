@@ -39,7 +39,7 @@ def get_document_by_uuid(document_uuid: str) -> Optional[Type]:
 
 
 def documents_overview(request):
-    documents = chain(IncomingDocuments.objects.all(), OutgoingDocuments.objects.all())
+    documents = chain(IncomingDocuments.objects.filter(draft=False), OutgoingDocuments.objects.filter(draft=False))
     folders = Folder.objects.annotate(documents_count=Count('folderobject'))
 
     context = {
@@ -91,6 +91,7 @@ def document_delete_review(request: HtmxHttpRequest) -> HttpResponse:
 
 def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     document_uuid = kwargs.get('doc_uid')
+    preview_file_id = request.GET.get('preview')
     document = None
 
     document = get_document_by_uuid(document_uuid)
@@ -104,8 +105,9 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
         {"name": f"{document.type} №{document.registration_number}", "url": f"{request.path}"},
     ]
     document_files = DocumentFile.objects.filter(document=document.uuid)
-
     document_file = DocumentFile.objects.filter(document=document.uuid).first()
+    if preview_file_id:
+        document_file = get_object_or_404(DocumentFile, id=preview_file_id)
     document_previews = []
     total_pages = 0
 
@@ -126,6 +128,9 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
         context['reviews'] = reviews
 
     if request.htmx:
+        if preview_file_id:
+            context = {'document_previews': document_previews, 'total_pages': total_pages, }
+            return render(request, './core/pages/sed/partials/documents/detail/files/partial_document_preview.html', context)
         if 'reviews' in request.GET:
             return render(request, './core/pages/sed/partials/documents/detail/reviews/partial_reviews.html', context)
         elif 'signer' in request.GET:
@@ -217,11 +222,15 @@ def create_document(request):
                     {"name": f"{document.type} №{document.registration_number}", "url": request.path},
                 ]
 
+
                 context = {
                     'crumbs': crumbs,
                     'document': document
                 }
                 context.update(csrf(request))
+                if not document.category == 'INCOMING_DOCUMENT':
+                    reviews = DocumentVisas.objects.filter(document=document.uuid)
+                    context['reviews'] = reviews
 
                 response = render(request, './core/pages/sed/partials/documents/partial_sed_document_detail.html', context)
                 response['HX-Push'] = reverse('core:core-lk-document-detail', args=[document.uuid])

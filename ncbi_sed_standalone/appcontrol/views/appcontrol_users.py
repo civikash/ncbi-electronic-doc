@@ -8,8 +8,9 @@ def appcontrol_users_create(request):
 
         posts = Post.objects.all()
         departments = Department.objects.all()
+        roles = User.ROLE_SYSTEM
 
-        context = {'middle_modal': True, 'small_modal': False, 'posts': posts, 'departments': departments}
+        context = {'middle_modal': True, 'roles': roles, 'small_modal': False, 'posts': posts, 'departments': departments}
 
         return render(request, template, context)
     if request.method == 'POST':
@@ -20,6 +21,7 @@ def appcontrol_users_create(request):
         password = request.POST.get('password')
         id_post = request.POST.get('post')
         id_department = request.POST.get('department')
+        role = request.POST.get('role')
 
         department = Department.objects.get(id=id_department) 
         post = Post.objects.get(id=id_post)
@@ -35,12 +37,13 @@ def appcontrol_users_create(request):
                 first_name=first_name,
                 last_name=last_name,
                 patronymic=patronymic,
+                role=role
             )
 
             Staff.objects.create(
-                user=user,
-                department=department,
-                post=post
+                 user=user,
+                 department=department,
+                 post=post
             )
 
             context = {
