@@ -1,10 +1,11 @@
 {% load static %}
+<script src="{% static '/js/document.js' %}" defer></script>
 <div id="header-detail-document" class="app_container__content__section__header fixed background-white padding-bottom-1">
     {% include '../../../../components/breadcrumb.html' %}
+    <div id="response-error" class="response_container error app_container__content__section__column min-height-fit"></div>
     <div class="app_container__content__section__header__row">
         <div class="app_container__content__section__column">
             {% if document.draft %}
-            <div id="document-error-container" class="app_container__content__section__column"></div>
     <div class="app_container__content__section__header__row draft_status">
         <svg width="15" height="15" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.4" d="M16.625 17.417H2.375C2.05042 17.417 1.78125 17.1478 1.78125 16.8232C1.78125 16.4987 2.05042 16.2295 2.375 16.2295H16.625C16.9496 16.2295 17.2188 16.4987 17.2188 16.8232C17.2188 17.1478 16.9496 17.417 16.625 17.417Z" fill="#5B5B63"/>

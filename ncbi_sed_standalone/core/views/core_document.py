@@ -359,9 +359,7 @@ def document_registration(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
     else:
         message = f'Ошибка регистрации документа в системе'
         context = {'message': message}
-        response = render(request, "./core/pages/sed/partials/components/notification/notification_error.html", context)
-        response.status_code = 400
-        return response
+        return JsonResponse({'code': "11",'name': f"{message}"}, status=401)
 
     documents_url = reverse('core:core-lk-documents')
     

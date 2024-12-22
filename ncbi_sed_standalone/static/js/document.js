@@ -1,62 +1,31 @@
-function initFileUpload(fileInputSelector, fileListSelector) {
-    const fileInput = document.querySelector(fileInputSelector);
-    const fileList = document.querySelector(fileListSelector);
+document.body.addEventListener('htmx:responseError', function(event) {
+    var xhr = event.detail.xhr;
+    var responseData;
 
-    if (!fileInput.dataset.initialized) {
-        fileInput.addEventListener('change', () => handleFileChange(fileInput, fileList));
-        fileInput.dataset.initialized = "true";
+    try {
+        responseData = JSON.parse(xhr.responseText);
+    } catch (e) {
+        responseData = {};
     }
-}
+    if (xhr.status === 401) {
+        var errorsContainer = document.getElementById('response-error');
+        errorsContainer.innerHTML = `
+            <span class="response_container__body">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1689_1904)">
+                <path d="M8.50033 15.5837C12.3962 15.5837 15.5837 12.3962 15.5837 8.50033C15.5837 4.60449 12.3962 1.41699 8.50033 1.41699C4.60449 1.41699 1.41699 4.60449 1.41699 8.50033C1.41699 12.3962 4.60449 15.5837 8.50033 15.5837Z" stroke="#DD2B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.5 5.66699V9.20866" stroke="#DD2B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.49609 11.333H8.50247" stroke="#DD2B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1689_1904">
+                <rect width="17" height="17" fill="white"/>
+                </clipPath>
+                </defs>
+            </svg>
 
-function updateInputFiles(input, filesArray) {
-    const dataTransfer = new DataTransfer();
-    filesArray.forEach(file => dataTransfer.items.add(file));
-    input.files = dataTransfer.files;
-  }
 
-function handleFileChange(fileInput, fileList) {
-    const files = Array.from(fileInput.files);
-    updateFileList(files, fileList, fileInput);
-}
-
-function updateFileList(files, fileList, fileInput) {
-    fileList.innerHTML = '';
-
-    files.forEach(file => {
-        const listItem = createFileListItem(file.name, () => removeFile(file.name, fileInput, fileList));
-        fileList.appendChild(listItem);
-    });
-}
-
-function createFileListItem(fileName, onRemove) {
-    const listItem = document.createElement('li');
-    listItem.textContent = fileName;
-
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Удалить';
-    removeButton.type = 'button';
-    removeButton.addEventListener('click', onRemove);
-
-    listItem.appendChild(removeButton);
-    return listItem;
-}
-
-function removeFile(fileName, fileInput, fileList) {
-    const files = Array.from(fileInput.files);
-    const filteredFiles = files.filter(file => file.name !== fileName);
-
-    const dataTransfer = new DataTransfer();
-    filteredFiles.forEach(file => dataTransfer.items.add(file));
-    fileInput.files = dataTransfer.files;
-
-    handleFileChange(fileInput, fileList);
-}
-
-document.body.addEventListener('htmx:afterSwap', (event) => {
-    const fileInput = event.target.querySelector('#upload-files');
-    const fileList = event.target.querySelector('#file-list');
-
-    if (fileInput && fileList) {
-        initFileUpload('#upload-files', '#file-list');
-    }
+            ${responseData.name}</span>
+    `
+    };
 });
