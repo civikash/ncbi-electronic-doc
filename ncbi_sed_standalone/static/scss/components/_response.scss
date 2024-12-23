@@ -1,5 +1,13 @@
 .response_container {
     min-height: 2.5rem;
+    &.fade-out {
+      animation-name: fadeOut;
+      opacity: 1;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
     &__body {
         @include flex-start;
         border-radius: .7rem;
@@ -20,6 +28,22 @@
         svg {
             min-width: 17px;
         }
+
+        &.document {
+          width: 83.50%;
+          height: 3.5rem;
+          margin-block: .7rem;
+        }
+
+        &.column {
+          @include flex-column-start;
+        }
+
+        &__row {
+          width: 100%;
+          gap: .6rem;
+          @include flex-start;
+        }
     }
 
     @keyframes fadeIn {
@@ -28,6 +52,15 @@
         }
         to {
           opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
         }
       }
 }

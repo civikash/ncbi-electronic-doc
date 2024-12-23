@@ -1,0 +1,50 @@
+<div id="work-card-review" class="detail_object__review"
+_="on click
+if event.target is me
+    remove .visible from #work-card-review-panel
+    add .remove to #work-card-review-panel
+    wait 1100ms
+    remove .visible from #work-card-review
+    remove .remove from #work-card-review-panel">
+    <div id="work-card-review-panel" class="detail_object__review__panel">
+        <div class="detail_object__review__panel__header">
+            <h1>Визирование документа</h1>
+            <button type="button" class="margin-left"
+            _="on click
+                remove .visible from #work-card-review-panel
+                add .remove to #work-card-review-panel
+                wait 1100ms
+                remove .visible from #work-card-review
+                remove .remove from #work-card-review-panel">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.9248 17.0748L17.0748 2.9248" stroke="#8B939D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.0748 17.0748L2.9248 2.9248" stroke="#8B939D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </button>
+        </div>
+        <div class="detail_object__review__panel__body">
+            <div class="form_container">
+                <label for="document-visa-comment">Комментарий</label>
+                <textarea id="document-visa-comment" 
+                name="visa_comment" class="container_input inputing textarea"></textarea>
+            </div>
+        </div>
+        <div class="detail_object__review__panel__footer">
+            <div class="detail_object__review__panel__footer__buttons">
+                <button class="button delete" type="button">Отклонить</button>
+                <button 
+                hx-target="#document-visas-list" 
+                hx-swap="innerHTML transition:true"
+                hx-vals='{"staff_id": "{{ visa.staff.id }}", "document_uuid": "{{ document.uuid }}"}'
+                class="button base border small" type="button"
+                _="on click
+                if event.target is me
+                    remove .visible from #work-card-review-panel
+                    add .remove to #work-card-review-panel
+                    wait 1100ms
+                    remove .visible from #work-card-review
+                    remove .remove from #work-card-review-panel">Завизировать</button>
+            </div>
+        </div>
+    </div>
+</div>

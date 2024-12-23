@@ -10,6 +10,7 @@
     {% block scripts %}
     <script src="{% static '/js/htmx.min.js' %}" defer></script>
     <script src="{% static '/js/hyperscript.min.js' %}" defer></script>
+    <script language="javascript" src="{% static '/js/cadesplugin_api.js' %}"></script>
     {% endblock scripts %}
     <title>{% block title %}СЭД | {{ request.user.staff.organisation.short_name }}{% endblock %}</title>
 </head>

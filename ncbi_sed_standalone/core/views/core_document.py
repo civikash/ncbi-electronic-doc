@@ -350,16 +350,23 @@ def document_upload_files(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
 @require_POST
 def document_registration(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     document_uuid = kwargs.get('doc_uuid')
-
     document = get_document_by_uuid(document_uuid)
-    if document.signatory and document.addressee:
+
+    missing_fields = []
+    if not document.signatory:
+        missing_fields.append("Подписант")
+    if not document.addressee:
+        missing_fields.append("Адресат")
+    if not document.brief:
+        missing_fields.append("Краткое содержание")
+
+    if missing_fields:
+        message = f"Ошибка регистрации документа в системе: <br> Не заполнены поля: {', '.join(missing_fields)}"
+        return JsonResponse({'code': "11",'name': f"{message}"}, status=400)
+    else:
         document.status = 'IN_WORKING'
         document.draft = False
-        document.save()
-    else:
-        message = f'Ошибка регистрации документа в системе'
-        context = {'message': message}
-        return JsonResponse({'code': "11",'name': f"{message}"}, status=401)
+        document.save() 
 
     documents_url = reverse('core:core-lk-documents')
     

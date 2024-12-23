@@ -45,6 +45,109 @@
         }
     }
 
+    &__review {
+        width: 96.333%;
+        height: 100%;
+        position: absolute;
+        z-index: 9998;
+        left: 0px;
+        background-color:rgba(245, 245, 245, 0.5);
+        display: none;
+        transition: all .4s ease-in-out;
+
+        &.visible {
+            @include flex-column-start;
+            justify-content: center;
+            animation: fadeIn .5s ease-in-out;
+        
+        }
+        
+        &__panel {
+            display: none;
+            height: 100%;
+            padding: 2rem;
+            gap: 3rem;
+            z-index: 9999;
+            background-color: $bg-white;
+            min-width: 25rem;
+            border: 1px solid #e8e8e8;
+            width: 46rem;
+            border-radius: 0 .7rem .7rem 0;
+
+            &.remove {
+                @include flex-column-start;
+                animation-name: transitionOut;
+                animation-duration: 1s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+                box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
+                @keyframes transitionOut {
+                    from {
+                      transform: translateX(0);
+                    }
+                    to {
+                        transform: translateX(-46rem);
+                    }
+                  }
+            }
+            
+            &.visible {
+                @include flex-column-start;
+                animation-name: transitionIn;
+                animation-duration: 1s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+                box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
+
+
+                @keyframes transitionIn {
+                    from {
+                    transform: translateX(-46rem);
+                    }
+                    to {
+                        transform: translateX(0);
+                    }
+                }
+
+
+            
+            }
+
+            &__header {     
+                @include flex-row;
+                align-items: center;
+                width: 100%;   
+                h1 {
+                    font-size: 1.1rem;
+                }
+            }
+
+            &__body {
+                height: fit-content;
+                width: 100%;
+                @include flex-column-start;
+
+                textarea {
+                    height: 5rem !important;
+                }
+            }
+
+            &__footer {
+                @include flex-row;
+                height: fit-content;
+                width: 100%;
+                align-items: center;
+
+                &__buttons {
+                    @include flex-row;
+                    gap: 1rem;
+                    margin-left: auto;
+                }
+            }
+        }
+        
+    }
+
     &.body {
         height: fit-content;
         width: 100%;
@@ -102,6 +205,10 @@
                 width: 100%;
                 padding: 1rem;
                 @include flex-column-start;
+
+                svg {
+                    min-width: 21px !important;
+                }
 
                 h3 {
                     color: #5B5B63;

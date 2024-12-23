@@ -93,17 +93,19 @@ form {
                     @include flex-column-center;
                     gap: 1.2rem;
                     z-index: 9999;
-                    left: 0;
+                    border-right: 1px solid #f0f0f0;
+                    left: -155px;
                     top: 0;
                     padding: 1.4rem;
                     width: 13rem;
                     height: 100%;
                     background-color: #fff;
-                    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                    transition: all .5s ease-in-out;
+                    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 6px 100px -20px, rgba(0, 0, 0, 0.3) 0px 0px 14px -30px;
                     
-                    &__header {
-                        width: 100%;
-                        border-bottom: 1px solid $color-gray;
+                    &.full {
+                        left: 0;
+
                     }
                 }
 
@@ -114,13 +116,21 @@ form {
                     @include flex-column-center;
                     box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
 
+
                     &.thumb {
                         cursor: pointer;
                         border-radius: .3rem;
                         max-width: 11rem;
                         max-height: 13rem;
+                        transition: all .4s ease-in-out;
                         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-                    
+                        
+                        &:hover {
+                            backface-visibility: hidden;
+                            transform: translateZ(0);
+                            box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 15px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px; 
+                        }
+
                         img {
                             height: 100% !important;
                         }

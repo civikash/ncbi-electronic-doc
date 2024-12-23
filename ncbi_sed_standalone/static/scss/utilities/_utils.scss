@@ -98,6 +98,13 @@
     background-color: transparent !important;
 }
 
+.transparent {
+    transition: all .5s ease-in-out;
+    z-index: 999;
+    background-color: rgba(226, 226, 226, 0.281);
+    opacity: .4;
+}
+
 
 .overflow-y {
     overflow-y: scroll;

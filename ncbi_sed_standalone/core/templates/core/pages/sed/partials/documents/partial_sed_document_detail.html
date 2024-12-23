@@ -1,5 +1,6 @@
 {% load static %}
 <script src="{% static '/js/document.js' %}" defer></script>
+<script src="{% static '/js/document_crypto.js' %}" defer></script>
 <div id="header-detail-document" class="app_container__content__section__header fixed background-white padding-bottom-1">
     {% include '../../../../components/breadcrumb.html' %}
     <div id="response-error" class="response_container error app_container__content__section__column min-height-fit"></div>
@@ -57,7 +58,8 @@
 
 <div class="app_container__content__row detail_container">
     <div class="app_container__content__section__body margin-0 flex">
-        <div class="detail_object body border-left">
+        <div id="work-card-space" class="detail_object body border-left">
+                {% include './detail/reviews/partial_work_card_review.html' %}
             <div class="detail_object body border-top border-bottom border-right">
                 <div class="detail_object body__information">
                     <div class="detail_object body__information__header">
