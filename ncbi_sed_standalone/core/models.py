@@ -215,7 +215,7 @@ class Document(models.Model):
     case = models.ForeignKey(Cases, verbose_name=_("Дело"), on_delete=models.CASCADE, null=True)
     document_sheets = models.IntegerField(_("Листов документа"), null=True)
     application_sheets = models.IntegerField(_("Листов приложения"), null=True)
-    author_work_card = models.ForeignKey("Staff", verbose_name=_("Автор рабочей карточки"), on_delete=models.CASCADE)
+    author_work_card = models.ForeignKey(Staff, verbose_name=_("Автор рабочей карточки"), on_delete=models.CASCADE)
     note = models.CharField(_("Примечание"), max_length=250, null=True)
     status = models.CharField(_("Статус"), max_length=55, choices=STATUS_DOCUMENT_CHOICES, default='NOT_ASSIGNED')
     registration_number = models.CharField(_("Регистрационный номер"), max_length=110)
