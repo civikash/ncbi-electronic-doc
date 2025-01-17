@@ -1,0 +1,22 @@
+services:
+  keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile.keycloak
+    container_name: keycloak
+    ports:
+      - "443:8443"
+    environment:
+      KC_DB: cbikeycloak
+      KC_DB_URL: jdbc:postgresql://127.0.0.1:5432/
+      KC_DB_USERNAME: cbikeycloak
+      KC_DB_PASSWORD: VeK7_NaFH_F5PfqYW
+      KC_HOSTNAME: localhost
+    networks:
+        - ncbi-kc-network
+    restart: unless-stopped
+
+networks:
+  ncbi-kc-network:
+    driver: bridge
+    external: true

@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('create/document/', login_required(core_document.create_document), name='core-lk-create-document'),
 
+    path('document-sign/', login_required(core_document.document_sign), name='core-lk-document-sign'),
+
     #ОРГАНИЗАЦИЯ
     path('organisation/news/', login_required(news_overview), name='core-lk-organisation-news'),
     path('organisation/employees/', login_required(employees_overview), name='core-lk-organisation-employees'),

@@ -35,14 +35,7 @@ _="on click
 {% endif %}
 {% if document %}
 <button 
-hx-target="#document-signer" 
-hx-swap="innerHTML transition:true"
-hx-trigger="click delay:200ms"
-hx-post="{% url 'core:document-delete-signer' %}"
-hx-vals='{"document_uuid": "{{ document.uuid }}"}'
-class="button base border small" type="button"
-_="on click 
-    add .focused to #document-signer
-    remove .selected from #document-signer">Подписать</button>
+hx-on="click:run()"
+class="button base border small" type="button">Подписать</button>
 {% endif %}
 </li>

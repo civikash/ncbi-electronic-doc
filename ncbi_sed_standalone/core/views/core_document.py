@@ -413,3 +413,41 @@ def get_file_preview(document_file):
     except Exception as e:
         print(f"Ошибка при обработке файла: {e}")
         return [], 0
+    
+
+@require_POST
+def document_sign(request):
+    document_uuid = request.POST.get("document_uuid")
+    signed_data = request.POST.get("signed_data")
+
+    if not document_uuid or not signed_data:
+        return JsonResponse({"status": "error", "message": "Отсутствуют необходимые данные."}, status=400)
+
+    try:
+        # Получение документа по UUID
+        document = get_document_by_uuid(document_uuid)
+
+        # Получение связанных файлов для подписания
+        document_files = DocumentFile.objects.filter(document=document.uuid)
+
+        if not document_files.exists():
+            return JsonResponse({"status": "error", "message": "К документу не привязаны файлы для подписания."}, status=400)
+
+        # Подписание каждого файла
+        for doc_file in document_files:
+            # Здесь может быть логика для обработки подписи каждого файла
+            file_content = doc_file.file.read()  # Читаем содержимое файла
+            is_valid = validate_signature(signed_data, file_content)  # Проверка подписи
+
+            if not is_valid:
+                return JsonResponse({"status": "error", "message": f"Файл {doc_file.file_name} не прошел проверку подписи."}, status=400)
+
+        return JsonResponse({"status": "success", "message": "Все файлы успешно подписаны."})
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+def validate_signature(signed_data, original_data):
+    # Реализация проверки подписи
+    # Используйте CryptoPro API или pycades
+    pass
