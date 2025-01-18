@@ -10,7 +10,7 @@
     justify-content: center;
     width: 100%;
 	background-color:rgba(0,0,0,0.2);
-    z-index: 1001; /* Поверх затемненного фона */
+    z-index: 99999; /* Поверх затемненного фона */
     animation: fadeIn 0.3s ease-in-out;
 
     .modal-body {
@@ -343,7 +343,6 @@
     }
   }
 
-  /* Анимация появления модального окна */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -361,3 +360,17 @@
       opacity: 0;
     }
   }
+
+.crypto_container_list {
+    @include flex-row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+
+    &__container_object {
+        border: 1px solid $color-gray;
+        width: 100%;
+        padding: 1rem;
+        border-radius: .7rem;
+        @include flex-column-start;
+    }
+}

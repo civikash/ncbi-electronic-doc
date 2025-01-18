@@ -1,0 +1,21 @@
+{% extends "../modal_base.html" %}
+
+{% block modal_content %}
+<form method="POST" class="filters_module_form" id="create-post">
+  {% csrf_token %}
+<div class="modal-body__header">
+  <h2 class="modal-body__header__title">Подписание документа</h2>
+  <p class="modal-body__header__description">Пожалуйста, выберите сертификат из Вашего хранилища</p>
+</div>
+
+<div class="modal-body__content overflow-y">
+    <div id="container-certs-list" class="modal-body-column"></div>
+</div>
+
+<div class="modal-body__footer">
+  <div class="modal-body__footer__buttons">
+    <button class="button cancel" _="on click trigger closeModal" type="button">Отмена</button>
+  </div>
+</div>
+</form>
+{% endblock modal_content %}

@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     if (typeof cadesplugin !== "undefined") {
         cadesplugin.then(
-            () => console.log("Плагин Cadesplugin успешно загружен."),
+            () => console.log("Плагин Cadesplugin успешно загружен"),
             (err) => alert("Ошибка загрузки плагина Cadesplugin: " + err)
         );
     } else {
-        alert("Плагин Cadesplugin не найден.");
+        alert("Плагин Cadesplugin не найден");
     }
 });
 
@@ -59,18 +59,22 @@ function selectCertificate() {
                     return args[1](new Error("Сертификаты не найдены."));
                 }
 
-                // Генерация интерфейса для выбора сертификата
-                let certificateListHtml = "<ul>";
+                let certificateListHtml = '';
                 certList.forEach((cert, index) => {
                     certificateListHtml += `
                         <li>
-                            <button onclick="selectCert(${index})">${cert.subjectName}</button>
+                            <button class="crypto_container_list__container_object" onclick="selectCert(${index})">${cert.subjectName}</button>
                         </li>
                     `;
                 });
-                certificateListHtml += "</ul>";
 
-                document.body.innerHTML += `<div>Выберите сертификат:</div>${certificateListHtml}`;
+                let certsContainer = document.getElementById('container-certs-list');
+                certsContainer.innerHTML = `
+                    <ul class="crypto_container_list">
+                        ${certificateListHtml}
+                    </ul>
+                `
+
 
                 // Ожидаем выбора сертификата пользователем
                 window.selectCert = function(index) {
@@ -101,7 +105,7 @@ function SignCreate(oCertificate, dataInBase64) {
                 yield oSignedData.propset_Content(dataInBase64);
 
                 const signature = yield oSignedData.SignCades(oSigner, cadesplugin.CADESCOM_CADES_BES, true);
-                console.log("Подпись успешно создана.");
+                console.log("Подпись успешно создана");
                 args[0](signature);
             } catch (err) {
                 console.error("Ошибка при создании подписи:", err);
@@ -114,8 +118,7 @@ function SignCreate(oCertificate, dataInBase64) {
 
 function run() {
     const dataInBase64 = "U29tZSBEYXRhLg=="; // "Some Data." в Base64
-
-    selectCertificate()
+    selectCertificate() 
         .then(cert => SignCreate(cert, dataInBase64))
         .then(signedMessage => {
             console.log("Подписанные данные:", signedMessage);
@@ -139,4 +142,5 @@ function run() {
         .catch(err => {
             console.error("Ошибка выполнения:", err.message || err);
         });
+
 }

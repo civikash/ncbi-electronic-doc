@@ -605,7 +605,7 @@ legend {
   justify-content: center;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 1001; /* Поверх затемненного фона */
+  z-index: 99999; /* Поверх затемненного фона */
   animation: fadeIn 0.3s ease-in-out;
 }
 .modal .modal-body {
@@ -916,7 +916,6 @@ legend {
     opacity: 1;
   }
 }
-/* Анимация появления модального окна */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -933,6 +932,24 @@ legend {
     opacity: 0;
   }
 }
+.crypto_container_list {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.crypto_container_list__container_object {
+  border: 1px solid #e8e8e8;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.7rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
 .card_container {
   padding: 1.3rem;
   display: flex;

@@ -35,7 +35,10 @@ _="on click
 {% endif %}
 {% if document %}
 <button 
-hx-on="click:run()"
+hx-target="body"
+hx-get="{% url 'core:core-lk-document-sign' %}"
+hx-on="htmx:afterRequest:run()"
+hx-swap="beforeend"
 class="button base border small" type="button">Подписать</button>
 {% endif %}
 </li>

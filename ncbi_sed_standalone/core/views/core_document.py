@@ -415,37 +415,26 @@ def get_file_preview(document_file):
         return [], 0
     
 
-@require_POST
 def document_sign(request):
-    document_uuid = request.POST.get("document_uuid")
-    signed_data = request.POST.get("signed_data")
+    if request.method == 'GET' and request.htmx:
+        template = './core/components/modals/document/sign_document.html'
 
-    if not document_uuid or not signed_data:
-        return JsonResponse({"status": "error", "message": "Отсутствуют необходимые данные."}, status=400)
+        context = {'middle_modal': True, 'small_modal': False}
 
-    try:
-        # Получение документа по UUID
-        document = get_document_by_uuid(document_uuid)
+        return render(request, template, context)
+   
+    if request.method == 'POST':
+        last_name = request.POST.get('last_name')
+        first_name = request.POST.get('first_name')
+        patronymic = request.POST.get('patronymic')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        id_post = request.POST.get('post')
+        id_department = request.POST.get('department')
+        role = request.POST.get('role')
 
-        # Получение связанных файлов для подписания
-        document_files = DocumentFile.objects.filter(document=document.uuid)
 
-        if not document_files.exists():
-            return JsonResponse({"status": "error", "message": "К документу не привязаны файлы для подписания."}, status=400)
-
-        # Подписание каждого файла
-        for doc_file in document_files:
-            # Здесь может быть логика для обработки подписи каждого файла
-            file_content = doc_file.file.read()  # Читаем содержимое файла
-            is_valid = validate_signature(signed_data, file_content)  # Проверка подписи
-
-            if not is_valid:
-                return JsonResponse({"status": "error", "message": f"Файл {doc_file.file_name} не прошел проверку подписи."}, status=400)
-
-        return JsonResponse({"status": "success", "message": "Все файлы успешно подписаны."})
-
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        return render(request, './appcontrol/pages/users/partials/components/partial_users.html', context)
 
 def validate_signature(signed_data, original_data):
     # Реализация проверки подписи
