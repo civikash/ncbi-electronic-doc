@@ -11,6 +11,7 @@ WORKDIR $APP_HOME
 RUN apt-get update && apt-get install -y \
     build-essential \
     libffi-dev \
+    poppler-utils \
     python3-dev \
     libssl-dev \
     libmagic1 \
