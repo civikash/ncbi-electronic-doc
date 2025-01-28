@@ -104,6 +104,7 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
         {"name": "Черновики", "url": documents_url},
         {"name": f"{document.type} №{document.registration_number}", "url": f"{request.path}"},
     ]
+    
     document_files = DocumentFile.objects.filter(document=document.uuid)
     document_file = DocumentFile.objects.filter(document=document.uuid).first()
     if preview_file_id:
