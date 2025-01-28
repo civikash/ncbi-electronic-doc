@@ -12,7 +12,7 @@ from django.apps import apps
 import json
 from django.views.decorators.csrf import csrf_exempt
 import base64
-import pycades
+# import pycades
 from django.core.exceptions import ImproperlyConfigured
 import mimetypes
 from django.db.models import Count, Q

@@ -13,7 +13,7 @@
             <path d="M28.1284 14H24.9125C24.3519 14 23.8975 14.4276 23.8975 14.9552V17.9818C23.8975 18.5093 24.3519 18.937 24.9125 18.937H28.1284C28.689 18.937 29.1434 18.5093 29.1434 17.9818V14.9552C29.1434 14.4276 28.689 14 28.1284 14Z" fill="#F11845"/>
             </svg>
         <p>{{ file.file_name }}</p>
-        <a download="{{ file.file }}" class="button border white">Скачать</a>
+        <a href="/media/{{ file.file }}" download class="button border white">Скачать</a>
         <button 
         hx-trigger="click delay:100ms"
         hx-target="#preview-files-container"

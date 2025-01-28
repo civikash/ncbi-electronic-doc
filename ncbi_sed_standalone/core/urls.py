@@ -7,6 +7,8 @@ from .views.core_lk import lk_overview, lk_core, lk_logout, login_overview, auth
 from .views.core_sed import search_staff, reviewdocuments_overview, incoming_overview, signdocuments_overview, recipients_overview
 from .views.core_organisation import news_overview, employees_overview
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'core'
 
@@ -50,3 +52,6 @@ urlpatterns = [
 
     path('logout/', login_required(lk_logout), name='core-lk-logout'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

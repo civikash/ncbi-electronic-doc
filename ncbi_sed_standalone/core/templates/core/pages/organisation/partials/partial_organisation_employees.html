@@ -1,3 +1,29 @@
 <div class="app_container__content__section__header">
     <h1 class="app_container__content__section__header__title">Сотрудники организации</h1>
 </div>
+<div class="app_container__content__section__body margin-top-1">
+    <table cellpadding="0" cellspacing="11" class="table__content appcore grid-6">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Пользователь</th>
+            <th>Роль</th>
+            <th>Группа</th>
+            <th>Должность</th>
+            <th>Подразделение</th>
+          </tr>
+      </thead>
+        <tbody id="app-users">
+            {% for user in users %}
+                <tr class="table-row">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.user.get_full_name }}</td>
+                    <td>{{ user.user.get_role_display }}</td>
+                    <td>{% for group in user.user.group %}{{ group }}{% endfor %}</td>
+                    <td>{{ user.post }}</td>
+                    <td>{{ user.department }}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+      </table>
+</div>
