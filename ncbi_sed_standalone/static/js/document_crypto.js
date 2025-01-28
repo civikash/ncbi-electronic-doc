@@ -130,12 +130,19 @@ function run() {
             });
             console.log("Тело запроса:", requestBody);
 
-            // Отправка данных на сервер
-            // fetch('/your-server-endpoint', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: requestBody,
-            // }).then(response => console.log("Ответ сервера:", response));
+            fetch('/document-sign/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: requestBody,
+            }).then(response => response.json())
+              .then(data => {
+                  console.log("Ответ сервера:", data);
+                  if (data.status === "success") {
+                      alert("Документ успешно подписан и сохранен.");
+                  } else {
+                      alert("Ошибка: " + data.message);
+                  }
+              });
 
             alert("Подпись создана. Проверьте консоль для деталей.");
         })

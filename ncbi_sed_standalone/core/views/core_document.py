@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from typing import Optional, Type
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from core.models import DocumentType, Folder, DocumentFile, FolderObject, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
 from django.http import HttpResponse, HttpRequest, JsonResponse, Http404
@@ -11,7 +12,10 @@ from django.utils.dateparse import parse_date
 from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 import mimetypes
-from django.db.models import Count
+import json
+from django.db.models import Count, Q
+import pycades
+import base64
 import os
 from pdf2image import convert_from_path
 from itertools import chain
@@ -42,14 +46,61 @@ def documents_overview(request):
     documents = chain(IncomingDocuments.objects.filter(draft=False), OutgoingDocuments.objects.filter(draft=False))
     folders = Folder.objects.annotate(documents_count=Count('folderobject'))
 
+    document_types = CATEGORY_DOCUMENT_CHOICES
+    staff = Staff.objects.all()
+
+    address = chain(Staff.objects.all(), DirectorsOrganisations.objects.all())
+    document_status = IncomingDocuments.STATUS_DOCUMENT_CHOICES
+
     context = {
         'documents': documents,
-        'folders': folders
+        'folders': folders,
+        'staffs': staff,
+        'address': address,
+        'document_types': document_types,
+        'document_status': document_status
     }
 
     if request.htmx:
         return render(request, './core/pages/sed/partials/partial_sed_documents.html', context)
     return render(request, './core/pages/sed/sed_documents.html', context)
+
+
+def document_filters(request):
+    document_signing = request.GET.get("document_signing")
+    document_type = request.GET.get("document_type")
+    document_address = request.GET.get("document_address")
+    document_status = request.GET.get("document_status")
+    document_short_note = request.GET.get("document_short_note")
+
+    incoming_documents = IncomingDocuments.objects.filter(draft=False)
+    outgoing_documents = OutgoingDocuments.objects.filter(draft=False)
+
+    documents = chain(incoming_documents, outgoing_documents)
+
+    if document_signing and document_signing != "all_documents":
+        documents = filter(lambda doc: doc.signatory and doc.signatory.id == int(document_signing), documents)
+
+    if document_type and document_type != "all_documents":
+        documents = filter(lambda doc: doc.category == document_type, documents)
+
+    if document_address and document_address != "all_documents":
+        documents = filter(lambda doc: (hasattr(doc, 'addressee') and doc.addressee and doc.addressee.id == int(document_address)) or
+                                    (hasattr(doc, 'outgoing_document_addressee') and doc.outgoing_document_addressee and doc.outgoing_document_addressee.id == int(document_address)),
+                           documents)
+
+    if document_status and document_status != "all_documents":
+        documents = filter(lambda doc: doc.status == document_status, documents)
+
+    if document_short_note:
+        documents = filter(lambda doc: document_short_note.lower() in (doc.brief or '').lower(), documents)
+
+    documents = list(documents)
+
+    context = {'documents': documents}
+
+    return render(request, "./core/pages/sed/partials/components/partial_documents.html", context)
+
 
 @require_POST
 def document_add_review(request: HtmxHttpRequest) -> HttpResponse:
@@ -416,26 +467,43 @@ def get_file_preview(document_file):
         return [], 0
     
 
+@csrf_exempt
 def document_sign(request):
-    if request.method == 'GET' and request.htmx:
-        template = './core/components/modals/document/sign_document.html'
-
-        context = {'middle_modal': True, 'small_modal': False}
-
-        return render(request, template, context)
-   
     if request.method == 'POST':
-        last_name = request.POST.get('last_name')
-        first_name = request.POST.get('first_name')
-        patronymic = request.POST.get('patronymic')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        id_post = request.POST.get('post')
-        id_department = request.POST.get('department')
-        role = request.POST.get('role')
+        try:
+            data = json.loads(request.body)
+            signed_data = data['signature']
+            original_data = data['data']
 
+            # Инициализация библиотеки pycades
+            store = pycades.Store()
+            store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE, pycades.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED)
 
-        return render(request, './appcontrol/pages/users/partials/components/partial_users.html', context)
+            # Создание объекта SignedData
+            signed_data_obj = pycades.SignedData()
+            signed_data_obj.ContentEncoding = pycades.CADESCOM_BASE64_TO_BINARY
+            signed_data_obj.Content = original_data
+
+            # Проверка подписи
+            verify_result = signed_data_obj.VerifyCades(signed_data, pycades.CADESCOM_CADES_BES, True)
+
+            if verify_result:
+                # Подпись верна, сохраняем подписанный документ
+                document_file = DocumentFile(
+                    file_name="signed_document.pdf",
+                    file=base64.b64decode(original_data),
+                    owner=request.user
+                )
+                document_file.save()
+
+                return JsonResponse({"status": "success", "message": "Документ успешно подписан и сохранен."})
+            else:
+                return JsonResponse({"status": "error", "message": "Неверная подпись."}, status=400)
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+    else:
+        return JsonResponse({"status": "error", "message": "Метод не разрешен."}, status=405)
 
 def validate_signature(signed_data, original_data):
     # Реализация проверки подписи

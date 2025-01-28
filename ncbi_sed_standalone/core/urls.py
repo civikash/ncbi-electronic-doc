@@ -20,6 +20,7 @@ urlpatterns = [
     path('staff-search/', login_required(search_staff), name='core-lk-staff-search'),
     path('organisation-search/', login_required(core_interacting_organisations.search_organisation), name='core-lk-organisation-search'),
     path('documents/', login_required(core_document.documents_overview), name='core-lk-documents'),
+    path('documents-filter/', login_required(core_document.document_filters), name='core-lk-documents-filters'),
     path('documents/folders/', login_required(core_folders.folders_overview), name='core-lk-folders'),
     path('documents/folders/<int:folder_id>/', login_required(core_folders.folder_detail), name='folders-folder'),
     path('documents/add-review/', login_required(core_document.document_add_review), name='core-lk-document-review'),

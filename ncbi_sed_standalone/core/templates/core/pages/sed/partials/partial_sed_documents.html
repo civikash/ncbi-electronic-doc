@@ -34,9 +34,65 @@
             </div>
         </div>
     </div>
-    <div class="app_container__content__section__body padding-0">
+    <div class="app_container__content__section__body padding-0 height-fit">
         <h2>Зарегистрированные документы</h2>    
-        <p>Все зарегистрированные документы в системе</p>   
+        <p>Все зарегистрированные документы в системе</p>
+        <form method="GET"
+        hx-trigger="change, keyup delay:500ms"
+        hx-swap="innerHTML transition:true"
+        hx-get="{% url 'core:core-lk-documents-filters' %}" hx-target="#documents-list">
+        <div id="filters-documents-container" class="app_container__content__section__body row padding-0">
+            <div class="form_container">
+                <label for="type-document">Тип документа</label>
+                <select name="document_type" class="container_input inputing bscolor" id="type-document">
+                    <option value="all_documents">Все</option>
+                    {% for type in document_types %}
+                      <option value="{{ type.0 }}">{{ type.1 }}</option>
+                  {% endfor %}    
+              </select>
+            </div>
+            <div class="form_container">
+                <label for="document-signer">Подписант</label>
+                <select name="document_signing" class="container_input inputing bscolor" id="document-signer">
+                    <option value="all_documents">Все</option>
+                    {% for staff in staffs %}
+                      <option value="{{ staff.id }}">{{ staff.user.get_full_name }}</option>
+                  {% endfor %}    
+              </select>
+            </div>
+            <div class="form_container">
+                <label for="document-address">Адресат</label>
+                <select name="document_address" class="container_input inputing bscolor" id="document-address">
+                    <option value="all_documents">Все</option>
+                    {% for staff in staffs %}
+                    <option value="{{ staff.id }}">{{ staff.user.get_full_name }}</option>
+                {% endfor %}   
+              </select>
+            </div>
+            <div class="form_container">
+                <label for="document_status">Статус</label>
+                <select name="document_status" class="container_input inputing bscolor" id="document_status">
+                    <option value="all_documents">Все</option>
+                    {% for status in document_status %}
+                      <option value="{{ status.0 }}">{{ status.1 }}</option>
+                  {% endfor %}    
+              </select>
+            </div>
+            <div class="form_container">
+                <label for="document-short-note">Краткое описание</label>
+                <input type="text" name="document_short_note" 
+                class="container_input inputing bscolor"
+                hx-trigger="search, keyup delay:200ms changed"
+                hx-get="{% url 'core:core-lk-staff-search' %}"  
+                hx-target="#visas-container-results" 
+                placeholder="Краткое описание..."
+                hx-swap="innerHTML transition:true"
+                name="staff"
+                id="document-short-note"/> 
+              </select>
+            </div>
+        </div>
+        </form>
         <table cellpadding="0" cellspacing="11" class="table__content appcore grid-7"  id="documents-list">
             <thead>
               <tr>
