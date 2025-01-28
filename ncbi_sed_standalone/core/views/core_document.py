@@ -21,7 +21,8 @@ from pdf2image import convert_from_path
 from itertools import chain
 from django_htmx.middleware import HtmxDetails
 from django.template.context_processors import csrf
-
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 class HtmxHttpRequest(HttpRequest):
     htmx: HtmxDetails
@@ -166,6 +167,8 @@ def document_detail(request: HtmxHttpRequest, *args, **kwargs) -> HttpResponse:
     previews, pages = get_file_preview(document_file)
     document_previews.extend(previews)
     total_pages += pages
+
+    print(document_previews)
 
 
     context = {'document': document, 
@@ -447,11 +450,16 @@ def get_file_preview(document_file):
             return [], 0
 
     file_path = document_file.file.path
+    print(file_path)
+    logging.debug(f"File path: {file_path}")
     try:
         images = convert_from_path(file_path)
 
         output_dir = os.path.join("media", "previews", str(document_file.document), str(document_file.id))
         os.makedirs(output_dir, exist_ok=True)
+
+        os.chown(output_dir, 1000, 1000)  # UID и GID пользователя
+        logging.debug(f"Changed ownership of {output_dir}")
 
         image_urls = []
         for index, image in enumerate(images):
