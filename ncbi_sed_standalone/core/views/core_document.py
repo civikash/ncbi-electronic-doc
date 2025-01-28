@@ -447,19 +447,20 @@ def document_registration(request: HtmxHttpRequest, *args, **kwargs) -> HttpResp
 
 def get_file_preview(document_file):
     if not document_file:
-            return [], 0
+        return [], 0
 
     file_path = document_file.file.path
-    print(file_path)
     logging.debug(f"File path: {file_path}")
     try:
         images = convert_from_path(file_path)
 
         output_dir = os.path.join("media", "previews", str(document_file.document), str(document_file.id))
-        os.makedirs(output_dir, exist_ok=True)
+        # Создаем директорию с проверкой существования
+        os.makedirs(output_dir, mode=0o755, exist_ok=True)
 
-        os.chown(output_dir, 1000, 1000)  # UID и GID пользователя
-        logging.debug(f"Changed ownership of {output_dir}")
+        # Проверяем, имеет ли текущий пользователь доступ к директории
+        if not os.access(output_dir, os.W_OK):
+            raise PermissionError(f"Нет доступа для записи в директорию: {output_dir}")
 
         image_urls = []
         for index, image in enumerate(images):
@@ -471,7 +472,6 @@ def get_file_preview(document_file):
         return image_urls, len(images)
 
     except Exception as e:
-        print(f"Ошибка при обработке файла: {e}")
         logging.debug(f"Ошибка при обработке файла: {e}")
         return [], 0
     
