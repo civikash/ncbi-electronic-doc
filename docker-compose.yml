@@ -29,17 +29,17 @@ services:
     networks:
       - ncbi-sed-network
 
-  crypto-api:
-    build:
-      context: ./cryptoapi
-      dockerfile: Dockerfile.cryptoapi
-    command: gunicorn cryptoapi.wsgi:application --bind 0.0.0.0:8000
-    container_name: crypto-api
-    expose:
-      - 8000
-    env_file: .env.prod
-    networks:
-      - ncbi-sed-network
+  # crypto-api:
+  #   build:
+  #     context: ./cryptoapi
+  #     dockerfile: Dockerfile.cryptoapi
+  #   command: gunicorn cryptoapi.wsgi:application --bind 0.0.0.0:8000
+  #   container_name: crypto-api
+  #   expose:
+  #     - 8000
+  #   env_file: .env.prod
+  #   networks:
+  #     - ncbi-sed-network
 
   redis:
     image: "redis:7"
@@ -73,7 +73,6 @@ services:
       - media_volume:/home/app/web/mediafiles
     depends_on:
       - web
-      - crypto-api
     networks:
       - ncbi-sed-network
     ports:
