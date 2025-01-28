@@ -36,6 +36,8 @@ RUN chmod +x  $APP_HOME/db.prod.sh
 COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME
+
+RUN mkdir -p /home/app/web/media
 RUN chown -R app:app /home/app/web/media
 
 USER app
