@@ -472,6 +472,7 @@ def get_file_preview(document_file):
 
     except Exception as e:
         print(f"Ошибка при обработке файла: {e}")
+        logging.debug(f"Ошибка при обработке файла: {e}")
         return [], 0
     
 
