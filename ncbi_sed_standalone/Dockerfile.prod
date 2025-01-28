@@ -40,6 +40,9 @@ RUN chown -R app:app $APP_HOME
 RUN mkdir -p /home/app/web/media
 RUN chown -R app:app /home/app/web/media
 
+RUN mkdir -p /home/app/web/media/previews
+RUN chown -R app:app /home/app/web/media/previews
+
 USER app
 
 ENTRYPOINT ["sh", "/home/app/web/db.prod.sh"]
