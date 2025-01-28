@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from typing import Optional, Type
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from core.models import DocumentType, Folder, DocumentFile, FolderObject, Staff, DocumentVisas, DirectorsOrganisations, InteractingOrganisations, IncomingDocuments, OutgoingDocuments, InternalDocuments, CATEGORY_DOCUMENT_CHOICES
 from django.http import HttpResponse, HttpRequest, JsonResponse, Http404
@@ -10,12 +9,13 @@ from django.template.loader import render_to_string
 from django.db import models
 from django.utils.dateparse import parse_date
 from django.apps import apps
+import json
+from django.views.decorators.csrf import csrf_exempt
+import base64
+import pycades
 from django.core.exceptions import ImproperlyConfigured
 import mimetypes
-import json
 from django.db.models import Count, Q
-import pycades
-import base64
 import os
 from pdf2image import convert_from_path
 from itertools import chain
@@ -469,41 +469,30 @@ def get_file_preview(document_file):
 
 @csrf_exempt
 def document_sign(request):
+    if request.method == 'GET' and request.htmx:
+        template = './core/components/modals/document/sign_document.html'
+
+        context = {'middle_modal': True, 'small_modal': False}
+
+        return render(request, template, context)
+   
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            signed_data = data['signature']
-            original_data = data['data']
+            try:
+                data = json.loads(request.body)
+                signed_data = data['signature']
+                original_data = data['data']
 
-            # Инициализация библиотеки pycades
-            store = pycades.Store()
-            store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE, pycades.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED)
 
-            # Создание объекта SignedData
-            signed_data_obj = pycades.SignedData()
-            signed_data_obj.ContentEncoding = pycades.CADESCOM_BASE64_TO_BINARY
-            signed_data_obj.Content = original_data
+                decoded_file = base64.b64decode(original_data)
 
-            # Проверка подписи
-            verify_result = signed_data_obj.VerifyCades(signed_data, pycades.CADESCOM_CADES_BES, True)
+                response = HttpResponse(decoded_file, content_type='application/pdf')
+                response['Content-Disposition'] = 'attachment; filename="signed_document.pdf"'
+                return response
+               
+            except Exception as e:
+                return JsonResponse({"status": "error", "message": str(e)}, status=500)
+    return JsonResponse({"status": "error", "message": "Метод не разрешен."}, status=405)
 
-            if verify_result:
-                # Подпись верна, сохраняем подписанный документ
-                document_file = DocumentFile(
-                    file_name="signed_document.pdf",
-                    file=base64.b64decode(original_data),
-                    owner=request.user
-                )
-                document_file.save()
-
-                return JsonResponse({"status": "success", "message": "Документ успешно подписан и сохранен."})
-            else:
-                return JsonResponse({"status": "error", "message": "Неверная подпись."}, status=400)
-
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)}, status=500)
-    else:
-        return JsonResponse({"status": "error", "message": "Метод не разрешен."}, status=405)
 
 def validate_signature(signed_data, original_data):
     # Реализация проверки подписи

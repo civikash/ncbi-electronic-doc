@@ -25,9 +25,9 @@ function selectCertificate() {
                 const count = yield oCertificates.Count;
 
                 if (count === 0) {
-                    alert("Нет доступных сертификатов в контейнере.");
+                    alert("Нет доступных сертификатов в контейнере");
                     yield oStore.Close();
-                    return args[1](new Error("Нет доступных сертификатов."));
+                    return args[1](new Error("Нет доступных сертификатов"));
                 }
 
                 const certList = [];
@@ -55,7 +55,7 @@ function selectCertificate() {
                 yield oStore.Close();
 
                 if (certList.length === 0) {
-                    alert("Не найдено сертификатов с привязанными приватными ключами.");
+                    alert("Не найдено сертификатов с привязанными приватными ключами");
                     return args[1](new Error("Сертификаты не найдены."));
                 }
 
@@ -63,7 +63,7 @@ function selectCertificate() {
                 certList.forEach((cert, index) => {
                     certificateListHtml += `
                         <li>
-                            <button class="crypto_container_list__container_object" onclick="selectCert(${index})">${cert.subjectName}</button>
+                            <button type="button" class="crypto_container_list__container_object" onclick="selectCert(${index})">${cert.subjectName}</button>
                         </li>
                     `;
                 });
@@ -109,6 +109,11 @@ function SignCreate(oCertificate, dataInBase64) {
                 args[0](signature);
             } catch (err) {
                 console.error("Ошибка при создании подписи:", err);
+                if (err.message.includes("0x800B0109")) {
+                    alert(
+                        "Ошибка при создании подписи: Отсутствует доверие к корневому сертификату. Проверьте настройки доверенных корневых сертификатов"
+                    );
+                }
                 args[1](err);
             }
         }, resolve, reject);
@@ -118,36 +123,34 @@ function SignCreate(oCertificate, dataInBase64) {
 
 function run() {
     const dataInBase64 = "U29tZSBEYXRhLg=="; // "Some Data." в Base64
-    selectCertificate() 
-        .then(cert => SignCreate(cert, dataInBase64))
-        .then(signedMessage => {
-            console.log("Подписанные данные:", signedMessage);
+    selectCertificate()
+        .then(cert => {
+            return SignCreate(cert, dataInBase64).then(signedMessage => {
+                console.log("Подписанные данные:", signedMessage);
 
-            // Создание тела запроса для отправки на сервер
-            const requestBody = JSON.stringify({
-                data: dataInBase64,
-                signature: signedMessage,
+                // Создание тела запроса для отправки на сервер
+                const requestBody = JSON.stringify({
+                    data: dataInBase64,
+                    signature: signedMessage,
+                });
+                console.log("Тело запроса:", requestBody);
+
+                return fetch('/lk/document-sign/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: requestBody,
+                }).then(response => response.json());
             });
-            console.log("Тело запроса:", requestBody);
-
-            fetch('/document-sign/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: requestBody,
-            }).then(response => response.json())
-              .then(data => {
-                  console.log("Ответ сервера:", data);
-                  if (data.status === "success") {
-                      alert("Документ успешно подписан и сохранен.");
-                  } else {
-                      alert("Ошибка: " + data.message);
-                  }
-              });
-
-            alert("Подпись создана. Проверьте консоль для деталей.");
+        })
+        .then(data => {
+            console.log("Ответ сервера:", data);
+            if (data.status === "success") {
+                alert("Документ успешно подписан и сохранен.");
+            } else {
+                alert("Ошибка: " + data.message);
+            }
         })
         .catch(err => {
             console.error("Ошибка выполнения:", err.message || err);
         });
-
 }
